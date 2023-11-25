@@ -1,0 +1,45 @@
+.input_Form {
+    height: 265px;
+    width: 500px;
+    position: relative;
+    /* background-color: rgb(0, 140, 255); */
+}
+
+.input_Form form {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.input_Form form input {
+    margin: 15px;
+    width: 40%;
+    height: 7%;
+    font-size: 17px;
+    padding-left: 5px;
+    outline: none;
+    border: none;
+}
+
+.input_Form form .input_field {
+    color: black;
+    background: none;
+    border-bottom: 1px solid;
+    color: white;
+    width: 50%;
+}
+
+.lemail {
+    position: absolute;
+    left: 128px;
+    bottom: 169px;
+}
+
+.lpassword {
+    position: absolute;
+    left: 128px;
+    bottom: 120px;
+}
