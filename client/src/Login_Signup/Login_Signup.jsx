@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import "./Login_Signup.css";
-import Sign_Img from "./img/signUp.PNG";
 import Signup from "./Signup";
 import Login from "./Login";
 import { Create_context } from "../Contexts/CreateContext";

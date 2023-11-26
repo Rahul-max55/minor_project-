@@ -14,7 +14,7 @@ const loginControllerData = async (req, res) => {
     const token = jwt.sign({ email: email }, process.env.JWT_SECRET, {
       algorithm: "HS256",
     });
-    
+
     res
       .status(200)
       .json({ token, msg: "User is loged in successfuly", data, status: true });
@@ -35,28 +35,66 @@ const signupControllerData = async (req, res) => {
   );
 
   try {
-    const {email} = userDetail;
+    const { email } = userDetail;
     const userExists = await Users.find({ email });
-    if(userExists){
-      return  res
-      .status(200)
-      .send({ msg: "Email is already exists please use another or forgate", status: false });  
+    if (userExists) {
+      return res.status(200).send({
+        msg: "Email is already exists please use another or forgate",
+        status: false,
+      });
     }
 
     const data = await Users.create(userDetail);
     if (!data) {
-    return  res
+      return res
         .status(200)
         .send({ msg: "data is not iserted in database", status: false });
     }
-   return res
+    return res
       .status(200)
       .send({ msg: "data is submited successfuly in database", status: true });
   } catch (error) {
-  return  res
-        .status(500)
-        .send({ msg: "🚀 ~ file: userController.js:48 ~ signupControllerData ~ error:" ,error, status: false });
+    return res.status(500).send({
+      msg: "🚀 ~ file: userController.js:48 ~ signupControllerData ~ error:",
+      error,
+      status: false,
+    });
+  }
+};
+
+const validEmailController = async (req, res) => {
+  let userDetail = req.body;
+
+  try {
+    const { email } = userDetail;
+    const userExists = await Users.find({ email });
+    console.log("🚀 ~ file: userController.js:71 ~ validEmailController ~ userExists:", userExists?.[0]?._id)
+    
+    if (!userExists || userExists.length === 0) {
+      return res.status(200).send({
+        msg: "Email is not exists please use another email or register with new email",
+        status: false,
+      });
     }
+    
+    const mailLink = jwt.sign({ id: userExists?.[0]?._id }, process.env.JWT_SECRET, {
+      expiresIn: 86400,
+      algorithm: "HS256",
+    });
+
+    return res.status(200).send({
+      email,
+      mailLink,
+      msg: "OTP is send to the email address",
+      status: true,
+    });
+  } catch (error) {
+    return res.status(500).send({
+      msg: "🚀 ~ file: userController.js:88 ~ validEmailController ~ error:",
+      error,
+      status: false,
+    });
+  }
 };
 
 const accountInfoChangeController = async (req, res) => {
@@ -83,4 +121,8 @@ const accountInfoChangeController = async (req, res) => {
 };
 
 export default signupControllerData;
-export { loginControllerData, accountInfoChangeController };
+export {
+  loginControllerData,
+  accountInfoChangeController,
+  validEmailController,
+};

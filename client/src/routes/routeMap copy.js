@@ -7,7 +7,6 @@ import Contact from "../contact/Contact";
 import Single_page from "../Single_page/Single_page";
 import Add_to_cart from "../Add_Cart/Add_To_Cart";
 import Forgatepass from "../Forgate_password/Forgatepass";
-import Password_reset from "../Forgate_password/Password_reset";
 
 export const routeMap = [
   {
@@ -59,9 +58,9 @@ export const routeMap = [
     Element: Forgatepass,
   },
   {
-    id: "Password_reset",
-    path: PATHS.password_reset,
+    id: "Forgatepass",
+    path: PATHS.forgatepass,
     isProtected: false,
-    Element: Password_reset,
+    Element: Forgatepass,
   },
 ];

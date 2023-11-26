@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Login.css";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, NavLink, Navigate, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { LoginSchema } from "../validation";
 import axios from "axios";
@@ -72,7 +72,7 @@ const Login = (props) => {
         <button className="login-button" type="submit">
           Login
         </button>
-        <Link>Forgate Password</Link>
+        <NavLink to={PATHS.forgatepass}>Forgate Password</NavLink>
       </form>
     </>
   );

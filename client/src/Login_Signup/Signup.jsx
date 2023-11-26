@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import "./Signup.css";
 import { useFormik } from "formik";
 import { SignupSchema } from "../validation";
 import axios from "axios";

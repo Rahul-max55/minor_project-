@@ -1,0 +1,21 @@
+.forgatepass{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 60%;
+}
+
+.forgatepass > *{
+    box-sizing: border-box;
+    color: white;
+    font-size: 14px;
+    padding: 13px;
+    border-radius: 7px;
+    border: none;
+    width: 40%;
+    outline: none;
+    cursor: pointer;
+    background-color: rgb(56, 189, 149);
+    text-align: center;
+    text-decoration: none;  
+}

@@ -24,7 +24,6 @@ const Navbar = (props) => {
   // Finding the login signUp value using CreateContext
   const context = useContext(Create_context);
   let { change_logSign, login_signup } = context;
-  console.log("🚀 ~ file: Navbar.jsx:27 ~ Navbar ~ login_signup:", login_signup)
   // End Finding the login signUp value using CreateContext
 
   // Finding the value of cart using create cart context
