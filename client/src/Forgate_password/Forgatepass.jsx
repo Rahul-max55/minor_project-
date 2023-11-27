@@ -21,29 +21,43 @@ const Forgatepass = () => {
           "http://localhost:3001/user/email_valid/",
           values
         );
-        console.log("🚀 ~ file: Forgatepass.jsx:24 ~ onSubmit: ~ apiData:", apiData)
+        console.log(
+          "🚀 ~ file: Forgatepass.jsx:24 ~ onSubmit: ~ apiData:",
+          apiData?.data
+        );
 
+        const templateParams = {
+          user_email: apiData?.data?.email,
+          subject: "SHOPCENTER Forgate password",
+          name: apiData?.data?.email,
+          message: `click on this link and forgate your password link-> http://localhost:3000/resetpassword/${apiData?.data?.mailLink}`,
+        };
 
-        if (apiData?.data?.status) {
-          emailjs
-            .send(
-              "service_7rc752a",
-              "template_288nhy1",
-              {reply_to:apiData?.data?.email, Resetlink: `http://localhost:3000/${apiData?.data?.mailLink}` },
-              "LNtinvAM9sLrjV2gO"
-            )
-            .then(
-              (result) => {
-                alert(apiData?.data?.msg);
-              },
-              (error) => {
-                console.log(error.text);
-              }
-            );
-          // navigate(PATHS.password_reset);
+        if (!apiData?.data?.status) {
+          return alert(apiData?.data?.msg);
         }
+
+        emailjs
+          .send(
+            "service_7rc752a",
+            "template_288nhy1",
+            templateParams,
+            "LNtinvAM9sLrjV2gO"
+          )
+          .then(
+            (result) => {
+              alert(apiData?.data?.msg);
+            },
+            (error) => {
+              console.log(error.text);
+            }
+          );
+        // navigate(PATHS.password_reset);
       } catch (error) {
-        console.log("🚀 ~ file: Forgatepass.jsx:45 ~ onSubmit: ~ error:", error)
+        console.log(
+          "🚀 ~ file: Forgatepass.jsx:45 ~ onSubmit: ~ error:",
+          error
+        );
       }
     },
   });

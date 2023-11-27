@@ -5,10 +5,11 @@ import { useFormik } from "formik";
 import { LoginSchema } from "../validation";
 import axios from "axios";
 import { PATHS } from "../routes/paths";
+import { Loading } from "../Loading/Loading";
 
 const Login = (props) => {
-
   const navigate = useNavigate();
+  const [isloading , setIsLoading] = useState(false);
 
   const { handleChange, handleBlur, handleSubmit, errors, values } = useFormik({
     initialValues: {
@@ -17,6 +18,7 @@ const Login = (props) => {
     },
     validationSchema: LoginSchema,
     onSubmit: async (values) => {
+      setIsLoading(false);
       try {
         const apiData = await axios.post(
           "http://localhost:3001/user/login/",
@@ -24,11 +26,14 @@ const Login = (props) => {
         );
 
         if (!apiData?.data?.token) {
-          console.log("🚀 ~ file: Login.jsx:23 ~ onSubmit: ~ !apiData?.data?.token: token is not created", !apiData?.data?.token)
+          console.log(
+            "🚀 ~ file: Login.jsx:23 ~ onSubmit: ~ !apiData?.data?.token: token is not created",
+            !apiData?.data?.token
+          );
         }
         alert(apiData?.data?.msg);
-        
-        if(apiData?.data?.status){
+        setIsLoading(true);
+        if (apiData?.data?.status) {
           localStorage.setItem("token", apiData?.data?.token);
           navigate(PATHS.root);
         }
@@ -41,6 +46,7 @@ const Login = (props) => {
   return (
     <>
       <form className="login-form-container" onSubmit={handleSubmit}>
+       {isloading && <Loading /> }
         <h1>Login Form</h1>
         <div>
           <input
@@ -72,7 +78,7 @@ const Login = (props) => {
         <button className="login-button" type="submit">
           Login
         </button>
-        <NavLink to={PATHS.forgatepass}>Forgate Password</NavLink>
+        <NavLink to={PATHS.forgatepass}>Forgate Password</NavLink> }
       </form>
     </>
   );

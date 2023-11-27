@@ -1,32 +1,43 @@
 import { useFormik } from "formik";
 import React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import { emailForgate, passwordreset } from "../validation";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { passwordreset } from "../validation";
 import styles from "./forgatepass.module.css";
 import axios from "axios";
 import { PATHS } from "../routes/paths";
 
 const Password_reset = () => {
   const navigate = useNavigate();
+  const { token } = useParams();
 
   const { handleChange, handleBlur, handleSubmit, errors, values } = useFormik({
     initialValues: {
       password: "",
-      cpassword:""
+      cpassword: "",
     },
     validationSchema: passwordreset,
     onSubmit: async (values) => {
+      console.log(token)
       try {
         const apiData = await axios.post(
-          "http://localhost:3001/user/forgate/",
-          values
+          `http://localhost:3001/user/resetpassword/${token}`,
+          {...values}
         );
-        alert(apiData?.data?.msg);
-        if (apiData?.data?.status) {
-          navigate("/password");
+
+        console.log("🚀 ~ file: Password_reset.jsx:26 ~ onSubmit: ~ apiData:", apiData)
+
+        if (!apiData?.data?.status) {
+         return alert(apiData?.data?.msg);
         }
+
+        alert(apiData?.data?.msg);
+        navigate(PATHS.login_signup);
+
       } catch (error) {
-        console.log("🚀 ~ file: Password_reset.jsx:29 ~ onSubmit: ~ error:", error)
+        console.log(
+          "🚀 ~ file: Password_reset.jsx:29 ~ onSubmit: ~ error:",
+          error
+        );
       }
     },
   });
@@ -44,7 +55,7 @@ const Password_reset = () => {
         </div>
         <div className="box-2">
           <form onSubmit={handleSubmit} className="signup-form-container">
-            <h1>Forgate Password</h1>
+            <h1>Reset Password</h1>
             <div>
               <input
                 name="password"
@@ -55,7 +66,9 @@ const Password_reset = () => {
                 onBlur={handleBlur}
                 value={values.password}
               />
-              {errors.password && <p className="signup_error">*{errors.password}</p>}
+              {errors.password && (
+                <p className="signup_error">*{errors.password}</p>
+              )}
             </div>
             <div>
               <input
@@ -67,11 +80,13 @@ const Password_reset = () => {
                 onBlur={handleBlur}
                 value={values.cpassword}
               />
-              {errors.password && <p className="signup_error">*{errors.password}</p>}
+              {errors.cpassword && (
+                <p className="signup_error">*{errors.cpassword}</p>
+              )}
             </div>
             <div className={styles.forgatepass}>
-              <NavLink to={PATHS.forgatepass} >Back</NavLink>
-              <button type="submit" >Next</button>
+              <NavLink to={PATHS.forgatepass}>Back</NavLink>
+              <button type="submit">Next</button>
             </div>
           </form>
         </div>

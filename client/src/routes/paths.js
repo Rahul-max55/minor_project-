@@ -7,5 +7,5 @@ export const PATHS = {
   singleproduct: "/singleproduct/:id",
   add_to_cart: "/add_to_cart",
   forgatepass: "/forgatepass",
-  password_reset: "/password_reset",
+  password_reset: "/resetpassword/:token",
 };
