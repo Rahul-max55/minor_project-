@@ -4,8 +4,9 @@ import axios from "axios";
 import reducer from "./reducer/ProductsReducer";
 
 // Api link always call outside function
-const API = "https://api.pujakaitem.com/api/products";
+// const API = "https://api.pujakaitem.com/api/products";
 // const API = "https://fakestoreapi.com/products";
+const API = "http://localhost:3001/user/products/";
 
 const NoteContext = (props) => {
 

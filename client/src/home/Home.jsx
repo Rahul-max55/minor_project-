@@ -43,7 +43,8 @@ const Home = () => {
                     <div className="all_img">
                         {/*We want to print the future product in home page so we use map method and ilitrate products and sending this data using props*/}
                         {featureProducts.map((value) => {
-                            return <Products id={value.id} key={value.id} img={value.image} name={value.name} />;
+                            console.log(value)
+                            return <Products id={value.id} key={value.id} img={value.image[0]} name={value.name} />;
                         })}
                     </div>
                 </div>

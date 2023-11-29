@@ -1,7 +1,6 @@
-import React from 'react';
+import React from "react";
 import { NavLink } from "react-router-dom";
 import "./Home.css";
-
 
 // passing props in home.js file
 const Products = (props) => {
@@ -10,12 +9,12 @@ const Products = (props) => {
     <>
       <NavLink to={`/singleproduct/${props.id}`}>
         <div>
-          <img src={props.img} alt={props.name} />
+          <img src={props?.img?.url} alt={props.name} />
           <h4>{props.name}</h4>
         </div>
-      </NavLink> 
+      </NavLink>
     </>
-  )
-}
+  );
+};
 
-export default Products
+export default Products;

@@ -37,6 +37,8 @@ const Forgatepass = () => {
           return alert(apiData?.data?.msg);
         }
 
+        alert(apiData?.data?.msg);
+
         emailjs
           .send(
             "service_7rc752a",

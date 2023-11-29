@@ -7,8 +7,35 @@ import NoteContext from "./Contexts/NoteContext";
 import FilterNoteContext from "./Filter_Context/FilterNoteContext";
 import Cart_Note_Context from "./Add_Cart/Cart_Context/Cart_Note_Context";
 import { AppRoutes } from "./routes/AppRoutes";
+import { Loading } from "./Loading/Loading";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const App = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    axios.interceptors.request.use(
+      (config) => {
+        setIsLoading(true);
+        return config;
+      },
+      (error) => {
+        return Promise.reject(error);
+      }
+    );
+
+    axios.interceptors.response.use(
+      (config) => {
+        setIsLoading(false);
+        return config;
+      },
+      (error) => {
+        return Promise.reject(error);
+      }
+    );
+  }, []);
+
   return (
     <>
       <NoteContext>
@@ -16,6 +43,7 @@ const App = () => {
           <Cart_Note_Context>
             <BrowserRouter>
               <Navbar />
+              {isLoading && <Loading />}
               <AppRoutes />
               <Footer />
             </BrowserRouter>

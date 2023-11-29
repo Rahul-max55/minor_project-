@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Login.css";
-import { Link, NavLink, Navigate, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { LoginSchema } from "../validation";
 import axios from "axios";
@@ -9,7 +9,6 @@ import { Loading } from "../Loading/Loading";
 
 const Login = (props) => {
   const navigate = useNavigate();
-  const [isloading , setIsLoading] = useState(false);
 
   const { handleChange, handleBlur, handleSubmit, errors, values } = useFormik({
     initialValues: {
@@ -18,7 +17,6 @@ const Login = (props) => {
     },
     validationSchema: LoginSchema,
     onSubmit: async (values) => {
-      setIsLoading(false);
       try {
         const apiData = await axios.post(
           "http://localhost:3001/user/login/",
@@ -32,7 +30,6 @@ const Login = (props) => {
           );
         }
         alert(apiData?.data?.msg);
-        setIsLoading(true);
         if (apiData?.data?.status) {
           localStorage.setItem("token", apiData?.data?.token);
           navigate(PATHS.root);
@@ -46,7 +43,6 @@ const Login = (props) => {
   return (
     <>
       <form className="login-form-container" onSubmit={handleSubmit}>
-       {isloading && <Loading /> }
         <h1>Login Form</h1>
         <div>
           <input
@@ -78,7 +74,7 @@ const Login = (props) => {
         <button className="login-button" type="submit">
           Login
         </button>
-        <NavLink to={PATHS.forgatepass}>Forgate Password</NavLink> }
+        <NavLink to={PATHS.forgatepass}>Forgate Password</NavLink>
       </form>
     </>
   );

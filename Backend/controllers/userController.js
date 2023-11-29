@@ -68,19 +68,22 @@ const validEmailController = async (req, res) => {
   try {
     const { email } = userDetail;
     const userExists = await Users.find({ email });
-    console.log("🚀 ~ file: userController.js:71 ~ validEmailController ~ userExists:", userExists?.[0]?._id)
-    
+ 
     if (!userExists || userExists.length === 0) {
       return res.status(200).send({
         msg: "Email is not exists please use another email or register with new email",
         status: false,
       });
     }
-    
-    const mailLink = jwt.sign({ id: userExists?.[0]?._id }, process.env.JWT_SECRET, {
-      expiresIn: 86400,
-      algorithm: "HS256",
-    });
+
+    const mailLink = jwt.sign(
+      { id: userExists?.[0]?._id },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: 86400,
+        algorithm: "HS256",
+      }
+    );
 
     return res.status(200).send({
       email,
@@ -120,9 +123,49 @@ const accountInfoChangeController = async (req, res) => {
   }
 };
 
+const passwordResetController = async (req, res) => {
+  const { token } = req.params;
+  const {password} = req.body;
+  
+  try {
+    const isValid = jwt.verify(token, process.env.JWT_SECRET);
+    console.log("🚀 ~ file: userController.js:137 ~ passwordResetController ~ isValid:", isValid)
+   
+    if (!isValid) {
+      return res.status(200).send({
+        msg: "Link is not valid please generate another link",
+        status: false,
+      });
+    }
+
+    const { id } = isValid;
+
+    const data = await Users.findByIdAndUpdate(
+      { _id: id },
+      { password: password },
+      { new: true }
+    );
+
+    console.log(data);
+
+    if (!data) {
+      res.status(404).send({msg:"data is not iserted in database" , status:false});
+    }
+    res.status(200).send({msg:"password updated successfuly" , status:true});
+  } catch (error) {
+    res
+      .status(401)
+      .send({
+        msg:"🚀 ~ file: userController.js:161 ~ passwordResetController ~ error:",
+        error , status:false
+      });
+  }
+};
+
 export default signupControllerData;
 export {
   loginControllerData,
   accountInfoChangeController,
   validEmailController,
+  passwordResetController,
 };
