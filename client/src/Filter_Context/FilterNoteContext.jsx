@@ -1,11 +1,11 @@
 import React, { useReducer, useEffect, useContext } from 'react';
 import { FilterCreateContext } from "./FCreateContext";
-import { Create_context } from '../Contexts/CreateContext';
+import {CreateContext} from '../Contexts/CreateContext';
 import FilterReducer from './FilterReducerF/Filter_reducer';
 
 const FilterNoteContext = (props) => {
 
-    const Fcontext = useContext(Create_context);
+    const Fcontext = useContext(CreateContext);
     const { products } = Fcontext;
 
     // all-products data we can use in filter section

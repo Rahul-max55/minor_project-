@@ -3,11 +3,11 @@ import { useFormik } from "formik";
 import { SignupSchema } from "../validation";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Create_context } from "../Contexts/CreateContext";
+import {CreateContext} from "../Contexts/CreateContext";
 
 const Signup = () => {
   const navigate = useNavigate();
-  const context = useContext(Create_context);
+  const context = useContext(CreateContext);
   let { change_logSign } = context;
 
   const { handleChange, handleBlur, handleSubmit, errors, values, touched } =

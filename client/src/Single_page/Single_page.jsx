@@ -1,8 +1,8 @@
 import React, { useContext, useEffect , useState} from 'react'
-import { useParams , NavLink } from 'react-router-dom';
+import { useParams  } from 'react-router-dom';
 import "./Single_page.css";
 import Single_page_img from "./Single_page_img";
-import { Create_context } from '../Contexts/CreateContext';
+import {CreateContext} from '../Contexts/CreateContext';
 import Single_page_stars from './Single_page_stars';
 import { TbTruckDelivery, TbReplace } from "react-icons/tb";
 import { BsFillAwardFill } from "react-icons/bs";
@@ -11,24 +11,26 @@ import Single_page_colors from "./Single_page_colors";
 import Single_page_quantity from './Single_page_quantity';
 import AddCartButton from './AddCartButton';
 
-const Product_API = "https://api.pujakaitem.com/api/products";
+const Product_API = "http://localhost:3001/user/products/";
 
 const Single_page = () => {
 
-  const context = useContext(Create_context);
+  const context = useContext(CreateContext);
   const { singleProduct, singlePageData, colorCheck, setColorCheck } = context;
+  console.log("🚀 ~ file: Single_page.jsx:20 ~ singlePageData:", singlePageData)
 
   let { name, stars, company, price, description, stock, image  } = singlePageData;
+
 
   // console.log(colors);
   console.log(singlePageData);
 
 // we getting the id in URL using useParams
   const { id } = useParams();
-
+  console.log("🚀 ~ file: Single_page.jsx:28 ~ id:", id)
 
   useEffect(() => {
-    singleProduct(`${Product_API}?id=${id}`);
+    singleProduct(`${Product_API}${id}`);
   }, [id])
 
   
@@ -41,7 +43,6 @@ const Single_page = () => {
   const decrement = () => {
     counter > 1 ? setCounter(counter - 1) : setCounter(counter);
   }
-
 
 
   return (

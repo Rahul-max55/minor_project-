@@ -2,11 +2,11 @@ import React, { useContext } from "react";
 import "./Login_Signup.css";
 import Signup from "./Signup";
 import Login from "./Login";
-import { Create_context } from "../Contexts/CreateContext";
-// import { Create_context } from "../Contexts/NoteContext";
+import {CreateContext} from "../Contexts/CreateContext";
+// import {CreateContext} from "../Contexts/NoteContext";
 
 const Login_Signup = (props) => {
-  const context = useContext(Create_context);
+  const context = useContext( CreateContext );
   const { login_signup } = context;
 
   return (

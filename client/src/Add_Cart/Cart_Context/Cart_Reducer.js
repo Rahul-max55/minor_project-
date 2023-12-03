@@ -2,8 +2,10 @@
 const Cart_Reducer = (state, action) => {
 
     if (action.type === "ADD_TO_CART") {
-        const { singlePageData, colorCheck, counter } = action.payload;
-        const { name, id, price, stock, image, } = singlePageData;
+        const { data  } = action.payload;
+        const { name, id, price, stock, image, colorCheck , counter } = data;
+        console.log("🚀 ~ file: Cart_Reducer.js:7 ~ colorCheck:", colorCheck)
+        console.log("🚀 ~ file: Cart_Reducer.js:7 ~ counter:", counter)
 
         let existingProduct = state.cart.find((value) => value.id === id + colorCheck);
         // console.log(singlePageData);

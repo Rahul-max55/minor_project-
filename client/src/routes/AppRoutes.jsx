@@ -20,7 +20,6 @@ export const AppRoutes = () => {
         </Route> */}
 
         {routeMap.map((val) => {
-          console.log(val.id , val.path , val.isProtected)
           return val.isProtected ? (
             <Route key={val.id} element={<PrivateRoutes />}>
               <Route path={val.path} element={<val.Element />} />

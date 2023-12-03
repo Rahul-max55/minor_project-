@@ -1,54 +1,90 @@
-.divs_footer {
-    margin-top: 1.5rem;
-    max-width: 100%;
-    min-height: 20vh;
-    background-color: rgb(19, 19, 68);
+footer{
+    position: relative;
+    width: 100%;
+    padding: 40px 10vw;
+    padding-bottom: 80px;
+    background: #383838;
+    margin-top: 100px;
+}
+
+.footer-content{
     display: flex;
-    justify-content: space-evenly;
-    align-items: center;
+    width: 100%;
+    justify-content: space-between;
 }
 
-
-.left_info {
-    color: rgb(17, 163, 173);
+.footer-content .logo{
+    height: 80px;
 }
 
-.left_info {
-    /* background-color: red; */
-    width: 30%;
-    min-height: 15vh;
+.footer-ul-container{
+    width: 45%;
     display: flex;
-    border-radius: 15px;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-between;
 }
 
-.left_info ul{
-    display: flex;
-        justify-content: space-between;
-        width: 370px;
-}
-.left_info ul li {
+.footer_category{
+    width: 200px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
     list-style: none;
-    color: white;
 }
 
-.right_info {
-    /* background-color: blue; */
+.category-title{
+    grid-column: span 2;
+    text-transform: capitalize;
+    color: #fff;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.footer_category .footer-link{
+    text-decoration: none;
+    text-transform: capitalize;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.footer-link:hover{
+    color: #fff;
+}
+
+
+
+.footer-title, .info{
+    color: rgba(255, 255, 255, 0.75);
+    margin: 20px 0;
+    text-transform: capitalize;
+}
+
+.footer-title{
+    margin-top: 80px;
+    color: #fff;
+}
+
+.footer-social-container{
+    margin-top: 40px;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    width: 30%;
-    min-height: 15vh;
-    border-radius: 15px;
+    justify-content: space-between;
 }
 
-.right_info h4 {
-    color: rgb(17, 163, 173);
+.social-link{
+    color: #fff;
+    margin-left: 20px;
+    text-transform: capitalize;
 }
 
-.right_info div {
-    color: white;
+.social-link:nth-child(1){
+    margin-left: 0;
+}
+
+.footer-credit{
+    width: 100%;
+    padding: 10px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    text-align: center;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.2);
 }

@@ -3,14 +3,14 @@ import FilterSection from "./FilterSection";
 import Sort from "./Sort";
 import ProductList from "./ProductList";
 import "./Main_Products_page.css";
-// import { Create_context } from "../Contexts/CreateContext";
+// import {CreateContext} from "../Contexts/CreateContext";
 import {FilterCreateContext} from "../Filter_Context/FCreateContext";
 
 
 const Main_Products_page = () => {
 
 
-    // const Product_context = useContext(Create_context);
+    // const Product_context = useContext(Create_Context);
     // const { products } = Product_context;
     const Filter_context = useContext(FilterCreateContext);
     const { sorting, filtered_products } = Filter_context;

@@ -11,8 +11,8 @@ import logo from "./img/shopCenternew.jpg";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import { BsCartPlusFill, BsTypeH1 } from "react-icons/bs";
-// import { Create_context } from "../Contexts/NoteContext";
-import { Create_context } from "../Contexts/CreateContext";
+// import {CreateContext} from "../Contexts/NoteContext";
+import {CreateContext} from "../Contexts/CreateContext";
 import { CartCreateContext } from "../Add_Cart/Cart_Context/Cart_Create_Context";
 import { PATHS } from "../routes/paths";
 // import { useEffect } from 'react';
@@ -22,7 +22,7 @@ const Navbar = (props) => {
   const token = localStorage.getItem("token");
 
   // Finding the login signUp value using CreateContext
-  const context = useContext(Create_context);
+  const context = useContext(CreateContext);
   let { change_logSign, login_signup } = context;
   // End Finding the login signUp value using CreateContext
 
