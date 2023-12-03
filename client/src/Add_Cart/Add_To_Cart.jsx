@@ -79,9 +79,9 @@ const Add_To_Cart = () => {
                 </div>
                 <div className="cart_price">
                   <MdRemoveCircle
-                    onClick={() => {
-                      removeItems(value?.id, value?.userId);
-                    }}
+                    // onClick={() => {
+                    //   removeItems(value?.id, value?.userId);
+                    // }}
                   />
                 </div>
               </div>

@@ -33,7 +33,7 @@ export const getAllProductsController = async (req, res) => {
 export const getSingleProductController = async (req, res) => {
   const { id } = req.params;
   try {
-    const data = await Product.findById({ _id: id });
+    const data = await Product.find({ id: id });
     if (!data) {
       res.status(500).send("Single product data is not present");
     }
@@ -49,44 +49,16 @@ export const addToCartProductController = async (req, res) => {
   const cartData = req.body;
   const userId = req.user[0]?._id;
 
+
   try {
-    const item = await CartItem.find({ _id: cartData._id });
-    if (item.length === 0) {
-      const data = await CartItem.create({
-        ...cartData,
-        userId: userId,
-        count: 1,
-      });
-      if (!data) {
-        res.status(500).send("CartProduct data is not updated");
-      }
-      res.status(200).send(data);
-    } else {
-      try {
-        if (item[0].count < item[0].stock) {
-          const count = (await item[0].count) + 1;
-          const updatedData = await CartItem.findByIdAndUpdate(
-            { _id: cartData._id },
-            { ...req.body, count: count },
-            { new: true }
-          );
-          if (!updatedData) {
-            res.status(500).send("Single product data is not updated");
-          }
-          res.status(200).send(updatedData);
-        } else {
-          res.status(200).send({
-            isSuccess: true,
-            msg: "product stock is not grater then available stock right now",
-          });
-        }
-      } catch (error) {
-        console.log(
-          "🚀 ~ file: productController.js:83 ~ addToCartProductController ~ error:",
-          error
-        );
-      }
+    const data = await CartItem.create({
+      ...cartData,
+      userId: userId,
+    });
+    if (!data) {
+      res.status(500).send("CartProduct data is not updated");
     }
+    res.status(200).send(data);
   } catch (error) {
     res
       .status(500)

@@ -15,7 +15,7 @@ const router = express.Router();
 
 router.post("/addProduct", postProductsController);
 router.get("/products", getAllProductsController);
-router.get("/singleProduct/:id", getSingleProductController);
+router.get("/products/:id", getSingleProductController);
 
 // cartProduct
 router.post("/addCartProduct/", Authorization, addToCartProductController);
