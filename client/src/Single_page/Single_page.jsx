@@ -11,7 +11,7 @@ import Single_page_colors from "./Single_page_colors";
 import Single_page_quantity from './Single_page_quantity';
 import AddCartButton from './AddCartButton';
 
-const Product_API = "http://localhost:3001/user/products/";
+const Product_API = "http://localhost:3001/user/products";
 
 const Single_page = () => {
 
@@ -30,7 +30,7 @@ const Single_page = () => {
   console.log("🚀 ~ file: Single_page.jsx:28 ~ id:", id)
 
   useEffect(() => {
-    singleProduct(`${Product_API}${id}`);
+    singleProduct(`${Product_API}/${id}`);
   }, [id])
 
   

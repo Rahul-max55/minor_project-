@@ -42,7 +42,7 @@ const NoteContext = (props) => {
     // According to the dispatch type, reducer differentiate what can be he executes.
     dispatch({ type: "SET_LOADING" });
     try {
-      const res = await axios.get(url);
+      const res = await FETCH_WRAPPER.get(url);
       const products = await res.data;
       // console.log(products);
       dispatch({ type: "SET_API_DATA", payload: products });

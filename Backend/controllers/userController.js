@@ -3,23 +3,26 @@ import jwt from "jsonwebtoken";
 
 const loginControllerData = async (req, res) => {
   const { email, password } = req.body;
+  // console.log("🚀 ~ file: userController.js:6 ~ loginControllerData ~ email:", email)
+  
   try {
     const data = await Users.find({ email });
+    // console.log("🚀 ~ file: userController.js:10 ~ loginControllerData ~ data:", data?.[0]?.email)
     if (!data) {
-      return res.status(200).send({ msg: "User not exists", status: false });
+      return res.status(200).send({ msg: "User not exists please register", status: false });
     }
     if (data[0]?.password !== password) {
       return res.status(200).send({ msg: "password is wrong", status: false });
     }
-    const token = jwt.sign({ email: email }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ email: data?.[0]?.email }, process.env.JWT_SECRET, {
       algorithm: "HS256",
     });
 
-    res
+   return res
       .status(200)
       .json({ token, msg: "User is loged in successfuly", data, status: true });
   } catch (error) {
-    res.json(
+   return res.json(
       500,
       "🚀 ~ file: userController.js:24 ~ loginControllerData ~ error:",
       error

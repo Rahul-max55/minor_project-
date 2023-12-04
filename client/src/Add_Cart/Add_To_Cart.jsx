@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useContext } from "react";
-import { CartCreateContext } from "./Cart_Context/Cart_Create_Context";
+// import { useContext } from "react";
+// import { CartCreateContext } from "./Cart_Context/Cart_Create_Context";
 import "./Add_To_Cart.css";
 import { MdRemoveCircle } from "react-icons/md";
 // import Single_page_quantity from "../Single_page/Single_page_quantity";
-import { AiFillPlusSquare, AiFillMinusSquare } from "react-icons/ai";
+// import { AiFillPlusSquare, AiFillMinusSquare } from "react-icons/ai";
 import FETCH_WRAPPER from "../Api";
 
 const Add_To_Cart = () => {
@@ -29,10 +29,20 @@ const Add_To_Cart = () => {
     setCartApiData(data?.data);
   };
 
-  const grandTotal = cartApiData?.reduce((total ,value, index) => {
-    console.log(value?.stock)
-    return total = total + value?.stock * value.price;
-  } , 0);
+  const grandTotal = cartApiData?.reduce((total, value, index) => {
+    console.log(value?.stock);
+    return (total = total + value?.stock * value.price);
+  }, 0);
+
+  const removeItems = async (_id) => {
+    try {
+      const data = await FETCH_WRAPPER.delete(`deleteProduct/${_id}`);
+      console.log("🚀 ~ file: Add_To_Cart.jsx:40 ~ removeItems ~ data:", data);
+      datacart();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -79,9 +89,9 @@ const Add_To_Cart = () => {
                 </div>
                 <div className="cart_price">
                   <MdRemoveCircle
-                    // onClick={() => {
-                    //   removeItems(value?.id, value?.userId);
-                    // }}
+                    onClick={() => {
+                      removeItems(value?._id);
+                    }}
                   />
                 </div>
               </div>
@@ -97,11 +107,8 @@ const Add_To_Cart = () => {
         </NavLink>
         <button
           className="clear_cart common_css"
-        //   onClick={() => {
-        //     clearCartItem();
-        //   }}
         >
-          CLEAR CART
+          Buy Now
         </button>
       </div>
 

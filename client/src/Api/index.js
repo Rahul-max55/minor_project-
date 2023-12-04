@@ -5,14 +5,14 @@ let FETCH_WRAPPER;
 // Check if localStorage is available (in a browser environment)
 if (typeof localStorage !== "undefined") {
   const token = localStorage.getItem("token");
+  console.log("🚀 ~ file: index.js:8 ~ token:", token)
   // Check if the token exists in localStorage
   if (token) {
     // Create an axios instance with the token
     FETCH_WRAPPER = axios.create({
       baseURL: "http://localhost:3001/user/",
-      timeout: 5000,
       headers: {
-        Accept: "application/json",
+        'Content-Type': 'application/json',
         Authorization: token,
       },
     });

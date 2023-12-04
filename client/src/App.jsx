@@ -13,28 +13,61 @@ import axios from "axios";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
+  
 
+
+  
   useEffect(() => {
     axios.interceptors.request.use(
       (config) => {
+        console.log('Request interceptor fired');
         setIsLoading(true);
         return config;
       },
       (error) => {
+        console.error('Request interceptor error:', error);
+        setIsLoading(false);
         return Promise.reject(error);
       }
     );
-
-    axios.interceptors.response.use(
-      (config) => {
+    
+   axios.interceptors.response.use(
+      (response) => {
+        console.log('Response interceptor fired');
         setIsLoading(false);
-        return config;
+        return response;
       },
       (error) => {
+        console.error('Response interceptor error:', error);
+        setIsLoading(false);
         return Promise.reject(error);
       }
     );
-  }, []);
+    // axios.interceptors.request.use(
+    //   (config) => {
+    //     setIsLoading(true);
+    //     return config;
+    //   },
+    //   (error) => {
+    //     setIsLoading(false);
+    //     return Promise.reject(error);
+    //   }
+    // );
+
+    // axios.interceptors.response.use(
+    //   (response) => {
+    //     setIsLoading(false);
+    //     return response;
+    //   },
+    //   (error) => {
+    //     setIsLoading(false);
+    //     return Promise.reject(error);
+    //   }
+    //   );
+    }, []);
+    
+    console.log("🚀 ~ file: App.jsx:16 ~ App ~ isLoading:", isLoading)
+  
 
   return (
     <>
