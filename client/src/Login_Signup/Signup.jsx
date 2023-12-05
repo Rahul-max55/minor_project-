@@ -3,7 +3,8 @@ import { useFormik } from "formik";
 import { SignupSchema } from "../validation";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import {CreateContext} from "../Contexts/CreateContext";
+import { CreateContext } from "../Contexts/CreateContext";
+import FETCH_WRAPPER from "../Api";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -23,10 +24,7 @@ const Signup = () => {
         console.log(values);
         try {
           console.log(values);
-          const apiData = await axios.post(
-            "http://localhost:3001/user/signup/",
-            values
-          );
+          const apiData = await FETCH_WRAPPER.post("signup", values);
           alert(apiData?.data?.msg);
           if (apiData?.data?.status) {
             change_logSign();

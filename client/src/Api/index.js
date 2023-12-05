@@ -1,28 +1,15 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 
-let FETCH_WRAPPER;
 
 // Check if localStorage is available (in a browser environment)
-if (typeof localStorage !== "undefined") {
-  const token = localStorage.getItem("token");
-  console.log("🚀 ~ file: index.js:8 ~ token:", token)
-  // Check if the token exists in localStorage
-  if (token) {
-    // Create an axios instance with the token
-    FETCH_WRAPPER = axios.create({
-      baseURL: "http://localhost:3001/user/",
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token,
-      },
-    });
-  } else {
-    // Handle the case where the 'token' key is not found in localStorage
-    console.error("Token not found in localStorage");
-  }
-} else {
-  // Handle the case where localStorage is not available (Node.js environment, for example)
-  console.error("localStorage is not available in this environment");
-}
+// Check if the token exists in localStorage
+// Create an axios instance with the token
+const FETCH_WRAPPER = axios.create({
+  baseURL: "http://localhost:3001/user/",
+  headers: {
+    Accept: "application/json",
+  },
+});
 
 export default FETCH_WRAPPER;

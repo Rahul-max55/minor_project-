@@ -5,7 +5,8 @@ import { useFormik } from "formik";
 import { LoginSchema } from "../validation";
 import axios from "axios";
 import { PATHS } from "../routes/paths";
-import { Loading } from "../Loading/Loading";
+import Cookies from "js-cookie";
+import FETCH_WRAPPER from "../Api";
 
 const Login = (props) => {
   const navigate = useNavigate();
@@ -18,10 +19,7 @@ const Login = (props) => {
     validationSchema: LoginSchema,
     onSubmit: async (values) => {
       try {
-        const apiData = await axios.post(
-          "http://localhost:3001/user/login/",
-          values
-        );
+        const apiData = await FETCH_WRAPPER.post("login", values);
 
         if (!apiData?.data?.token) {
           console.log(
@@ -31,7 +29,7 @@ const Login = (props) => {
         }
         alert(apiData?.data?.msg);
         if (apiData?.data?.status) {
-          localStorage.setItem("token", apiData?.data?.token);
+          Cookies.set("token", apiData?.data?.token);
           navigate(PATHS.root);
         }
       } catch (error) {

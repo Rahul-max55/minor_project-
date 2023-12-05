@@ -3,6 +3,7 @@ import Users from "../schema/singupSchema.js";
 
 export const Authorization = async (req, res, next) => {
   const token = req.headers.authorization;
+  // console.log("🚀 ~ file: userAuthorization.js:6 ~ Authorization ~ token:", token)
 
   if (!token) {
     return res.json(401, { status: false, msg: "Token not found" });
@@ -24,8 +25,7 @@ export const Authorization = async (req, res, next) => {
     if (!user) {
       return res.json(401, { status: false, msg: "user not found" });
     }
-    // console.log(user);
-    req.user = user;
+    req.user = user[0];
     next();
     return;
   } catch (error) {

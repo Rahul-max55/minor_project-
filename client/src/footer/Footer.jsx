@@ -11,111 +11,111 @@ const Footer = () => {
   return (
     <>
       <footer>
-        <div class="footer-content">
-          <img src={logo} class="logo" alt="logo" />
-          <div class="footer-ul-container">
-            <ul class="footer_category">
-              <li class="category-title">men</li>
+        <div className="footer-content">
+          <img src={logo} className="logo" alt="logo" />
+          <div className="footer-ul-container">
+            <ul className="footer_category">
+              <li className="category-title">men</li>
               <li>
-                <Link href="#" class="footer-link">
+                <Link href="#" className="footer-link">
                   t-shirts
                 </Link>
               </li>
               <li>
-                <Link href="#" class="footer-link">
+                <Link href="#" className="footer-link">
                   sweatshirts
                 </Link>
               </li>
               <li>
-                <Link href="#" class="footer-link">
+                <Link href="#" className="footer-link">
                   shirts
                 </Link>
               </li>
               <li>
-                <Link href="#" class="footer-link">
+                <Link href="#" className="footer-link">
                   jeans
                 </Link>
               </li>
               <li>
-                <Link href="#" class="footer-link">
+                <Link href="#" className="footer-link">
                   trousers
                 </Link>
               </li>
               <li>
-                <Link href="#" class="footer-link">
+                <Link href="#" className="footer-link">
                   shoes
                 </Link>
               </li>
               <li>
-                <Link href="#" class="footer-link">
+                <Link href="#" className="footer-link">
                   casuals
                 </Link>
               </li>
               <li>
-                <Link href="#" class="footer-link">
+                <Link href="#" className="footer-link">
                   formals
                 </Link>
               </li>
               <li>
-                <Link href="#" class="footer-link">
+                <Link href="#" className="footer-link">
                   sports
                 </Link>
               </li>
               <li>
-                <Link href="#" class="footer-link">
+                <Link href="#" className="footer-link">
                   watch
                 </Link>
               </li>
             </ul>
-            <ul class="footer_category">
-              <li class="category-title">women</li>
+            <ul className="footer_category">
+              <li className="category-title">women</li>
               <li>
-                <Link href="#" class="footer-link">
+                <Link href="#" className="footer-link">
                   t-shirts
                 </Link>
               </li>
               <li>
-                <Link href="#" class="footer-link">
+                <Link href="#" className="footer-link">
                   sweatshirts
                 </Link>
               </li>
               <li>
-                <Link href="#" class="footer-link">
+                <Link href="#" className="footer-link">
                   shirts
                 </Link>
               </li>
               <li>
-                <Link href="#" class="footer-link">
+                <Link href="#" className="footer-link">
                   jeans
                 </Link>
               </li>
               <li>
-                <Link href="#" class="footer-link">
+                <Link href="#" className="footer-link">
                   trousers
                 </Link>
               </li>
               <li>
-                <Link href="#" class="footer-link">
+                <Link href="#" className="footer-link">
                   shoes
                 </Link>
               </li>
               <li>
-                <Link href="#" class="footer-link">
+                <Link href="#" className="footer-link">
                   casuals
                 </Link>
               </li>
               <li>
-                <Link href="#" class="footer-link">
+                <Link href="#" className="footer-link">
                   formals
                 </Link>
               </li>
               <li>
-                <Link href="#" class="footer-link">
+                <Link href="#" className="footer-link">
                   sports
                 </Link>
               </li>
               <li>
-                <Link href="#" class="footer-link">
+                <Link href="#" className="footer-link">
                   watch
                 </Link>
               </li>

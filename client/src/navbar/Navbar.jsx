@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./Navbar.css";
 import {
   Link,
@@ -12,14 +12,19 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import { BsCartPlusFill, BsTypeH1 } from "react-icons/bs";
 // import {CreateContext} from "../Contexts/NoteContext";
-import {CreateContext} from "../Contexts/CreateContext";
-import { CartCreateContext } from "../Add_Cart/Cart_Context/Cart_Create_Context";
+import { CreateContext } from "../Contexts/CreateContext";
+// import { CartCreateContext } from "../Add_Cart/Cart_Context/Cart_Create_Context";
 import { PATHS } from "../routes/paths";
+import Cookies from "js-cookie";
+import FETCH_WRAPPER from "../Api";
+import { CartCreateContext } from "../Add_Cart/context/CartCreateContext";
 // import { useEffect } from 'react';
 
 const Navbar = (props) => {
+  const cartContext = useContext(CartCreateContext);
+  const { cartApiDataLength } = cartContext;
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
+  const token = Cookies.get("token");
 
   // Finding the login signUp value using CreateContext
   const context = useContext(CreateContext);
@@ -27,9 +32,9 @@ const Navbar = (props) => {
   // End Finding the login signUp value using CreateContext
 
   // Finding the value of cart using create cart context
-  const cart_context = useContext(CartCreateContext);
-  let { cart } = cart_context;
-  let productQuantity = cart.length;
+  // const cart_context = useContext(CartCreateContext);
+  // let { cart } = cart_context;
+  // let productQuantity = cart.length;
   // End Finding the value of cart using create cart context
 
   // for responsive
@@ -47,7 +52,7 @@ const Navbar = (props) => {
   //End for responsive
 
   const logout = () => {
-    localStorage.clear();
+    Cookies.remove("token");
     navigate("/login_signup");
   };
 
@@ -131,7 +136,7 @@ const Navbar = (props) => {
                 </a>
                 <NavLink to="/add_to_cart" className="Cart_Icon">
                   <BsCartPlusFill />
-                  <div className="total_items">{productQuantity}</div>
+                  <div className="total_items">{cartApiDataLength}</div>
                 </NavLink>
               </>
             )}

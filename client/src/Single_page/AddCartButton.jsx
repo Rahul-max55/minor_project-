@@ -1,15 +1,28 @@
 import React from "react";
-import { useContext, useState } from "react";
+// import { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { CartCreateContext } from "../Add_Cart/Cart_Context/Cart_Create_Context";
+// import { CartCreateContext } from "../Add_Cart/Cart_Context/Cart_Create_Context";
 import FETCH_WRAPPER from "../Api";
 
 const AddCartButton = ({ singlePageData, colorCheck, counter }) => {
-  let context = useContext(CartCreateContext);
-  const { addCart } = context;
+  // let context = useContext(CartCreateContext);
+  // const { addCart } = context;
 
   // const [colorData, setColorData] = useState(colors?.[0]);
   // const [amount, setAmount] = useState(2);
+
+  const addCart = async (singlePageData, colorCheck, counter) => {
+    try {
+      const data = await FETCH_WRAPPER.post("addCartProduct", {
+        ...singlePageData,
+        colors: colorCheck,
+        stock: counter,
+      });
+      console.log("🚀 ~ file: Cart_Note_Context.js:20 ~ addCart ~ data:", data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>

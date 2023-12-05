@@ -7,7 +7,7 @@ export const postProductsController = async (req, res) => {
   const user = req.user;
   try {
     const data = await Product.create(porductData);
-    console.log(data);
+    // console.log(data);
     if (!data) {
       res.status(500).send("product data is not submited");
     }
@@ -42,7 +42,9 @@ export const getSingleProductController = async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .send(`some error occured in product singleApi api ${error}`);
+      .send(
+        `🚀 ~ file: productController.js:43 ~ getSingleProductController ~ error: ${error}`
+      );
   }
 };
 
@@ -50,13 +52,27 @@ export const getSingleProductController = async (req, res) => {
 
 export const addToCartProductController = async (req, res) => {
   const cartData = req.body;
-  const userId = req.user[0]?._id;
-  console.log(
-    "🚀 ~ file: productController.js:54 ~ addToCartProductController ~ userId:",
-    userId
-  );
+  const userId = req.user?._id;
+
+  //  if we does not delete this id mongodb id is overlaped and products dublicate problem we can get so we remove the _id inside the cartData
+  delete cartData?._id;
 
   try {
+    
+    const productExists = await CartItem.find({
+      $and: [
+        { colors: cartData?.colors },
+        { id: cartData?.id },
+        { userId: cartData?.userId },
+      ],
+    });
+
+    console.log(!productExists);
+    console.log(
+      "🚀 ~ file: productController.js:61 ~ addToCartProductController ~ productExists:",
+      productExists
+    );
+
     const data = await CartItem.create({
       ...cartData,
       userId: userId,
@@ -69,12 +85,14 @@ export const addToCartProductController = async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .send(`some error occured in product singleApi api ${error}`);
+      .send(
+        `🚀 ~ file: productController.js:70 ~ addToCartProductController ~ error: ${error}`
+      );
   }
 };
 
 export const getToCartProductController = async (req, res) => {
-  const userId = (req.user[0]?._id).toString();
+  const userId = req.user?._id;
   // console.log(
   //   "🚀 ~ file: productController.js:73 ~ getToCartProductController ~ userId:",
   //   userId
@@ -82,7 +100,7 @@ export const getToCartProductController = async (req, res) => {
 
   try {
     const data = await CartItem.find({ userId });
-    console.log(data);
+    // console.log(data);
     if (!data) {
       res.status(500).send("Single product data is not present");
     }
@@ -136,14 +154,14 @@ export const editproductController = async (req, res) => {
 
 export const deleteCartProductController = async (req, res) => {
   const { _id } = req.params;
-  console.log(_id); // i am getting this id 656720b8ee1e429f6de5c1c4
+  // console.log(_id); // i am getting this id 656720b8ee1e429f6de5c1c4
   const objectId = new ObjectId(_id);
   try {
     const data = await CartItem.findByIdAndDelete({ _id: objectId });
-    console.log(
-      "🚀 ~ file: productController.js:128 ~ deleteCartProductController ~ data:",
-      data
-    );
+    // console.log(
+    //   "🚀 ~ file: productController.js:128 ~ deleteCartProductController ~ data:",
+    //   data
+    // );
     if (!data) {
       return res.status(500).send("product is not found in database");
     }

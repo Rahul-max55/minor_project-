@@ -6,6 +6,7 @@ import styles from "./forgatepass.module.css";
 import axios from "axios";
 import { PATHS } from "../routes/paths";
 import emailjs from "@emailjs/browser";
+import FETCH_WRAPPER from "../Api";
 
 const Forgatepass = () => {
   const navigate = useNavigate();
@@ -17,8 +18,7 @@ const Forgatepass = () => {
     validationSchema: emailForgate,
     onSubmit: async (values) => {
       try {
-        const apiData = await axios.post(
-          "http://localhost:3001/user/email_valid/",
+        const apiData = await FETCH_WRAPPER.post("email_valid",
           values
         );
         console.log(

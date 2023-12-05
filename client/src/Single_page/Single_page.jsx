@@ -17,17 +17,17 @@ const Single_page = () => {
 
   const context = useContext(CreateContext);
   const { singleProduct, singlePageData, colorCheck, setColorCheck } = context;
-  console.log("🚀 ~ file: Single_page.jsx:20 ~ singlePageData:", singlePageData)
+  // console.log("🚀 ~ file: Single_page.jsx:20 ~ singlePageData:", singlePageData)
 
   let { name, stars, company, price, description, stock, image  } = singlePageData;
 
 
   // console.log(colors);
-  console.log(singlePageData);
+  // console.log(singlePageData);
 
 // we getting the id in URL using useParams
   const { id } = useParams();
-  console.log("🚀 ~ file: Single_page.jsx:28 ~ id:", id)
+  // console.log("🚀 ~ file: Single_page.jsx:28 ~ id:", id)
 
   useEffect(() => {
     singleProduct(`${Product_API}/${id}`);

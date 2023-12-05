@@ -5,6 +5,7 @@ import { passwordreset } from "../validation";
 import styles from "./forgatepass.module.css";
 import axios from "axios";
 import { PATHS } from "../routes/paths";
+import FETCH_WRAPPER from "../Api";
 
 const Password_reset = () => {
   const navigate = useNavigate();
@@ -19,8 +20,7 @@ const Password_reset = () => {
     onSubmit: async (values) => {
       console.log(token)
       try {
-        const apiData = await axios.post(
-          `http://localhost:3001/user/resetpassword/${token}`,
+        const apiData = await FETCH_WRAPPER.post(`resetpassword/${token}`,
           {...values}
         );
 

@@ -12,7 +12,7 @@ const ProductList = ({
   columnRow,
 }) => {
 
-  console.log(image);
+  // console.log(image);
 
   return (
     <>

@@ -1,33 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-// import { useContext } from "react";
-// import { CartCreateContext } from "./Cart_Context/Cart_Create_Context";
 import "./Add_To_Cart.css";
 import { MdRemoveCircle } from "react-icons/md";
-// import Single_page_quantity from "../Single_page/Single_page_quantity";
-// import { AiFillPlusSquare, AiFillMinusSquare } from "react-icons/ai";
 import FETCH_WRAPPER from "../Api";
+import { CartCreateContext } from "./context/CartCreateContext";
 
 const Add_To_Cart = () => {
-  //   let contextValue = useContext(CartCreateContext);
-  //   const {
-  //     cart,
-  //     removeItems,
-  //     shipping_fee,
-  //     clearCartItem,
-  //     increDecre,
-  //   } = contextValue;
+  const context = useContext(CartCreateContext);
+  const { cartData , cartApiData } = context;
 
   useEffect(() => {
-    datacart();
+    cartData();
   }, []);
-
-  const [cartApiData, setCartApiData] = useState([]);
-  const datacart = async () => {
-    const data = await FETCH_WRAPPER.get("getCartProduct");
-    console.log("🚀 ~ file: Add_To_Cart.jsx:26 ~ datacart ~ data:", data);
-    setCartApiData(data?.data);
-  };
 
   const grandTotal = cartApiData?.reduce((total, value, index) => {
     console.log(value?.stock);
@@ -36,9 +20,8 @@ const Add_To_Cart = () => {
 
   const removeItems = async (_id) => {
     try {
-      const data = await FETCH_WRAPPER.delete(`deleteProduct/${_id}`);
-      console.log("🚀 ~ file: Add_To_Cart.jsx:40 ~ removeItems ~ data:", data);
-      datacart();
+      await FETCH_WRAPPER.delete(`deleteProduct/${_id}`);
+      cartData();
     } catch (error) {
       console.log(error);
     }
@@ -105,11 +88,7 @@ const Add_To_Cart = () => {
         <NavLink to="/" className="common_css">
           CONTINUE SHOPPING
         </NavLink>
-        <button
-          className="clear_cart common_css"
-        >
-          Buy Now
-        </button>
+        <button className="clear_cart common_css">Buy Now</button>
       </div>
 
       <div className="cart_total">

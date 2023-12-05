@@ -24,7 +24,7 @@ const Home = () => {
   // use Context getting the api data
   const Api_Data = useContext(CreateContext);
   const { isLoading, featureProducts } = Api_Data; // name is same as initialState name do not wright anything.
-  console.log(featureProducts);
+  // console.log(featureProducts);
 
   return (
     <>
@@ -56,7 +56,7 @@ const Home = () => {
           <div className="all_img">
             {/*We want to print the future product in home page so we use map method and ilitrate products and sending this data using props*/}
             {featureProducts.map((value) => {
-              console.log(value);
+              // console.log(value);
               return (
                 <Products
                   id={value.id}
@@ -103,36 +103,36 @@ const Home = () => {
 
       {/* new section is added */}
       <div>
-        <div class="home_container">
-          <div class="testimonials-box">
+        <div className="home_container">
+          <div className="testimonials-box">
             {/* <!--
           - TESTIMONIALS
           --> */}
 
-            <div class="testimonial">
-              <h2 class="title">testimonial</h2>
+            <div className="testimonial">
+              <h2 className="title">testimonial</h2>
 
-              <div class="testimonial-card">
+              <div className="testimonial-card">
                 <img
                   src={testimonial}
                   alt="alan doe"
-                  class="testimonial-banner"
+                  className="testimonial-banner"
                   width="80"
                   height="80"
                 />
 
-                <p class="testimonial-name">Alan Doe</p>
+                <p className="testimonial-name">Alan Doe</p>
 
-                <p class="testimonial-title">CEO & Founder Invision</p>
+                <p className="testimonial-title">CEO & Founder Invision</p>
 
                 <img
                   src={quotes}
                   alt="quotation"
-                  class="quotation-img"
+                  className="quotation-img"
                   width="26"
                 />
 
-                <p class="testimonial-desc">
+                <p className="testimonial-desc">
                   Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor dolor
                   sit amet.
                 </p>
@@ -143,13 +143,13 @@ const Home = () => {
       - CTA
     --> */}
 
-            <div class="cta-container">
-              <img src={ctabanner} alt="summer collection" class="cta-banner" />
-              <Link href="#" class="cta-content">
-                <p class="discount">25% Discount</p>
-                <h2 class="cta-title">Summer collection</h2>
-                <p class="cta-text">Starting @ $10</p>
-                <button class="cta-btn">Shop now</button>
+            <div className="cta-container">
+              <img src={ctabanner} alt="summer collection" className="cta-banner" />
+              <Link href="#" className="cta-content">
+                <p className="discount">25% Discount</p>
+                <h2 className="cta-title">Summer collection</h2>
+                <p className="cta-text">Starting @ $10</p>
+                <button className="cta-btn">Shop now</button>
               </Link>
             </div>
 
@@ -157,61 +157,61 @@ const Home = () => {
       - SERVICE
     --> */}
 
-            <div class="service">
-              <h2 class="title">Our Services</h2>
-              <div class="service-container">
-                <Link href="#" class="service-item">
-                  <div class="service-icon">
+            <div className="service">
+              <h2 className="title">Our Services</h2>
+              <div className="service-container">
+                <Link href="#" className="service-item">
+                  <div className="service-icon">
                     <ion-icon name="boat-outline"></ion-icon>
                   </div>
 
-                  <div class="service-content">
-                    <h3 class="service-title">Worldwide Delivery</h3>
-                    <p class="service-desc">For Order Over $100</p>
+                  <div className="service-content">
+                    <h3 className="service-title">Worldwide Delivery</h3>
+                    <p className="service-desc">For Order Over $100</p>
                   </div>
                 </Link>
 
-                <Link href="#" class="service-item">
-                  <div class="service-icon">
+                <Link href="#" className="service-item">
+                  <div className="service-icon">
                     <ion-icon name="rocket-outline"></ion-icon>
                   </div>
 
-                  <div class="service-content">
-                    <h3 class="service-title">Next Day delivery</h3>
-                    <p class="service-desc">UK Orders Only</p>
+                  <div className="service-content">
+                    <h3 className="service-title">Next Day delivery</h3>
+                    <p className="service-desc">UK Orders Only</p>
                   </div>
                 </Link>
 
-                <Link href="#" class="service-item">
-                  <div class="service-icon">
+                <Link href="#" className="service-item">
+                  <div className="service-icon">
                     <ion-icon name="call-outline"></ion-icon>
                   </div>
 
-                  <div class="service-content">
-                    <h3 class="service-title">Best Online Support</h3>
-                    <p class="service-desc">Hours: 8AM - 11PM</p>
+                  <div className="service-content">
+                    <h3 className="service-title">Best Online Support</h3>
+                    <p className="service-desc">Hours: 8AM - 11PM</p>
                   </div>
                 </Link>
 
-                <Link href="#" class="service-item">
-                  <div class="service-icon">
+                <Link href="#" className="service-item">
+                  <div className="service-icon">
                     <ion-icon name="arrow-undo-outline"></ion-icon>
                   </div>
 
-                  <div class="service-content">
-                    <h3 class="service-title">Return Policy</h3>
-                    <p class="service-desc">Easy & Free Return</p>
+                  <div className="service-content">
+                    <h3 className="service-title">Return Policy</h3>
+                    <p className="service-desc">Easy & Free Return</p>
                   </div>
                 </Link>
 
-                <Link href="#" class="service-item">
-                  <div class="service-icon">
+                <Link href="#" className="service-item">
+                  <div className="service-icon">
                     <ion-icon name="ticket-outline"></ion-icon>
                   </div>
 
-                  <div class="service-content">
-                    <h3 class="service-title">30% money back</h3>
-                    <p class="service-desc">For Order Over $100</p>
+                  <div className="service-content">
+                    <h3 className="service-title">30% money back</h3>
+                    <p className="service-desc">For Order Over $100</p>
                   </div>
                 </Link>
               </div>
@@ -224,115 +224,115 @@ const Home = () => {
 - BLOG
 --> */}
 
-      <div class="blog">
-        <div class="blog_container">
-          <div class="blog-container has-scrollbar">
-            <div class="blog-card">
+      <div className="blog">
+        <div className="blog_container">
+          <div className="blog-container has-scrollbar">
+            <div className="blog-card">
               <Link href="#">
                 <img
                   src={blogone}
                   alt="Clothes Retail KPIs 2021 Guide for Clothes Executives"
                   width="300"
-                  class="blog-banner"
+                  className="blog-banner"
                 />
               </Link>
 
-              <div class="blog-content">
-                <Link href="#" class="blog-category">
+              <div className="blog-content">
+                <Link href="#" className="blog-category">
                   Fashion
                 </Link>
 
                 <Link href="#">
-                  <h3 class="blog-title">
+                  <h3 className="blog-title">
                     Clothes Retail KPIs 2021 Guide for Clothes Executives.
                   </h3>
                 </Link>
 
-                <p class="blog-meta">
+                <p className="blog-meta">
                   By <cite>Mr Admin</cite> /{" "}
                   <time datetime="2022-04-06">Apr 06, 2022</time>
                 </p>
               </div>
             </div>
 
-            <div class="blog-card">
+            <div className="blog-card">
               <Link href="#">
                 <img
                   src={blogtwo}
                   alt="Curbside fashion Trends: How to Win the Pickup Battle."
-                  class="blog-banner"
+                  className="blog-banner"
                   width="300"
                 />
               </Link>
 
-              <div class="blog-content">
-                <Link href="#" class="blog-category">
+              <div className="blog-content">
+                <Link href="#" className="blog-category">
                   Clothes
                 </Link>
 
                 <h3>
-                  <Link href="#" class="blog-title">
+                  <Link href="#" className="blog-title">
                     Curbside fashion Trends: How to Win the Pickup Battle.
                   </Link>
                 </h3>
 
-                <p class="blog-meta">
+                <p className="blog-meta">
                   By <cite>Mr Robin</cite>
                   <time datetime="2022-01-18">Jan 18, 2022</time>
                 </p>
               </div>
             </div>
 
-            <div class="blog-card">
+            <div className="blog-card">
               <Link href="#">
                 <img
                   src={blogthree}
                   alt="EBT vendors: Claim Your Share of SNAP Online Revenue."
-                  class="blog-banner"
+                  className="blog-banner"
                   width="300"
                 />
               </Link>
 
-              <div class="blog-content">
-                <Link href="#" class="blog-category">
+              <div className="blog-content">
+                <Link href="#" className="blog-category">
                   Shoes
                 </Link>
 
                 <h3>
-                  <Link href="#" class="blog-title">
+                  <Link href="#" className="blog-title">
                     EBT vendors: Claim Your Share of SNAP Online Revenue.
                   </Link>
                 </h3>
 
-                <p class="blog-meta">
+                <p className="blog-meta">
                   By <cite>Mr Selsa</cite>
                   <time datetime="2022-02-10">Feb 10, 2022</time>
                 </p>
               </div>
             </div>
 
-            <div class="blog-card">
+            <div className="blog-card">
               <Link href="#">
                 <img
                   src={blogfour}
                   alt="Curbside fashion Trends: How to Win the Pickup Battle."
-                  class="blog-banner"
+                  className="blog-banner"
                   width="300"
                 />
               </Link>
 
-              <div class="blog-content">
-                <Link href="#" class="blog-category">
+              <div className="blog-content">
+                <Link href="#" className="blog-category">
                   Electronics
                 </Link>
 
                 <h3>
-                  <Link href="#" class="blog-title">
+                  <Link href="#" className="blog-title">
                     Curbside fashion Trends: How to Win the Pickup Battle.
                   </Link>
                 </h3>
 
-                <p class="blog-meta">
+                <p className="blog-meta">
                   By <cite>Mr Pawar</cite>
                   <time datetime="2022-03-15">Mar 15, 2022</time>
                 </p>

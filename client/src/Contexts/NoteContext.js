@@ -3,6 +3,7 @@ import { CreateContext } from "./CreateContext";
 import axios from "axios";
 import reducer from "./reducer/ProductsReducer";
 import FETCH_WRAPPER from "../Api";
+import Cookies from "js-cookie";
 
 // Api link always call outside function
 // const API = "https://api.pujakaitem.com/api/products";
@@ -87,6 +88,7 @@ const NoteContext = (props) => {
           setColorCheck,
           ...state,
           singleProduct,
+          FETCH_WRAPPER
         }}
       >
         {props.children}

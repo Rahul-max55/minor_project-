@@ -5,82 +5,64 @@ import { BrowserRouter } from "react-router-dom";
 import NoteContext from "./Contexts/NoteContext";
 
 import FilterNoteContext from "./Filter_Context/FilterNoteContext";
-import Cart_Note_Context from "./Add_Cart/Cart_Context/Cart_Note_Context";
 import { AppRoutes } from "./routes/AppRoutes";
 import { Loading } from "./Loading/Loading";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import FETCH_WRAPPER from "./Api";
+import Cookies from "js-cookie";
+import { CartNoteContext } from "./Add_Cart/context/CartNoteContext";
 
 const App = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  
+  const [isLoading, setIsLoading] = useState(false);
+  console.log("🚀 ~ file: App.jsx:16 ~ App ~ isLoading:", isLoading);
 
-
-  
   useEffect(() => {
-    axios.interceptors.request.use(
+    const requestInterceptor = FETCH_WRAPPER.interceptors.request.use(
       (config) => {
-        console.log('Request interceptor fired');
+        const token = Cookies.get("token");
+        console.log("Request interceptor fired");
         setIsLoading(true);
+        console.log(token);
+        config.headers.authorization = token;
         return config;
       },
       (error) => {
-        console.error('Request interceptor error:', error);
-        setIsLoading(false);
+        console.error("Request interceptor error:", error);
         return Promise.reject(error);
       }
     );
-    
-   axios.interceptors.response.use(
+
+    const responseInterceptor = FETCH_WRAPPER.interceptors.response.use(
       (response) => {
-        console.log('Response interceptor fired');
+        console.log("Response interceptor fired");
         setIsLoading(false);
         return response;
       },
       (error) => {
-        console.error('Response interceptor error:', error);
-        setIsLoading(false);
+        console.error("Response interceptor error:", error);
         return Promise.reject(error);
       }
     );
-    // axios.interceptors.request.use(
-    //   (config) => {
-    //     setIsLoading(true);
-    //     return config;
-    //   },
-    //   (error) => {
-    //     setIsLoading(false);
-    //     return Promise.reject(error);
-    //   }
-    // );
 
-    // axios.interceptors.response.use(
-    //   (response) => {
-    //     setIsLoading(false);
-    //     return response;
-    //   },
-    //   (error) => {
-    //     setIsLoading(false);
-    //     return Promise.reject(error);
-    //   }
-    //   );
-    }, []);
-    
-    console.log("🚀 ~ file: App.jsx:16 ~ App ~ isLoading:", isLoading)
-  
+    return () => {
+      axios.interceptors.request.eject(requestInterceptor);
+      axios.interceptors.response.eject(responseInterceptor);
+    };
+  }, []);
 
   return (
     <>
       <NoteContext>
         <FilterNoteContext>
-          <Cart_Note_Context>
+          <CartNoteContext>
             <BrowserRouter>
               <Navbar />
-              {isLoading && <Loading />}
+              <Loading isLoading={isLoading} />
               <AppRoutes />
               <Footer />
             </BrowserRouter>
-          </Cart_Note_Context>
+          </CartNoteContext>
         </FilterNoteContext>
       </NoteContext>
     </>
