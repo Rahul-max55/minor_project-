@@ -43,12 +43,13 @@ export const getSingleProductController = async (req, res) => {
     res
       .status(500)
       .send(
-        `🚀 ~ file: productController.js:43 ~ getSingleProductController ~ error: ${error}`
+        `🚀 ~ file: productController.js:46 ~ getSingleProductController ~ error: ${error}`
       );
   }
 };
 
-// CARTS PRODUCTS CONTROLLER
+// ------------------------------CARTS PRODUCTS CONTROLLER-------------------------------------------------
+// --------------------------------------------------------------------------------------------------------
 
 export const addToCartProductController = async (req, res) => {
   const cartData = req.body;
@@ -56,38 +57,88 @@ export const addToCartProductController = async (req, res) => {
 
   //  if we does not delete this id mongodb id is overlaped and products dublicate problem we can get so we remove the _id inside the cartData
   delete cartData?._id;
-
   try {
-    
-    const productExists = await CartItem.find({
-      $and: [
-        { colors: cartData?.colors },
-        { id: cartData?.id },
-        { userId: cartData?.userId },
-      ],
+    // diff prodcuts colors qantity check
+    const Products = await CartItem.find({
+      $and: [{ userId: userId }, { id: cartData?.id }],
     });
 
-    console.log(!productExists);
+    //Total Product Quantity means diff colors and same prodcuts quantity
+    const totalProductQuantity = Products.reduce((total, val, index) => {
+      return (total = total + val?.customerStock);
+    }, 0);
+
+    let totalQuantity = cartData?.customerStock + totalProductQuantity;
+    let remainProcuts = cartData?.stock - totalProductQuantity;
+
+    if (totalQuantity > cartData?.stock) {
+      if (remainProcuts > 0) {
+        return res.status(200).json({
+          msg: `Only ${remainProcuts} prodcuts is left harryUp!`,
+          status: false,
+        });
+      }
+
+      if (totalQuantity >= cartData?.stock) {
+        return res
+          .status(200)
+          .json({ msg: "Product is not available in stocks", status: false });
+      }
+      return res
+        .status(200)
+        .json({ msg: "Product is not available in stocks", status: false });
+    }
+
+    // find product is added or not if added increse count
+    const productExists = await CartItem.find({
+      $and: [
+        { userId: userId },
+        { id: cartData?.id },
+        { colors: cartData?.colors },
+      ],
+    });
     console.log(
-      "🚀 ~ file: productController.js:61 ~ addToCartProductController ~ productExists:",
+      "🚀 ~ file: productController.js:102 ~ addToCartProductController ~ productExists:",
       productExists
     );
 
+    if (productExists.length > 0) {
+      const { _id } = productExists?.[0];
+      const data = await CartItem.findByIdAndUpdate(
+        { _id: _id },
+        { customerStock: totalQuantity }
+      );
+      if (!data) {
+        return res
+          .status(200)
+          .json({ msg: "cart product data is not updated" });
+      }
+      return res
+        .status(200)
+        .json({ data, msg: "prodcut quantity is incresed in your cart" });
+    }
+  } catch (error) {
+    return res.status(500).json({
+      error: `🚀 ~ file: productController.js:129 ~ addToCartProductController ~ error: 
+            ${error}`,
+    });
+  }
+
+  try {
     const data = await CartItem.create({
       ...cartData,
       userId: userId,
     });
 
     if (!data) {
-      res.status(500).send("CartProduct data is not updated");
+      return res.status(500).json({ msg: "CartProduct data is not updated" });
     }
-    res.status(200).send(data);
+    return res.status(200).json({ data, msg: "prodcut is added in your cart" });
   } catch (error) {
-    res
-      .status(500)
-      .send(
-        `🚀 ~ file: productController.js:70 ~ addToCartProductController ~ error: ${error}`
-      );
+    return res.status(500).json({
+      msg: `🚀 ~ file: productController.js:147 ~ addToCartProductController ~ error:",
+        ${error}`,
+    });
   }
 };
 

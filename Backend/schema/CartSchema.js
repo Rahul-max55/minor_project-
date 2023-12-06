@@ -23,6 +23,7 @@ const schema = mongoose.Schema(
     featured: { type: Boolean },
     shipping: { type: Boolean },
     stock: { type: Number, required: true },
+    customerStock: { type: Number, required: true },
     reviews: { type: Number, required: true },
     stars: { type: Number, required: true },
     image: { type: [ImageSchema], required: true },

@@ -16,16 +16,18 @@ import { CreateContext } from "../Contexts/CreateContext";
 // import { CartCreateContext } from "../Add_Cart/Cart_Context/Cart_Create_Context";
 import { PATHS } from "../routes/paths";
 import Cookies from "js-cookie";
-import FETCH_WRAPPER from "../Api";
 import { CartCreateContext } from "../Add_Cart/context/CartCreateContext";
 // import { useEffect } from 'react';
 
-const Navbar = (props) => {
+const Navbar = () => {
   const cartContext = useContext(CartCreateContext);
-  const { cartApiDataLength } = cartContext;
+  const { cartApiDataLength, cartData } = cartContext;
   const navigate = useNavigate();
   const token = Cookies.get("token");
 
+  useEffect(() => {
+    cartData();
+  }, []);
   // Finding the login signUp value using CreateContext
   const context = useContext(CreateContext);
   let { change_logSign, login_signup } = context;

@@ -16,9 +16,10 @@ const AddCartButton = ({ singlePageData, colorCheck, counter }) => {
       const data = await FETCH_WRAPPER.post("addCartProduct", {
         ...singlePageData,
         colors: colorCheck,
-        stock: counter,
+        customerStock: counter,
       });
-      console.log("🚀 ~ file: Cart_Note_Context.js:20 ~ addCart ~ data:", data);
+      // console.log("🚀 ~ file: Cart_Note_Context.js:20 ~ addCart ~ data:", data?.data?.msg);
+      alert(data?.data?.msg)
     } catch (error) {
       console.log(error);
     }

@@ -23,14 +23,14 @@ export const Authorization = async (req, res, next) => {
   try {
     user = await Users.find({ email: user.email });
     if (!user) {
-      return res.json(401, { status: false, msg: "user not found" });
+      return res.status(401).json({ status: false, msg: "user not found" });
     }
     req.user = user[0];
     next();
     return;
   } catch (error) {
     console.log(error);
-    return res.json(401, { status: false, msg: "Internal Server Error" });
+    return  res.status(401).json({ status: false, msg: "Internal Server Error" });
   }
   
 };

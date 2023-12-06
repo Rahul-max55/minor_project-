@@ -15,7 +15,7 @@ const Add_To_Cart = () => {
 
   const grandTotal = cartApiData?.reduce((total, value, index) => {
     console.log(value?.stock);
-    return (total = total + value?.stock * value.price);
+    return (total = total + value?.customerStock * value.price);
   }, 0);
 
   const removeItems = async (_id) => {
@@ -64,11 +64,11 @@ const Add_To_Cart = () => {
                 </div>
                 <div className="cart_price">
                   {/* <AiFillMinusSquare onClick={() => increDecre(-1, value.id)} /> */}
-                  <p>{value?.stock}</p>
+                  <p>{value?.customerStock}</p>
                   {/* <AiFillPlusSquare onClick={() => increDecre(+1, value.id)} /> */}
                 </div>
                 <div className="cart_price">
-                  <h4>{value?.stock * value.price}</h4>
+                  <h4>{value?.customerStock * value?.price}</h4>
                 </div>
                 <div className="cart_price">
                   <MdRemoveCircle
