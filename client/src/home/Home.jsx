@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "./Home.css";
 import Shopping from "./img/shopping.jpg";
@@ -11,7 +11,7 @@ import logo2 from "./img/logo2.jpg";
 import logo3 from "./img/logo3.png";
 import logo4 from "./img/logo4.jpg";
 import Products from "./Products";
-import {CreateContext} from "../Contexts/CreateContext";
+import { CreateContext } from "../Contexts/CreateContext";
 import testimonial from "./img/testimonial-1.jpg";
 import blogone from "./img/blog-1.jpg";
 import blogtwo from "./img/blog-2.jpg";
@@ -19,12 +19,20 @@ import blogthree from "./img/blog-3.jpg";
 import blogfour from "./img/blog-4.jpg";
 import ctabanner from "./img/cta-banner.jpg";
 import quotes from "../home/img/quotes.svg";
+import { CartCreateContext } from "../Add_Cart/context/CartCreateContext";
 
 const Home = () => {
   // use Context getting the api data
   const Api_Data = useContext(CreateContext);
+  const cartContext = useContext(CartCreateContext);
+  const { cartData } = cartContext;
   const { isLoading, featureProducts } = Api_Data; // name is same as initialState name do not wright anything.
   // console.log(featureProducts);
+
+  //For cart data updation
+  useEffect(() => {
+    cartData();
+  }, []);
 
   return (
     <>
@@ -144,7 +152,11 @@ const Home = () => {
     --> */}
 
             <div className="cta-container">
-              <img src={ctabanner} alt="summer collection" className="cta-banner" />
+              <img
+                src={ctabanner}
+                alt="summer collection"
+                className="cta-banner"
+              />
               <Link href="#" className="cta-content">
                 <p className="discount">25% Discount</p>
                 <h2 className="cta-title">Summer collection</h2>

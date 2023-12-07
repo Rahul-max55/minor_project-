@@ -8,6 +8,7 @@ import Single_page from "../Single_page/Single_page";
 import Add_to_cart from "../Add_Cart/Add_To_Cart";
 import Forgatepass from "../Forgate_password/Forgatepass";
 import Password_reset from "../Forgate_password/Password_reset";
+import Userlayout from "../Setting/Userlayout";
 
 export const routeMap = [
   {
@@ -63,5 +64,11 @@ export const routeMap = [
     path: PATHS.password_reset,
     isProtected: false,
     Element: Password_reset,
+  },
+  {
+    id: "User_account",
+    path: PATHS.userlayout,
+    isProtected: true,
+    Element: Userlayout,
   },
 ];

@@ -8,4 +8,5 @@ export const PATHS = {
   add_to_cart: "/add_to_cart",
   forgatepass: "/forgatepass",
   password_reset: "/resetpassword/:token",
+  userlayout: "/userlayout"
 };

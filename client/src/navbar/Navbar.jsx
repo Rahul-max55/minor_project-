@@ -20,14 +20,11 @@ import { CartCreateContext } from "../Add_Cart/context/CartCreateContext";
 // import { useEffect } from 'react';
 
 const Navbar = () => {
-  const cartContext = useContext(CartCreateContext);
-  const { cartApiDataLength, cartData } = cartContext;
   const navigate = useNavigate();
   const token = Cookies.get("token");
+  const cartContext = useContext(CartCreateContext);
+  const { cartApiDataLength } = cartContext;
 
-  useEffect(() => {
-    cartData();
-  }, []);
   // Finding the login signUp value using CreateContext
   const context = useContext(CreateContext);
   let { change_logSign, login_signup } = context;
@@ -130,8 +127,10 @@ const Navbar = () => {
             )}
             {token && (
               <>
-                <a href="/">
-                  <TwitterIcon />
+                <a href="/userlayout">
+                  <div className="user_icon">
+                    <img src="" alt="prof" />
+                  </div>
                 </a>
                 <a href="/">
                   <FacebookIcon />
