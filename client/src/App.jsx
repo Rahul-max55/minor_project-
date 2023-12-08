@@ -3,7 +3,7 @@ import Navbar from "./navbar/Navbar";
 import Footer from "./footer/Footer";
 import { BrowserRouter } from "react-router-dom";
 import NoteContext from "./Contexts/NoteContext";
-
+import "./input.css";
 import FilterNoteContext from "./Filter_Context/FilterNoteContext";
 import { AppRoutes } from "./routes/AppRoutes";
 import { Loading } from "./Loading/Loading";

@@ -37,7 +37,7 @@ header {
   top: 20px;
 }
 
-.container {
+.container_nav {
   width: 100vw;
   height: 60px;
   background-color: #e7e7e7d1;
@@ -175,7 +175,7 @@ header {
 }
 
 @media all and (max-width: 1200px) {
-  .container {
+  .container_nav {
     display: none;
   }
 

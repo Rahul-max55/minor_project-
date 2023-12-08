@@ -77,7 +77,7 @@ const Navbar = () => {
         {token && (
           <>
             {/* mobile header */}
-            <div className="mobile_header" onClick={showNavbar}>
+            <div className="mobile_header " onClick={showNavbar}>
               <div className="burger">
                 <div></div>
                 <div></div>
@@ -89,12 +89,12 @@ const Navbar = () => {
 
         {/* mobile header */}
 
-        <div className="container" ref={navRef1}>
+        <div className="container_nav" ref={navRef1}>
           <Link to="/" className="logo">
             <img src={logo} alt="ShopCenter_Logo" />
           </Link>
           {token && (
-            <nav className="navbar" ref={navRef2}>
+            <nav className="navbar " ref={navRef2}>
               <ul ref={navRef3}>
                 <li>
                   <NavLink to="/"> Home</NavLink>
