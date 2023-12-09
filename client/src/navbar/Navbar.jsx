@@ -73,7 +73,7 @@ const Navbar = () => {
 
   return (
     <>
-      <header>
+      <header className="fixed z-9999">
         {token && (
           <>
             {/* mobile header */}
@@ -127,7 +127,7 @@ const Navbar = () => {
             )}
             {token && (
               <>
-                <a href="/userlayout">
+                <a href="/setting">
                   <div className="user_icon">
                     <img src="" alt="prof" />
                   </div>

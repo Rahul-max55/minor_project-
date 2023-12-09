@@ -1,12 +1,34 @@
-import React from "react";
-import "./Userlayout.css";
+import React, { useEffect, useState } from "react";
+import { useFormik } from "formik";
+import { settingSchema } from "../validation";
 
-const Userlayout = () => {
+const Setting = () => {
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("user")));
+  }, []);
+
+  const initialValues = {
+    name: "",
+    email: "",
+    address: "",
+    number: "",
+  };
+
+  const { handleBlur, handleSubmit, handleChange, errors, values } = useFormik({
+    initialValues,
+    validationSchema: settingSchema,
+    onSubmit: async (values) => {
+      console.log("🚀 ~ file: setting.jsx:23 ~ onSubmit: ~ values:", values);
+    },
+  });
+
   return (
     <>
-      <div className="mx-auto max-w-270 my-32 relative -z-9">
+      <div className="mx-auto max-w-270 my-32">
         {/* <Breadcrumb pageName="Settings" /> */}
-        <div className="grid grid-cols-5 gap-8">
+        <div className="grid grid-cols-5 gap-8 ">
           <div className="col-span-5 xl:col-span-3">
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
               <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
@@ -15,7 +37,7 @@ const Userlayout = () => {
                 </h3>
               </div>
               <div className="p-7">
-                <form action="#">
+                <form onSubmit={handleSubmit}>
                   <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                     <div className="w-full sm:w-1/2">
                       <label
@@ -53,10 +75,12 @@ const Userlayout = () => {
                         <input
                           className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                           type="text"
-                          name="fullName"
+                          name="name"
                           id="fullName"
                           placeholder="Devid Jhon"
-                          defaultValue="Devid Jhon"
+                          value={values.name}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
                         />
                       </div>
                     </div>
@@ -71,10 +95,12 @@ const Userlayout = () => {
                       <input
                         className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                         type="text"
-                        name="phoneNumber"
+                        name="number"
                         id="phoneNumber"
-                        placeholder="+990 3343 7865"
-                        defaultValue="+990 3343 7865"
+                        placeholder="+91 983343****"
+                        value={values?.number}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       />
                     </div>
                   </div>
@@ -115,10 +141,12 @@ const Userlayout = () => {
                       <input
                         className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                         type="email"
-                        name="emailAddress"
+                        name="email"
                         id="emailAddress"
                         placeholder="devidjond45@gmail.com"
-                        defaultValue="devidjond45@gmail.com"
+                        value={values?.email}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       />
                     </div>
                   </div>
@@ -128,24 +156,7 @@ const Userlayout = () => {
                       className="mb-3 block text-sm font-medium text-black dark:text-white"
                       htmlFor="Username"
                     >
-                      Username
-                    </label>
-                    <input
-                      className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                      type="text"
-                      name="Username"
-                      id="Username"
-                      placeholder="devidjhon24"
-                      defaultValue="devidjhon24"
-                    />
-                  </div>
-
-                  <div className="mb-5.5">
-                    <label
-                      className="mb-3 block text-sm font-medium text-black dark:text-white"
-                      htmlFor="Username"
-                    >
-                      BIO
+                      Address
                     </label>
                     <div className="relative">
                       <span className="absolute left-4.5 top-4">
@@ -181,26 +192,27 @@ const Userlayout = () => {
 
                       <textarea
                         className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                        name="bio"
-                        id="bio"
+                        name="address"
+                        id="address"
                         rows={6}
-                        placeholder="Write your bio here"
-                        defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque posuere fermentum urna, eu condimentum mauris tempus ut. Donec fermentum blandit aliquet."
+                        placeholder="Write your Address here"
+                        value={values?.address}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       ></textarea>
                     </div>
                   </div>
 
                   <div className="flex justify-end gap-4.5">
-                    <button
-                      className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
-                      type="submit"
-                    >
+                    <button className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white">
+                      Edit
+                    </button>
+                    <button className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white">
                       Cancel
                     </button>
                     <button
                       className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:shadow-1"
                       type="submit"
-                      onClick="/"
                     >
                       Save
                     </button>
@@ -276,7 +288,7 @@ const Userlayout = () => {
                         </svg>
                       </span>
                       <p>
-                        <span className="text-primary">Click to upload</span> 
+                        <span className="text-primary">Click to upload</span>
                       </p>
                       <p className="mt-1.5">SVG, PNG, JPG or GIF</p>
                       <p>(max, 800 X 800px)</p>
@@ -307,4 +319,4 @@ const Userlayout = () => {
   );
 };
 
-export default Userlayout;
+export default Setting;

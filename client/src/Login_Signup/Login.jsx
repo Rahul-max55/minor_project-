@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Login.css";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useDispatch } from "react-router-dom";
 import { useFormik } from "formik";
 import { LoginSchema } from "../validation";
-import axios from "axios";
 import { PATHS } from "../routes/paths";
 import Cookies from "js-cookie";
 import FETCH_WRAPPER from "../Api";
+import { CreateContext } from "../Contexts/CreateContext";
 
 const Login = (props) => {
   const navigate = useNavigate();
@@ -30,6 +30,10 @@ const Login = (props) => {
         alert(apiData?.data?.msg);
         if (apiData?.data?.status) {
           Cookies.set("token", apiData?.data?.token);
+          const userJsonData = JSON.stringify(apiData?.data?.data?.[0])
+          console.log("🚀 ~ file: Login.jsx:34 ~ onSubmit: ~ userJsonData:", userJsonData)
+          localStorage.setItem("user", userJsonData);
+        
           navigate(PATHS.root);
         }
       } catch (error) {

@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useReducer } from "react";
 import { CreateContext } from "./CreateContext";
-import axios from "axios";
 import reducer from "./reducer/ProductsReducer";
 import FETCH_WRAPPER from "../Api";
-import Cookies from "js-cookie";
 
 // Api link always call outside function
 // const API = "https://api.pujakaitem.com/api/products";
@@ -30,8 +28,6 @@ const NoteContext = (props) => {
     singlePageData: {},
     singleError: false,
   };
-
-
 
   // Create Reducer and useReducer takes two parameter reducer and initialState.
   // initialState is defined and reducer is define another file and import it.
@@ -88,7 +84,6 @@ const NoteContext = (props) => {
           setColorCheck,
           ...state,
           singleProduct,
-          FETCH_WRAPPER
         }}
       >
         {props.children}

@@ -23,7 +23,6 @@ const App = () => {
         const token = Cookies.get("token");
         // console.log("Request interceptor fired");
         setIsLoading(true);
-        console.log(token);
         config.headers.authorization = token;
         return config;
       },
