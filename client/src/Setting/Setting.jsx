@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { settingSchema } from "../validation";
+import FETCH_WRAPPER from "../Api";
 
 const Setting = () => {
   const [user, setUser] = useState({});
+  const [isEdit, setIsEdit] = useState(false);
+  const [file, setFile] = useState();
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
   }, []);
 
   const initialValues = {
-    name: "",
+    username: "",
     email: "",
     address: "",
     number: "",
@@ -20,9 +23,27 @@ const Setting = () => {
     initialValues,
     validationSchema: settingSchema,
     onSubmit: async (values) => {
-      console.log("🚀 ~ file: setting.jsx:23 ~ onSubmit: ~ values:", values);
+      const data = await FETCH_WRAPPER.put("account-setting", values);
+      console.log(
+        "🚀 ~ file: setting.jsx:26 ~ onSubmit: ~ data:",
+        data?.data?.data
+      );
+      if (data) {
+        alert(data?.data?.msg);
+      }
+      const userData = JSON.stringify(data?.data?.data);
+      localStorage.setItem("user", userData);
+      setUser(JSON.parse(localStorage.getItem("user")));
+      setIsEdit(false);
     },
   });
+
+  const handleUploadImage = async (e) => {
+    e.preventDefault();
+    const data = await FETCH_WRAPPER.put("account-setting", { image: file?.name });
+    console.log("🚀 ~ file: setting.jsx:44 ~ handleUploadImage ~ data:", data);
+    console.log(file?.name);
+  };
 
   return (
     <>
@@ -46,6 +67,11 @@ const Setting = () => {
                       >
                         Full Name
                       </label>
+                      {errors.username && isEdit && (
+                        <p className="text-xs text-danger">
+                          *{errors.username}
+                        </p>
+                      )}
                       <div className="relative">
                         <span className="absolute left-4.5 top-4">
                           <svg
@@ -72,16 +98,22 @@ const Setting = () => {
                             </g>
                           </svg>
                         </span>
-                        <input
-                          className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                          type="text"
-                          name="name"
-                          id="fullName"
-                          placeholder="Devid Jhon"
-                          value={values.name}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                        />
+                        {!isEdit ? (
+                          <p className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary">
+                            {user.username}
+                          </p>
+                        ) : (
+                          <input
+                            className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                            type="text"
+                            name="username"
+                            id="fullName"
+                            placeholder="Devid Jhon"
+                            value={values.username}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          />
+                        )}
                       </div>
                     </div>
 
@@ -92,16 +124,25 @@ const Setting = () => {
                       >
                         Phone Number
                       </label>
-                      <input
-                        className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                        type="text"
-                        name="number"
-                        id="phoneNumber"
-                        placeholder="+91 983343****"
-                        value={values?.number}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      />
+                      {errors.number && isEdit && (
+                        <p className="text-xs text-danger">*{errors.number}</p>
+                      )}
+                      {!isEdit ? (
+                        <p className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary">
+                          {user.number ? user.number : "99077*****"}
+                        </p>
+                      ) : (
+                        <input
+                          className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                          type="text"
+                          name="number"
+                          id="phoneNumber"
+                          placeholder="+91 983343****"
+                          value={values?.number}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                      )}
                     </div>
                   </div>
 
@@ -112,6 +153,9 @@ const Setting = () => {
                     >
                       Email Address
                     </label>
+                    {errors.email && isEdit && (
+                      <p className="text-xs text-danger">*{errors.email}</p>
+                    )}
                     <div className="relative">
                       <span className="absolute left-4.5 top-4">
                         <svg
@@ -138,16 +182,22 @@ const Setting = () => {
                           </g>
                         </svg>
                       </span>
-                      <input
-                        className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                        type="email"
-                        name="email"
-                        id="emailAddress"
-                        placeholder="devidjond45@gmail.com"
-                        value={values?.email}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      />
+                      {!isEdit ? (
+                        <p className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary">
+                          {user.email}
+                        </p>
+                      ) : (
+                        <input
+                          className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                          type="email"
+                          name="email"
+                          id="emailAddress"
+                          placeholder="devidjond45@gmail.com"
+                          value={values?.email}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                      )}
                     </div>
                   </div>
 
@@ -158,6 +208,9 @@ const Setting = () => {
                     >
                       Address
                     </label>
+                    {errors.address && isEdit && (
+                      <p className="text-xs text-danger">*{errors.address}</p>
+                    )}
                     <div className="relative">
                       <span className="absolute left-4.5 top-4">
                         <svg
@@ -189,33 +242,54 @@ const Setting = () => {
                           </defs>
                         </svg>
                       </span>
-
-                      <textarea
-                        className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                        name="address"
-                        id="address"
-                        rows={6}
-                        placeholder="Write your Address here"
-                        value={values?.address}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      ></textarea>
+                      {!isEdit ? (
+                        <p className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary">
+                          {user.address
+                            ? user.address
+                            : "please fill the address before order"}
+                        </p>
+                      ) : (
+                        <textarea
+                          className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                          name="address"
+                          id="address"
+                          rows={6}
+                          placeholder="Write your Address here"
+                          value={values?.address}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        ></textarea>
+                      )}
                     </div>
                   </div>
 
                   <div className="flex justify-end gap-4.5">
-                    <button className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white">
-                      Edit
-                    </button>
-                    <button className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white">
-                      Cancel
-                    </button>
-                    <button
-                      className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:shadow-1"
-                      type="submit"
-                    >
-                      Save
-                    </button>
+                    {!isEdit ? (
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setIsEdit(true);
+                        }}
+                        className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
+                      >
+                        Edit
+                      </button>
+                    ) : (
+                      <>
+                        <button
+                          onClick={() => setIsEdit(false)}
+                          className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:shadow-1"
+                          type="submit"
+                        >
+                          Save
+                        </button>
+                      </>
+                    )}
                   </div>
                 </form>
               </div>
@@ -229,7 +303,7 @@ const Setting = () => {
                 </h3>
               </div>
               <div className="p-7">
-                <form action="#">
+                <form onSubmit={handleUploadImage}>
                   <div className="mb-4 flex items-center gap-3">
                     <div className="h-14 w-14 rounded-full">
                       <img src="/" alt="User" />
@@ -257,6 +331,10 @@ const Setting = () => {
                       type="file"
                       accept="image/*"
                       className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
+                      name="image"
+                      onClick={(e) => {
+                        setFile(e.target?.files?.[0]);
+                      }}
                     />
                     <div className="flex flex-col items-center justify-center space-y-3">
                       <span className="flex h-10 w-10 items-center justify-center rounded-full border border-stroke bg-white dark:border-strokedark dark:bg-boxdark">
@@ -296,10 +374,7 @@ const Setting = () => {
                   </div>
 
                   <div className="flex justify-end gap-4.5">
-                    <button
-                      className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
-                      type="submit"
-                    >
+                    <button className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white">
                       Cancel
                     </button>
                     <button

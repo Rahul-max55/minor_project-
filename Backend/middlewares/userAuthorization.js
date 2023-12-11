@@ -6,14 +6,14 @@ export const Authorization = async (req, res, next) => {
   // console.log("🚀 ~ file: userAuthorization.js:6 ~ Authorization ~ token:", token)
 
   if (!token) {
-    return res.json(401, { status: false, msg: "Token not found" });
+    return res.status(401).json({ status: false, msg: "Token not found" });
   }
   let user;
 
   try {
     user = jwt.verify(token, process.env.JWT_SECRET , 14);
      if(!user){
-      return res.json(404 , {msg:"Token is not verify"})
+      return res.status(401).json({msg:"Token is not verify"})
      }
   } catch (error) {
     console.log(error);

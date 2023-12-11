@@ -33,7 +33,6 @@ const Login = (props) => {
           const userJsonData = JSON.stringify(apiData?.data?.data?.[0])
           console.log("🚀 ~ file: Login.jsx:34 ~ onSubmit: ~ userJsonData:", userJsonData)
           localStorage.setItem("user", userJsonData);
-        
           navigate(PATHS.root);
         }
       } catch (error) {

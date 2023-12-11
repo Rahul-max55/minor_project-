@@ -11,29 +11,28 @@ const Signup = () => {
   const context = useContext(CreateContext);
   let { change_logSign } = context;
 
-  const { handleChange, handleBlur, handleSubmit, errors, values, touched } =
-    useFormik({
-      initialValues: {
-        username: "",
-        email: "",
-        password: "",
-        cpassword: "",
-      },
-      validationSchema: SignupSchema,
-      onSubmit: async (values) => {
+  const { handleChange, handleBlur, handleSubmit, errors, values } = useFormik({
+    initialValues: {
+      username: "",
+      email: "",
+      password: "",
+      cpassword: "",
+    },
+    validationSchema: SignupSchema,
+    onSubmit: async (values) => {
+      console.log(values);
+      try {
         console.log(values);
-        try {
-          console.log(values);
-          const apiData = await FETCH_WRAPPER.post("signup", values);
-          alert(apiData?.data?.msg);
-          if (apiData?.data?.status) {
-            change_logSign();
-          }
-        } catch (error) {
-          console.log("🚀 ~ file: Signup.jsx:21 ~ Signup ~ error:", error);
+        const apiData = await FETCH_WRAPPER.post("signup", values);
+        alert(apiData?.data?.msg);
+        if (apiData?.data?.status) {
+          change_logSign();
         }
-      },
-    });
+      } catch (error) {
+        console.log("🚀 ~ file: Signup.jsx:21 ~ Signup ~ error:", error);
+      }
+    },
+  });
 
   return (
     <>

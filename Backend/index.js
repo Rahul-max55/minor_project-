@@ -14,7 +14,7 @@ dotenv.config();
 // middleware
 app.use(cors());
 app.use(express.json());
-
+app.use(express.static("/public"));
 
 // Routes
 app.use('/user' , userRouter);
