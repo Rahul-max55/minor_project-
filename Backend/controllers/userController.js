@@ -110,6 +110,40 @@ const validEmailController = async (req, res) => {
   }
 };
 
+export const changeDetailProdcutController = async (req, res) => {
+  console.log("🚀 ~ file: user.js:39 ~ req:", req.file);
+  let id = req.user?._id;
+
+  try {
+    const data = await Users.findByIdAndUpdate(
+      { _id: id },
+      { ...req.body },
+      { new: true }
+    );
+    if (!data) {
+      res
+        .status(404)
+        .send({ msg: "data is not iserted in database", status: false });
+    }
+    res.status(200).json({
+      msg: "User detail is updated successfuly",
+      status: true,
+      data,
+    });
+  } catch (error) {
+    res.status(401).json({
+      msg: "some error is occured in accountSetting section" + error,
+      satus: false,
+    });
+  }
+};
+
+export const uploadImageProductController = async (req, res) => {
+  console.log(req.body);
+  console.log(req.file);
+  return res.redirect("/setting");
+};
+
 const passwordResetController = async (req, res) => {
   const { token } = req.params;
   const { password } = req.body;
@@ -153,13 +187,5 @@ const passwordResetController = async (req, res) => {
   }
 };
 
-
-
-
-
 export default signupControllerData;
-export {
-  loginControllerData,
-  validEmailController,
-  passwordResetController,
-};
+export { loginControllerData, validEmailController, passwordResetController };

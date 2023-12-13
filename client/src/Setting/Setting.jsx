@@ -40,9 +40,11 @@ const Setting = () => {
 
   const handleUploadImage = async (e) => {
     e.preventDefault();
-    const data = await FETCH_WRAPPER.put("account-setting", { image: file?.name });
+    console.log(file);
+    const data = await FETCH_WRAPPER.put("upload", {
+      image: file?.name,
+    });
     console.log("🚀 ~ file: setting.jsx:44 ~ handleUploadImage ~ data:", data);
-    console.log(file?.name);
   };
 
   return (
@@ -303,23 +305,14 @@ const Setting = () => {
                 </h3>
               </div>
               <div className="p-7">
-                <form onSubmit={handleUploadImage}>
+                <form
+                  method="put"
+                  onSubmit={handleUploadImage}
+                  enctype="multipart/form-data"
+                >
                   <div className="mb-4 flex items-center gap-3">
                     <div className="h-14 w-14 rounded-full">
                       <img src="/" alt="User" />
-                    </div>
-                    <div>
-                      <span className="mb-1.5 text-black dark:text-white">
-                        Edit your photo
-                      </span>
-                      <span className="flex gap-2.5">
-                        <button className="text-sm hover:text-primary">
-                          Delete
-                        </button>
-                        <button className="text-sm hover:text-primary">
-                          Update
-                        </button>
-                      </span>
                     </div>
                   </div>
 
@@ -331,8 +324,9 @@ const Setting = () => {
                       type="file"
                       accept="image/*"
                       className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
-                      name="image"
+                      name="profileImage"
                       onClick={(e) => {
+                        console.log(e.target?.files);
                         setFile(e.target?.files?.[0]);
                       }}
                     />

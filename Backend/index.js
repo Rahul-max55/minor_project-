@@ -1,25 +1,22 @@
-import express from 'express';
-import cors from 'cors';
+import express from "express";
+import cors from "cors";
 import userRouter from "./routes/user.js";
 import mongoose from "mongoose";
-import productRouter from './routes/product.js';
-import  dotenv from "dotenv";
-
+import productRouter from "./routes/product.js";
+import dotenv from "dotenv";
 
 // config
 const app = express();
 dotenv.config();
 
-
 // middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static("/public"));
+app.use(express.urlencoded({ extended: false }));
 
 // Routes
-app.use('/user' , userRouter);
-app.use('/user' , productRouter);
-
+app.use("/user", userRouter);
+app.use("/user", productRouter);
 
 // database connection script
 // const port = "8000";
@@ -33,18 +30,16 @@ async function dataBaseConn() {
     if (!db) {
       console.log("db connection is failed");
     }
-    
+
     console.log("database connection successfuly");
-    app.listen(process.env.PORT , ()=>{
+    app.listen(process.env.PORT, () => {
       console.log("server is listen on port: " + process.env.PORT);
     });
-
   } catch (error) {
     console.log("database Connection error : " + error);
   }
 }
 
 dataBaseConn();
-
 
 export default dataBaseConn;
