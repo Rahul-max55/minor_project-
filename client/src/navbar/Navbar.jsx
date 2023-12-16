@@ -20,10 +20,18 @@ import { CartCreateContext } from "../Add_Cart/context/CartCreateContext";
 // import { useEffect } from 'react';
 
 const Navbar = () => {
+  const [user, setUser] = useState({});
+
   const navigate = useNavigate();
   const token = Cookies.get("token");
+
+  // console.log("🚀 ~ file: Navbar.jsx:26 ~ Navbar ~ user:", user);
   const cartContext = useContext(CartCreateContext);
   const { cartApiDataLength } = cartContext;
+
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("user")));
+  }, []);
 
   // Finding the login signUp value using CreateContext
   const context = useContext(CreateContext);
@@ -99,11 +107,12 @@ const Navbar = () => {
                 <li>
                   <NavLink to="/"> Home</NavLink>
                 </li>
+
                 <li>
-                  <NavLink to="/about"> About Clothes</NavLink>
+                  <NavLink to="/main_products_page"> Products</NavLink>
                 </li>
                 <li>
-                  <NavLink to="/main_products_page"> Products Clothes</NavLink>
+                  <NavLink to="/order"> All Order</NavLink>
                 </li>
                 <li>
                   <NavLink to="/Contact"> Contact</NavLink>
@@ -129,7 +138,10 @@ const Navbar = () => {
               <>
                 <a href="/setting">
                   <div className="user_icon">
-                    <img src="" alt="prof" />
+                    <img
+                      src={`http://localhost:3001/${user.profileImage}`}
+                      alt="prof"
+                    />
                   </div>
                 </a>
                 <a href="/">

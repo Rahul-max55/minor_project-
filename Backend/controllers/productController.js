@@ -1,6 +1,7 @@
 import Product from "../schema/productSchema.js";
 import CartItem from "../schema/CartSchema.js";
 import { ObjectId } from "mongodb";
+import order from "../schema/OrderSchema.js";
 
 export const postProductsController = async (req, res) => {
   const porductData = req.body;
@@ -47,8 +48,6 @@ export const getSingleProductController = async (req, res) => {
       );
   }
 };
-
-
 
 // ------------------------------CARTS PRODUCTS CONTROLLER-------------------------------------------------
 // --------------------------------------------------------------------------------------------------------
@@ -99,11 +98,6 @@ export const addToCartProductController = async (req, res) => {
         { colors: cartData?.colors },
       ],
     });
-    console.log(
-      "🚀 ~ file: productController.js:102 ~ addToCartProductController ~ productExists:",
-      productExists
-    );
-
     if (productExists.length > 0) {
       const { _id } = productExists?.[0];
       const data = await CartItem.findByIdAndUpdate(
@@ -146,11 +140,6 @@ export const addToCartProductController = async (req, res) => {
 
 export const getToCartProductController = async (req, res) => {
   const userId = req.user?._id;
-  // console.log(
-  //   "🚀 ~ file: productController.js:73 ~ getToCartProductController ~ userId:",
-  //   userId
-  // );
-
   try {
     const data = await CartItem.find({ userId });
     // console.log(data);
@@ -188,7 +177,7 @@ export const updateCartProductController = async (req, res) => {
   }
 };
 
-export const editproductController = async (req, res) => {
+export const editProductController = async (req, res) => {
   const { id } = req.params;
   try {
     const data = await Product.findByIdAndUpdate(
@@ -211,17 +200,97 @@ export const deleteCartProductController = async (req, res) => {
   const objectId = new ObjectId(_id);
   try {
     const data = await CartItem.findByIdAndDelete({ _id: objectId });
-    // console.log(
-    //   "🚀 ~ file: productController.js:128 ~ deleteCartProductController ~ data:",
-    //   data
-    // );
     if (!data) {
       return res.status(500).send("product is not found in database");
     }
-    return res.status(200).send("prodcut is deleted successfuly");
+    return res.status(200).send("product is deleted successfully");
   } catch (error) {
     return res
       .status(500)
       .send(`some error occured in product delete api ${error}`);
   }
 };
+
+// order controller
+
+export const OrderProductController = async (req, res) => {
+  const orderData = req.body;
+  const userId = orderData?.[0]?.userId;
+  const date = Date.now();
+  orderData?.forEach((val, index) => {
+    delete val?.userId;
+    delete val?._id;
+    val.date = date
+  });
+
+  try {
+    const orderExists = await order.find({ userId });
+
+    if (orderExists.length > 0) {
+      const _id = orderExists[0]?._id;
+      const productsAll = [...orderExists[0]?.products, orderData ];
+      console.log("🚀 ~ file: productController.js:231 ~ OrderProductController ~ productsAll:", productsAll)
+      const update = await order.findByIdAndUpdate(
+        { _id },
+        { products: productsAll},
+        { new: true }
+      );
+      if (!update) {
+        return res.status(500).json({
+          msg: "Product not ordered some error occured",
+          status: false,
+        });
+      }
+
+      console.log(
+        "🚀 ~ file: productController.js:234 ~ OrderProductController ~ update:",
+        update?.products?.length
+      );
+      return res.status(200).json({
+        update,
+        msg: "new Product ordered successfully",
+        status: true,
+      });
+    }
+
+    const data = await order.create({ userId, products: orderData });
+    console.log(data);
+    if (!data) {
+      return res
+        .status(500)
+        .json({ msg: "Product not ordered some error occured", status: true });
+    }
+    return res
+      .status(200)
+      .json({ data, msg: "Product ordered successfully", status: true });
+  } catch (error) {
+    return res.status(500).json({
+      msg: `some error occured in product api ${error}`,
+      status: true,
+    });
+  }
+};
+
+export const getOrderProductController = async (req, res) => {
+  const userId = req.user?._id;
+  console.log("🚀 ~ file: productController.js:273 ~ getOrderProductController ~ userId:", userId)
+  try {
+    const data = await order.find({ userId });
+    // console.log(data);
+    if (!data) {
+      res.status(500).json({ status: false, msg: "order data is not present" });
+    }
+    res
+      .status(200)
+      .json({ data, status: true, msg: "order data is present" });
+  } catch (error) {
+    res
+      .status(500)
+      .send(
+        "🚀 ~ file: productController.js:281 ~ getOrderProductController ~ error:",
+        error
+      );
+  }
+};
+
+// order controller

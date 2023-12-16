@@ -110,7 +110,7 @@ const validEmailController = async (req, res) => {
   }
 };
 
-export const changeDetailProdcutController = async (req, res) => {
+export const changeDetailProductController = async (req, res) => {
   console.log("🚀 ~ file: user.js:39 ~ req:", req.file);
   let id = req.user?._id;
 
@@ -123,26 +123,51 @@ export const changeDetailProdcutController = async (req, res) => {
     if (!data) {
       res
         .status(404)
-        .send({ msg: "data is not iserted in database", status: false });
+        .send({ msg: "data is not inserted in database", status: false });
     }
     res.status(200).json({
-      msg: "User detail is updated successfuly",
+      msg: "User detail is updated successfully",
       status: true,
       data,
     });
   } catch (error) {
     res.status(401).json({
       msg: "some error is occured in accountSetting section" + error,
-      satus: false,
+      status: false,
     });
   }
 };
 
+// profile Image upload controller
 export const uploadImageProductController = async (req, res) => {
   console.log(req.body);
-  console.log(req.file);
-  return res.redirect("/setting");
+  console.log(req.file?.filename);
+  console.log("🚀 ~ file: user.js:39 ~ req:", req.file);
+  let id = req.user?._id;
+  try {
+    const data = await Users.findByIdAndUpdate(
+      { _id: id },
+      { profileImage: req?.file?.filename },
+      { new: true }
+    );
+    if (!data) {
+      res.status(404).send({ msg: "Image is not uploaded", status: false });
+    }
+    res.status(200).json({
+      msg: "image is uploaded successfully",
+      status: true,
+      data,
+    });
+  } catch (error) {
+    res.status(401).json({
+      msg:
+        "some error is occured in upload Image Product Controller section" +
+        error,
+      status: false,
+    });
+  }
 };
+//End profile Image upload controller
 
 const passwordResetController = async (req, res) => {
   const { token } = req.params;
@@ -175,9 +200,9 @@ const passwordResetController = async (req, res) => {
     if (!data) {
       res
         .status(404)
-        .send({ msg: "data is not iserted in database", status: false });
+        .send({ msg: "data is not inserted in database", status: false });
     }
-    res.status(200).send({ msg: "password updated successfuly", status: true });
+    res.status(200).send({ msg: "password updated successfully", status: true });
   } catch (error) {
     res.status(401).send({
       msg: "🚀 ~ file: userController.js:161 ~ passwordResetController ~ error:",

@@ -9,6 +9,8 @@ import Add_to_cart from "../Add_Cart/Add_To_Cart";
 import Forgatepass from "../Forgate_password/Forgatepass";
 import Password_reset from "../Forgate_password/Password_reset";
 import Setting from "../Setting/Setting";
+import { pageNotFound } from "../404/404";
+import Order from "../order/Order";
 
 export const routeMap = [
   {
@@ -34,12 +36,6 @@ export const routeMap = [
     path: PATHS.contact,
     isProtected: true,
     Element: Contact,
-  },
-  {
-    id: "About",
-    path: PATHS.about,
-    isProtected: true,
-    Element: About,
   },
   {
     id: "Single_page",
@@ -70,5 +66,11 @@ export const routeMap = [
     path: PATHS.setting,
     isProtected: true,
     Element: Setting,
+  },
+  {
+    id: "order",
+    path: PATHS.order,
+    isProtected: true,
+    Element: Order,
   },
 ];

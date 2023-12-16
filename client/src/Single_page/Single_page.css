@@ -13,6 +13,10 @@
 
 }
 
+#root > div > div.right > div.rating{
+    display: flex;
+}
+
 .product_card .left {
     width: 50%;
     min-height: 500px;

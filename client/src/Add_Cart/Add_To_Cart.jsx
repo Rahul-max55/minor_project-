@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./Add_To_Cart.css";
 import { MdRemoveCircle } from "react-icons/md";
 import FETCH_WRAPPER from "../Api";
@@ -7,7 +7,8 @@ import { CartCreateContext } from "./context/CartCreateContext";
 
 const Add_To_Cart = () => {
   const context = useContext(CartCreateContext);
-  const { cartData , cartApiData } = context;
+  const { cartData, cartApiData } = context;
+  const navigate = useNavigate();
 
   useEffect(() => {
     cartData();
@@ -26,6 +27,23 @@ const Add_To_Cart = () => {
       console.log(error);
     }
   };
+
+  const handleOrder = async () => {
+    try {
+      const response = await FETCH_WRAPPER.post("orderProduct", cartApiData);
+      console.log("🚀 ~ file: Add_To_Cart.jsx:34 ~ handleOrder ~ response:", !response)
+      if (!response) {
+        return alert(response?.data?.msg);
+      }
+      alert(response?.data?.msg);
+      navigate("/order");
+    } catch (error) {
+      console.error("Error during file upload:", error);
+      // Handle error
+    }
+  };
+
+  // console.log(cartApiData);
 
   return (
     <>
@@ -88,7 +106,9 @@ const Add_To_Cart = () => {
         <NavLink to="/" className="common_css">
           CONTINUE SHOPPING
         </NavLink>
-        <button className="clear_cart common_css">Buy Now</button>
+        <button className="clear_cart common_css" onClick={handleOrder}>
+          Buy Now
+        </button>
       </div>
 
       <div className="cart_total">

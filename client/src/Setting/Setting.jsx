@@ -3,10 +3,12 @@ import { useFormik } from "formik";
 import { settingSchema } from "../validation";
 import FETCH_WRAPPER from "../Api";
 
+
 const Setting = () => {
   const [user, setUser] = useState({});
   const [isEdit, setIsEdit] = useState(false);
   const [file, setFile] = useState();
+  console.log("🚀 ~ file: setting.jsx:10 ~ Setting ~ file:", file);
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
@@ -40,11 +42,26 @@ const Setting = () => {
 
   const handleUploadImage = async (e) => {
     e.preventDefault();
-    console.log(file);
-    const data = await FETCH_WRAPPER.put("upload", {
-      image: file?.name,
-    });
-    console.log("🚀 ~ file: setting.jsx:44 ~ handleUploadImage ~ data:", data);
+
+    const formData = new FormData();
+    formData.append("profileImage", file);
+
+    try {
+      const response = await FETCH_WRAPPER.put("upload", formData);
+      console.log(
+        "🚀 ~ file: setting.jsx:26 ~ onSubmit: ~ data:",
+        response?.data?.data
+      );
+      if (response) {
+        alert(response?.data?.msg);
+      }
+      const userData = JSON.stringify(response?.data?.data);
+      localStorage.setItem("user", userData);
+      setUser(JSON.parse(localStorage.getItem("user")));
+    } catch (error) {
+      console.error("Error during file upload:", error);
+      // Handle error
+    }
   };
 
   return (
@@ -306,13 +323,16 @@ const Setting = () => {
               </div>
               <div className="p-7">
                 <form
-                  method="put"
                   onSubmit={handleUploadImage}
                   enctype="multipart/form-data"
                 >
-                  <div className="mb-4 flex items-center gap-3">
-                    <div className="h-14 w-14 rounded-full">
-                      <img src="/" alt="User" />
+                  <div className="mb-4 flex items-center justify-center gap-3">
+                    <div className="h-25 w-25  rounded-full">
+                      <img
+                      className="h-full w-full"
+                        src={`http://localhost:3001/${user.profileImage}`}
+                        alt="User"
+                      />
                     </div>
                   </div>
 
@@ -325,10 +345,7 @@ const Setting = () => {
                       accept="image/*"
                       className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
                       name="profileImage"
-                      onClick={(e) => {
-                        console.log(e.target?.files);
-                        setFile(e.target?.files?.[0]);
-                      }}
+                      onChange={(e) => setFile(e.target?.files?.[0])}
                     />
                     <div className="flex flex-col items-center justify-center space-y-3">
                       <span className="flex h-10 w-10 items-center justify-center rounded-full border border-stroke bg-white dark:border-strokedark dark:bg-boxdark">
@@ -362,13 +379,14 @@ const Setting = () => {
                       <p>
                         <span className="text-primary">Click to upload</span>
                       </p>
+                      {file?.name && <p>{file.name}</p>}
                       <p className="mt-1.5">SVG, PNG, JPG or GIF</p>
                       <p>(max, 800 X 800px)</p>
                     </div>
                   </div>
 
                   <div className="flex justify-end gap-4.5">
-                    <button className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white">
+                    <button type="reset" className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white">
                       Cancel
                     </button>
                     <button

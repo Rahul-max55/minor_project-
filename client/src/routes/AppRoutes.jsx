@@ -6,15 +6,14 @@ import { PATHS } from "./paths";
 import Login_Signup from "../Login_Signup/Login_Signup";
 import { ReverseRoutes } from "./ReverseRoutes";
 import Forgatepass from "../Forgate_password/Forgatepass";
+import { PageNotFound } from "../404/404";
 
 export const AppRoutes = () => {
   return (
     <>
       <Routes>
-        {/* default page redirection */}
-        {/* <Route path={PATHS.root} element={<Navigate to={PATHS.login_signup} />} /> */}
         {/* error page */}
-        {/* <Route path="/*" element={<ErrorPage />} /> */}
+        <Route path="/*" element={<PageNotFound />} />
         {/* <Route>
           <Route path="/forgatepass" element={<Forgatepass />} />
         </Route> */}
