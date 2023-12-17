@@ -225,10 +225,12 @@ export const OrderProductController = async (req, res) => {
 
   try {
     const orderExists = await order.find({ userId });
+    console.log("🚀 ~ file: productController.js:228 ~ OrderProductController ~ orderExists:", orderExists)
 
     if (orderExists.length > 0) {
       const _id = orderExists[0]?._id;
-      const productsAll = [...orderExists[0]?.products, orderData ];
+      const productsAll = [...orderExists[0]?.products, ...orderData ];
+      
       console.log("🚀 ~ file: productController.js:231 ~ OrderProductController ~ productsAll:", productsAll)
       const update = await order.findByIdAndUpdate(
         { _id },

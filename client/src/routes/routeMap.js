@@ -1,16 +1,16 @@
+import Main_Products_page from "../pages/AllProduct/Main_Products_page";
+import Home from "../pages/home/Home";
 import { PATHS } from "./paths";
-import Home from "../home/Home";
-import LoginSignup from "../Login_Signup/Login_Signup";
-import About from "../about/About";
-import Main_Products_page from "../AllProduct/Main_Products_page";
-import Contact from "../contact/Contact";
-import Single_page from "../Single_page/Single_page";
-import Add_to_cart from "../Add_Cart/Add_To_Cart";
-import Forgatepass from "../Forgate_password/Forgatepass";
-import Password_reset from "../Forgate_password/Password_reset";
-import Setting from "../Setting/Setting";
-import { pageNotFound } from "../404/404";
-import Order from "../order/Order";
+import Contact from '../pages/contact/Contact';
+import Single_page from '../pages/Single_page/Single_page';
+import Forgatepass from "../pages/Forgate_password/Forgatepass";
+import Password_reset from '../pages/Forgate_password/Password_reset';
+import Order from "../pages/order/Order";
+import Login_Signup from "../pages/Login_Signup/Login_Signup";
+import Add_To_Cart from "../pages/Add_Cart/Add_To_Cart";
+import Setting from "../pages/Setting/Setting";
+import AdminHome from './../admin/Pages/AdminHome';
+
 
 export const routeMap = [
   {
@@ -23,7 +23,7 @@ export const routeMap = [
     id: "LoginSignup",
     path: PATHS.login_signup,
     isProtected: false,
-    Element: LoginSignup,
+    Element: Login_Signup,
   },
   {
     id: "Main_Products_page",
@@ -47,7 +47,7 @@ export const routeMap = [
     id: "Add_to_cart",
     path: PATHS.add_to_cart,
     isProtected: true,
-    Element: Add_to_cart,
+    Element: Add_To_Cart,
   },
   {
     id: "Forgatepass",
@@ -72,5 +72,13 @@ export const routeMap = [
     path: PATHS.order,
     isProtected: true,
     Element: Order,
+  },
+
+  // admin Routes
+  {
+    id: "adminHome",
+    path: PATHS.adminHome,
+    isProtected: true,
+    Element: AdminHome,
   },
 ];

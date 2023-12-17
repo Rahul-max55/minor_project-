@@ -10,4 +10,5 @@ export const PATHS = {
   password_reset: "/resetpassword/:token",
   setting: "/setting",
   order: "/order",
+  adminHome: "/adminHome"
 };

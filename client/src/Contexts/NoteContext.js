@@ -78,6 +78,7 @@ const NoteContext = (props) => {
       {/* we can send our reducer data ...state using provider */}
       <CreateContext.Provider
         value={{
+          getProducts,
           login_signup,
           change_logSign,
           colorCheck,

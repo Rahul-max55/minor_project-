@@ -1,17 +1,18 @@
 import "./App.css";
-import Navbar from "./navbar/Navbar";
-import Footer from "./footer/Footer";
+import Navbar from "./components/navbar/Navbar";
 import { BrowserRouter } from "react-router-dom";
 import NoteContext from "./Contexts/NoteContext";
 import "./input.css";
-import FilterNoteContext from "./Filter_Context/FilterNoteContext";
+import FilterNoteContext from "./pages/AllProduct/Filter_Context/FilterNoteContext";
 import { AppRoutes } from "./routes/AppRoutes";
-import { Loading } from "./Loading/Loading";
+import { Loading } from "./components/Loading/Loading";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import FETCH_WRAPPER from "./Api";
 import Cookies from "js-cookie";
-import { CartNoteContext } from "./Add_Cart/context/CartNoteContext";
+import { CartNoteContext } from "./pages/Add_Cart/context/CartNoteContext";
+import Footer from "./components/footer/Footer";
+
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);

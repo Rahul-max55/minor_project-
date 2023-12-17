@@ -2,11 +2,8 @@ import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { routeMap } from "./routeMap";
 import { PrivateRoutes } from "./PrivateRoutes";
-import { PATHS } from "./paths";
-import Login_Signup from "../Login_Signup/Login_Signup";
 import { ReverseRoutes } from "./ReverseRoutes";
-import Forgatepass from "../Forgate_password/Forgatepass";
-import { PageNotFound } from "../404/404";
+import { PageNotFound } from "../pages/404";
 
 export const AppRoutes = () => {
   return (
