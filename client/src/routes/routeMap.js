@@ -1,18 +1,19 @@
 import Main_Products_page from "../pages/AllProduct/Main_Products_page";
 import Home from "../pages/home/Home";
 import { PATHS } from "./paths";
-import Contact from '../pages/contact/Contact';
-import Single_page from '../pages/Single_page/Single_page';
+import Contact from "../pages/contact/Contact";
+import Single_page from "../pages/Single_page/Single_page";
 import Forgatepass from "../pages/Forgate_password/Forgatepass";
-import Password_reset from '../pages/Forgate_password/Password_reset';
+import Password_reset from "../pages/Forgate_password/Password_reset";
 import Order from "../pages/order/Order";
 import Login_Signup from "../pages/Login_Signup/Login_Signup";
 import Add_To_Cart from "../pages/Add_Cart/Add_To_Cart";
 import Setting from "../pages/Setting/Setting";
-import AdminHome from './../admin/Pages/AdminHome';
+import AdminHome from "./../admin/Pages/AdminHome";
+import AdminOrder from "../admin/components/AdminOrder";
+import AdminCard from "../admin/components/AdminCard";
 
-
-export const routeMap = [
+export const userRouteMap = [
   {
     id: "Home",
     path: PATHS.root,
@@ -80,5 +81,20 @@ export const routeMap = [
     path: PATHS.adminHome,
     isProtected: true,
     Element: AdminHome,
+  },
+];
+
+export const adminRouteMap = [
+  {
+    id: "dashboard",
+    path: PATHS.dashboard,
+    isProtected: true,
+    Element: AdminCard,
+  },
+  {
+    id: "adminOrder",
+    path: PATHS.adminOrder,
+    isProtected: true,
+    Element: AdminOrder,
   },
 ];

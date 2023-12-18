@@ -1,18 +1,16 @@
 import "./App.css";
-import Navbar from "./components/navbar/Navbar";
 import { BrowserRouter } from "react-router-dom";
 import NoteContext from "./Contexts/NoteContext";
 import "./input.css";
 import FilterNoteContext from "./pages/AllProduct/Filter_Context/FilterNoteContext";
-import { AppRoutes } from "./routes/AppRoutes";
 import { Loading } from "./components/Loading/Loading";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import FETCH_WRAPPER from "./Api";
 import Cookies from "js-cookie";
 import { CartNoteContext } from "./pages/Add_Cart/context/CartNoteContext";
-import Footer from "./components/footer/Footer";
-
+import AdminRoutes from "./routes/AdminRoutes";
+import UserRoutes from "./routes/UserRoutes";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -54,20 +52,27 @@ const App = () => {
     };
   }, []);
 
+  let accessType = "admin";
+
   return (
     <>
-      <NoteContext>
-        <FilterNoteContext>
-          <CartNoteContext>
-            <BrowserRouter>
-              <Navbar />
-              <Loading isLoading={isLoading} />
-              <AppRoutes />
-              <Footer />
-            </BrowserRouter>
-          </CartNoteContext>
-        </FilterNoteContext>
-      </NoteContext>
+      {accessType === "admin" ? (
+        <BrowserRouter>
+          <Loading isLoading={isLoading} />
+          <AdminRoutes />
+        </BrowserRouter>
+      ) : (
+        <NoteContext>
+          <FilterNoteContext>
+            <CartNoteContext>
+              <BrowserRouter>
+                <Loading isLoading={isLoading} />
+                <UserRoutes />
+              </BrowserRouter>
+            </CartNoteContext>
+          </FilterNoteContext>
+        </NoteContext>
+      )}
     </>
   );
 };

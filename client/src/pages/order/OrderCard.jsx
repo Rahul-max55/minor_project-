@@ -20,8 +20,6 @@ console.log("🚀 ~ file: OrderCard.jsx:4 ~ OrderCard ~ name:", name)
     timeZone: 'UTC',
   });
 
-  console.log("🚀 ~ file: OrderCard.jsx:19 ~ OrderCard ~ formattedDate:", )
-
   
 
   return (

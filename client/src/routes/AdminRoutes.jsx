@@ -1,11 +1,12 @@
 import React from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
-import { routeMap } from "./routeMap";
+import { Route, Routes } from "react-router-dom";
 import { PrivateRoutes } from "./PrivateRoutes";
 import { ReverseRoutes } from "./ReverseRoutes";
 import { PageNotFound } from "../pages/404";
+import { adminRouteMap} from "./routeMap";
+import AdminHome from "../admin/Pages/AdminHome";
 
-export const AppRoutes = () => {
+export const AdminRoutes = () => {
   return (
     <>
       <Routes>
@@ -15,10 +16,12 @@ export const AppRoutes = () => {
           <Route path="/forgatepass" element={<Forgatepass />} />
         </Route> */}
 
-        {routeMap.map((val) => {
+        {adminRouteMap.map((val) => {
           return val.isProtected ? (
             <Route key={val.id} element={<PrivateRoutes />}>
-              <Route path={val.path} element={<val.Element />} />
+              <Route key={val.id} element={<AdminHome />}>
+                <Route path={val.path} element={<val.Element />} />
+              </Route>
             </Route>
           ) : (
             <Route key={val.id} element={<ReverseRoutes />}>
@@ -30,3 +33,6 @@ export const AppRoutes = () => {
     </>
   );
 };
+
+
+export default AdminRoutes;

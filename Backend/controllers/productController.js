@@ -2,6 +2,7 @@ import Product from "../schema/productSchema.js";
 import CartItem from "../schema/CartSchema.js";
 import { ObjectId } from "mongodb";
 import order from "../schema/OrderSchema.js";
+import Users from "../schema/singupSchema.js";
 
 export const postProductsController = async (req, res) => {
   const porductData = req.body;
@@ -220,21 +221,27 @@ export const OrderProductController = async (req, res) => {
   orderData?.forEach((val, index) => {
     delete val?.userId;
     delete val?._id;
-    val.date = date
+    val.date = date;
   });
 
   try {
     const orderExists = await order.find({ userId });
-    console.log("🚀 ~ file: productController.js:228 ~ OrderProductController ~ orderExists:", orderExists)
+    console.log(
+      "🚀 ~ file: productController.js:228 ~ OrderProductController ~ orderExists:",
+      orderExists
+    );
 
     if (orderExists.length > 0) {
       const _id = orderExists[0]?._id;
-      const productsAll = [...orderExists[0]?.products, ...orderData ];
-      
-      console.log("🚀 ~ file: productController.js:231 ~ OrderProductController ~ productsAll:", productsAll)
+      const productsAll = [...orderExists[0]?.products, ...orderData];
+
+      console.log(
+        "🚀 ~ file: productController.js:231 ~ OrderProductController ~ productsAll:",
+        productsAll
+      );
       const update = await order.findByIdAndUpdate(
         { _id },
-        { products: productsAll},
+        { products: productsAll },
         { new: true }
       );
       if (!update) {
@@ -275,18 +282,27 @@ export const OrderProductController = async (req, res) => {
 
 export const getOrderProductController = async (req, res) => {
   const userId = req.user?._id;
-  console.log("🚀 ~ file: productController.js:273 ~ getOrderProductController ~ userId:", userId)
+  console.log(
+    "🚀 ~ file: productController.js:273 ~ getOrderProductController ~ userId:",
+    userId
+  );
   try {
     const data = await order.find({ userId });
-    // console.log(data);
+    const userData = await order.Users({ _id: userId });
+
+    const responseData = { ...data, ...userData };
+
+    console.log(data);
     if (!data) {
-      res.status(500).json({ status: false, msg: "order data is not present" });
+      return res
+        .status(500)
+        .json({ status: false, msg: "order data is not present" });
     }
-    res
+    return res
       .status(200)
-      .json({ data, status: true, msg: "order data is present" });
+      .json({ responseData, status: true, msg: "order data is present" });
   } catch (error) {
-    res
+    return res
       .status(500)
       .send(
         "🚀 ~ file: productController.js:281 ~ getOrderProductController ~ error:",
