@@ -1,12 +1,12 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import { PrivateRoutes } from "./PrivateRoutes";
+import { AdminPrivateRoutes } from "./PrivateRoutes";
 import { ReverseRoutes } from "./ReverseRoutes";
 import { PageNotFound } from "../pages/404";
-import { adminRouteMap} from "./routeMap";
+import { adminRouteMap } from "./routeMap";
 import AdminHome from "../admin/Pages/AdminHome";
 
-export const AdminRoutes = () => {
+const AdminRoutes = () => {
   return (
     <>
       <Routes>
@@ -18,8 +18,8 @@ export const AdminRoutes = () => {
 
         {adminRouteMap.map((val) => {
           return val.isProtected ? (
-            <Route key={val.id} element={<PrivateRoutes />}>
-              <Route key={val.id} element={<AdminHome />}>
+            <Route key={val.id} element={<AdminPrivateRoutes />}>
+              <Route element={<AdminHome />}>
                 <Route path={val.path} element={<val.Element />} />
               </Route>
             </Route>
@@ -33,6 +33,5 @@ export const AdminRoutes = () => {
     </>
   );
 };
-
 
 export default AdminRoutes;

@@ -8,8 +8,11 @@ import FETCH_WRAPPER from "../../Api";
 
 const Signup = () => {
   const navigate = useNavigate();
-  const context = useContext(CreateContext);
-  let { change_logSign } = context;
+  const change_logSign = () => {
+    localStorage.getItem("login_signup")
+      ? localStorage.setItem("login_signup", true)
+      : localStorage.setItem("login_signup", false);
+  };
 
   const { handleChange, handleBlur, handleSubmit, errors, values } = useFormik({
     initialValues: {

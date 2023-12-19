@@ -281,26 +281,19 @@ export const OrderProductController = async (req, res) => {
 };
 
 export const getOrderProductController = async (req, res) => {
-  const userId = req.user?._id;
-  console.log(
-    "🚀 ~ file: productController.js:273 ~ getOrderProductController ~ userId:",
-    userId
-  );
   try {
-    const data = await order.find({ userId });
-    const userData = await order.Users({ _id: userId });
+    const data = await order.find();
+    const _id = data?.[0]?.userId;
+    const userData = await Users.find({ _id });
 
-    const responseData = { ...data, ...userData };
-
-    console.log(data);
-    if (!data) {
+    if (!data && !userData) {
       return res
         .status(500)
         .json({ status: false, msg: "order data is not present" });
     }
     return res
       .status(200)
-      .json({ responseData, status: true, msg: "order data is present" });
+      .json({ userData, data, status: true, msg: "order data is present" });
   } catch (error) {
     return res
       .status(500)

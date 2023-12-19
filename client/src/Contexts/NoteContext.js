@@ -9,14 +9,7 @@ import FETCH_WRAPPER from "../Api";
 const API = "http://localhost:3001/user/products/";
 
 const NoteContext = (props) => {
-  // For Login SignUp
-  const [login_signup, setLogin_Signup] = useState("false");
-  const change_logSign = () => {
-    login_signup === "false"
-      ? setLogin_Signup("true")
-      : setLogin_Signup("false");
-  };
-  // END Login SignUp
+ 
 
   // we can send initialData into reducer state
   const initialState = {
@@ -79,8 +72,6 @@ const NoteContext = (props) => {
       <CreateContext.Provider
         value={{
           getProducts,
-          login_signup,
-          change_logSign,
           colorCheck,
           setColorCheck,
           ...state,

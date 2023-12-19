@@ -19,6 +19,12 @@ import { CartCreateContext } from "../../pages/Add_Cart/context/CartCreateContex
 const Navbar = () => {
   const [user, setUser] = useState({});
 
+  const change_logSign = () => {
+    localStorage.getItem("login_signup")
+      ? localStorage.setItem("login_signup", true)
+      : localStorage.setItem("login_signup", false);
+  };
+
   const navigate = useNavigate();
   const token = Cookies.get("token");
 
@@ -30,10 +36,6 @@ const Navbar = () => {
     setUser(JSON.parse(localStorage.getItem("user")));
   }, []);
 
-  // Finding the login signUp value using CreateContext
-  const context = useContext(CreateContext);
-  let { change_logSign, login_signup } = context;
-  // End Finding the login signUp value using CreateContext
 
   // Finding the value of cart using create cart context
   // const cart_context = useContext(CartCreateContext);

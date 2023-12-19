@@ -1,13 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import "./Login_Signup.css";
 import Signup from "./Signup";
 import Login from "./Login";
-import {CreateContext} from "../../Contexts/CreateContext";
-// import {CreateContext} from "../Contexts/NoteContext";
 
 const Login_Signup = (props) => {
-  const context = useContext( CreateContext );
-  const { login_signup } = context;
+  // For Login SignUp
+  const [login_signup, setLogin_Signup] = useState(
+    localStorage.getItem("login_signup")
+  );
+  // END Login SignUp
 
   return (
     <>
@@ -17,9 +18,7 @@ const Login_Signup = (props) => {
         <div className="box-1">
           <div className="content-holder">
             <h2>Welcome Back</h2>
-            <p className="button-1">
-              Thank You for using our services
-            </p>
+            <p className="button-1">Thank You for using our services</p>
           </div>
         </div>
         <div className="box-2">

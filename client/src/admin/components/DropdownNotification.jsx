@@ -16,7 +16,7 @@ const DropdownNotification = () => {
         trigger.current.contains(target)
       )
         return;
-      setDropdownOpen(false);
+      // setDropdownOpen(false);
     };
     document.addEventListener('click', clickHandler);
     return () => document.removeEventListener('click', clickHandler);
@@ -26,7 +26,7 @@ const DropdownNotification = () => {
   useEffect(() => {
     const keyHandler = ({ keyCode }) => {
       if (!dropdownOpen || keyCode !== 27) return;
-      setDropdownOpen(false);
+      // setDropdownOpen(false);
     };
     document.addEventListener('keydown', keyHandler);
     return () => document.removeEventListener('keydown', keyHandler);

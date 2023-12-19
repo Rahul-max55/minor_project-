@@ -25,21 +25,21 @@ const allProducts = {
   stars: { type: Number, required: true },
   image: { type: [ImageSchema], required: true },
   date: { type: String, required: true },
+  status: {
+    type: [
+      {
+        type: String,
+        enum: ["ordered", "shipped", "delivered" , "canceled"],
+      },
+    ],
+    default: ["ordered"],
+  },
 };
 
 const orderSchema = mongoose.Schema(
   {
     userId: { type: String, required: true },
     products: { type: [allProducts], required: true },
-    status: {
-      type: [
-        {
-          type: String,
-          enum: ["ordered", "shipped", "delivered"],
-        },
-      ],
-      default: ["ordered"],
-    },
   },
   { timestamps: true }
 );

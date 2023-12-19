@@ -9,8 +9,8 @@ import axios from "axios";
 import FETCH_WRAPPER from "./Api";
 import Cookies from "js-cookie";
 import { CartNoteContext } from "./pages/Add_Cart/context/CartNoteContext";
-import AdminRoutes from "./routes/AdminRoutes";
 import UserRoutes from "./routes/UserRoutes";
+import AdminRoutes from "./routes/AdminRoutes";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -58,8 +58,8 @@ const App = () => {
     <>
       {accessType === "admin" ? (
         <BrowserRouter>
-          <Loading isLoading={isLoading} />
-          <AdminRoutes />
+            <Loading isLoading={isLoading} />
+            <AdminRoutes />
         </BrowserRouter>
       ) : (
         <NoteContext>

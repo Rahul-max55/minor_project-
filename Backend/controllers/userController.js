@@ -214,3 +214,4 @@ const passwordResetController = async (req, res) => {
 
 export default signupControllerData;
 export { loginControllerData, validEmailController, passwordResetController };
+

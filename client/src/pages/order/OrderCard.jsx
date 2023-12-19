@@ -1,25 +1,12 @@
 import React from "react";
+import useFormattedDate from './../../admin/hooks/useFormattedDate';
 
 const OrderCard = ({val}) => {
     const { image, name , date, price }  = val ;
 console.log("🚀 ~ file: OrderCard.jsx:4 ~ OrderCard ~ date:", date)
 console.log("🚀 ~ file: OrderCard.jsx:4 ~ OrderCard ~ name:", name)
 
-    const dateVal = new Date(parseInt(date, 10));
-
-  // Now `date` contains the actual date and time
-
-  // You can format the date as needed, for example:
-  const formattedDate = dateVal.toLocaleString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
-    timeZone: 'UTC',
-  });
-
+const [formattedDate] = useFormattedDate(date)
   
 
   return (

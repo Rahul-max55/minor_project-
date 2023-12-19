@@ -5,13 +5,12 @@ import Contact from "../pages/contact/Contact";
 import Single_page from "../pages/Single_page/Single_page";
 import Forgatepass from "../pages/Forgate_password/Forgatepass";
 import Password_reset from "../pages/Forgate_password/Password_reset";
-import Order from "../pages/order/Order";
 import Login_Signup from "../pages/Login_Signup/Login_Signup";
 import Add_To_Cart from "../pages/Add_Cart/Add_To_Cart";
 import Setting from "../pages/Setting/Setting";
-import AdminHome from "./../admin/Pages/AdminHome";
 import AdminOrder from "../admin/components/AdminOrder";
 import AdminCard from "../admin/components/AdminCard";
+import Order from "../pages/order/Order";
 
 export const userRouteMap = [
   {
@@ -67,21 +66,12 @@ export const userRouteMap = [
     path: PATHS.setting,
     isProtected: true,
     Element: Setting,
-  },
-  {
+  },{
     id: "order",
     path: PATHS.order,
     isProtected: true,
     Element: Order,
-  },
-
-  // admin Routes
-  {
-    id: "adminHome",
-    path: PATHS.adminHome,
-    isProtected: true,
-    Element: AdminHome,
-  },
+  }
 ];
 
 export const adminRouteMap = [
@@ -96,5 +86,11 @@ export const adminRouteMap = [
     path: PATHS.adminOrder,
     isProtected: true,
     Element: AdminOrder,
+  },
+  {
+    id: "LoginSignup",
+    path: PATHS.login_signup,
+    isProtected: false,
+    Element: Login_Signup,
   },
 ];

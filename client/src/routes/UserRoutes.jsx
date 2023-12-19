@@ -1,11 +1,11 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import { PrivateRoutes } from "./PrivateRoutes";
 import { ReverseRoutes } from "./ReverseRoutes";
 import { PageNotFound } from "../pages/404";
 import Navbar from "../components/navbar/Navbar";
 import Footer from "../components/footer/Footer";
 import { userRouteMap } from "./routeMap";
+import { UserPrivateRoutes } from './PrivateRoutes';
 
 const UserRoutes = () => {
   return (
@@ -20,7 +20,7 @@ const UserRoutes = () => {
 
         {userRouteMap.map((val) => {
           return val.isProtected ? (
-            <Route key={val.id} element={<PrivateRoutes />}>
+            <Route key={val.id} element={<UserPrivateRoutes />}>
               <Route path={val.path} element={<val.Element />} />
             </Route>
           ) : (
