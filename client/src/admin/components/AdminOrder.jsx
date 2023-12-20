@@ -12,18 +12,19 @@ const AdminOrder = () => {
         if (!response) {
           alert(response?.data?.data?.msg);
         }
-        setOrders(response?.data?.data?.[0]?.products);
+        setOrders(response?.data?.data);
       } catch (error) {
         console.log("🚀 ~ file: AdminCard.jsx:12 ~ error:", error);
       }
     })();
   }, []);
 
+      // console.log("🚀 ~ file: AdminOrder.jsx:7 ~ AdminOrder ~ orders:", orders)
 
   return (
     <>
       {orders &&
-        orders?.map((val, index) => <AdminOrderCard key={index} val={val} />)}
+        orders?.[0]?.products?.map((val, index) => <AdminOrderCard key={index} val={val} userId={orders?.[0]?.userId} />)}
     </>
   );
 };

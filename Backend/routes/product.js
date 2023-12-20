@@ -10,6 +10,7 @@ import {
   deleteCartProductController,
   OrderProductController,
   getOrderProductController,
+  updateOrderProductController,
 } from "../controllers/productController.js";
 import { Authorization } from "../middlewares/userAuthorization.js";
 
@@ -35,5 +36,6 @@ router.delete(
 // order Products
 router.post("/orderProduct", Authorization, OrderProductController);
 router.get("/getOrderProduct", Authorization, getOrderProductController);
+router.put("/updateProduct", Authorization, updateOrderProductController);
 
 export default router;

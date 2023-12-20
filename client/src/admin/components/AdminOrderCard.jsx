@@ -5,13 +5,40 @@ import ProductThree from "../images/product/product-03.png";
 import ProductFour from "../images/product/product-04.png";
 import FETCH_WRAPPER from "../../Api";
 import useFormattedDate from "../hooks/useFormattedDate";
+import { useFormik } from "formik";
 
-const AdminOrderCard = ({ val }) => {
-  console.log("🚀 ~ file: AdminOrderCard.jsx:10 ~ AdminOrderCard ~ val:", val)
-  const { image, name, date, price , status } = val;
-  const orderStatus = status[0];
-  console.log("🚀 ~ file: AdminOrderCard.jsx:12 ~ AdminOrderCard ~ status:", orderStatus)
+const AdminOrderCard = ({ val, userId }) => {
+  const { image, name, date, price, status } = val;
+  const orderStatusVal = status[0];
   const [formattedDate] = useFormattedDate(date);
+
+  // form data using
+
+  const initialValues = {
+    orderStatus: "",
+  };
+
+  // Use useFormik hook
+  const { handleBlur, handleChange, handleSubmit, values } = useFormik({
+    initialValues,
+    onSubmit: async (values) => {
+    
+
+      try {
+        const data = await FETCH_WRAPPER.put("updateProduct", {
+          values,
+        productId:val?._id,
+          userId,
+        });
+      } catch (error) {
+        console.log(
+          "🚀 ~ file: AdminOrderCard.jsx:29 ~ onSubmit: ~ error:",
+          error
+        );
+      }
+    },
+  });
+  // End form data using
 
   return (
     <div className="min-h-[350px] p-5 mx-10 my-5 rounded-lg flex flex-col border-primary border-2 justify-around items-center">
@@ -42,48 +69,68 @@ const AdminOrderCard = ({ val }) => {
         {/* <!-- Progress Bar --> */}
         <div class="max-w-2xl mx-auto p-8 bg-white shadow-lg rounded-md">
           {/*checkbox for status update  */}
-          <form class="flex w-full justify-around items-center">
-            <div class="flex items-center me-4">
+          <form
+            onSubmit={handleSubmit}
+            class="flex w-full justify-around items-center"
+          >
+            <div class="flex relative items-center me-4">
+              {orderStatusVal === "ordered" && (
+                <div class="w-4 h-4 absolute bg-primary rounded-full animate-ping"></div>
+              )}
               <input
-            //   orderStatus && checked
-                id="ordered"
+                checked={values?.orderStatus === "ordered"}
+                id={`ordered${val?._id}`}
                 type="radio"
                 value="ordered"
-                name="order-group"
+                name="orderStatus"
                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
+                onChange={handleChange}
+                onBlur={handleBlur}
               />
               <label
-                for="ordered"
+                for={`ordered${val?._id}`}
                 class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
               >
                 Order
               </label>
             </div>
-            <div class="flex items-center me-4">
+            <div class="flex relative items-center me-4">
+              {orderStatusVal === "shipped" && (
+                <div class="w-4 h-4 absolute bg-primary rounded-full animate-ping"></div>
+              )}
               <input
-                id="shipped"
+                checked={values?.orderStatus === "shipped"}
+                id={`shipped${val?._id}`}
                 type="radio"
-                value="Shipped"
-                name="order-group"
+                value="shipped"
+                name="orderStatus"
                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
+                onChange={handleChange}
+                onBlur={handleBlur}
               />
               <label
-                for="shipped"
+                for={`shipped${val?._id}`}
                 class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
               >
-                shipped
+                Shipped
               </label>
             </div>
-            <div class="flex items-center me-4">
+            <div class="flex relative items-center me-4">
+              {orderStatusVal === "delivered" && (
+                <div class="w-4 h-4 absolute bg-primary rounded-full animate-ping"></div>
+              )}
               <input
-                id="delivered"
+                checked={values?.orderStatus === "delivered"}
+                id={`delivered${val?._id}`}
                 type="radio"
-                value="Delivered"
-                name="order-group"
+                value="delivered"
+                name="orderStatus"
                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
+                onChange={handleChange}
+                onBlur={handleBlur}
               />
               <label
-                for="delivered"
+                for={`delivered${val?._id}`}
                 class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
               >
                 Delivered

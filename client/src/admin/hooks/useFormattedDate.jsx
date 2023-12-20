@@ -1,10 +1,7 @@
 import React from "react";
 
 const useFormattedDate = (date) => {
-  console.log(
-    "🚀 ~ file: useFormattedDate.jsx:5 ~ useFormattedDate ~ date:",
-    date
-  );
+
   const dateVal = new Date(parseInt(date, 10));
 
   // Now `date` contains the actual date and time

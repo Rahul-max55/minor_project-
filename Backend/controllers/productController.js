@@ -304,4 +304,90 @@ export const getOrderProductController = async (req, res) => {
   }
 };
 
+// // order status update controller
+// export const updateOrderProductController = async (req, res) => {
+//   const { values, productId, userId } = req.body;
+//   // console.log("🚀 ~ file: productController.js:310 ~ updateOrderProductController ~ values:", values)
+
+//   try {
+//     const userData = await order.find({ userId });
+//     // console.log(
+//     //   "🚀 ~ file: productController.js:313 ~ updateOrderProductController ~ userData:",
+//     //   userData?.[0]?.products
+//     // );
+
+//     const product = new ObjectId(productId);
+//     const productData = userData?.[0]?.products?.filter((val, index) => {
+//       const valId = new ObjectId(val._id);
+//       return valId.equals(product);
+//     });
+//     console.log(
+//       "🚀 ~ file: productController.js:325 ~ productData ~ productData:",
+//       productData?.[0]?.status
+//     );
+
+//     if (productData) {
+//     productData[0].status = [...values];
+//     const data  = await order.save();
+//     console.log("🚀 ~ file: productController.js:332 ~ updateOrderProductController ~ data:", data)
+//     }
+
+//     // console.log(
+//     //   "🚀 ~ file: productController.js:318 ~ updateOrderProductController ~ productData:",
+//     //   productData
+//     // );
+
+//     return res.status(200).json({ status: true, msg: "order data is present" });
+//   } catch (error) {
+//     return res
+//       .status(500)
+//       .send(
+//         "🚀 ~ file: productController.js:281 ~ getOrderProductController ~ error:",
+//         error
+//       );
+//   }
+// };
+
+export const updateOrderProductController = async (req, res) => {
+  const { values, productId, userId } = req.body;
+  console.log(
+    "🚀 ~ file: productController.js:353 ~ updateOrderProductController ~ values:",
+    values
+  );
+
+  const { orderStatus } = values;
+
+  try {
+    const userData = await order.findOne({ userId });
+
+    if (!userData) {
+      return res
+        .status(500)
+        .json({ status: false, msg: "Order data is not present" });
+    }
+
+    const product = new ObjectId(productId);
+    const productData = userData?.products?.find((val) => {
+      const valId = new ObjectId(val._id);
+      return valId.equals(product);
+    });
+
+    if (productData) {
+      productData.status = [orderStatus];
+      await userData.save(); // Save the updated order data
+
+      return res
+        .status(200)
+        .json({ status: true, msg: "Order data is updated and saved" });
+    } else {
+      return res
+        .status(404)
+        .json({ status: false, msg: "Product not found in order" });
+    }
+  } catch (error) {
+    console.error("Error updating order product:", error);
+    return res.status(500).send("Internal Server Error");
+  }
+};
+
 // order controller
