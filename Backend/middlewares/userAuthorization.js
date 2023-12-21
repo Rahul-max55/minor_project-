@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import Users from "../schema/singupSchema.js";
+import Users from "../schema/signupSchema.js";
 
 export const Authorization = async (req, res, next) => {
   const token = req.headers.authorization;

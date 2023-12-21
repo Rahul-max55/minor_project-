@@ -1,4 +1,4 @@
-import Users from "../schema/singupSchema.js";
+import Users from "../schema/signupSchema.js";
 import jwt from "jsonwebtoken";
 
 const loginControllerData = async (req, res) => {
@@ -8,6 +8,7 @@ const loginControllerData = async (req, res) => {
   try {
     const data = await Users.find({ email });
     // console.log("🚀 ~ file: userController.js:10 ~ loginControllerData ~ data:", data?.[0]?.email)
+
     if (!data) {
       return res
         .status(200)
@@ -23,10 +24,9 @@ const loginControllerData = async (req, res) => {
         algorithm: "HS256",
       }
     );
-
     return res
       .status(200)
-      .json({ token, msg: "User is loged in successfuly", data, status: true });
+      .json({ token, msg: "User is logged in successfully", data, status: true });
   } catch (error) {
     return res.json(
       500,
@@ -49,20 +49,21 @@ const signupControllerData = async (req, res) => {
 
     if (userExists) {
       return res.status(200).send({
-        msg: "Email is already exists please use another or forgate",
+        msg: "Email is already exists please use another or forgat",
         status: false,
       });
     }
 
     const data = await Users.create(userDetail);
+
     if (!data) {
       return res
         .status(200)
-        .send({ msg: "data is not iserted in database", status: false });
+        .send({ msg: "data is not inserted in database", status: false });
     }
     return res
       .status(200)
-      .send({ msg: "Account is created successfuly", status: true });
+      .send({ msg: "Account is created successfully", status: true });
   } catch (error) {
     return res.status(500).send({
       msg: "🚀 ~ file: userController.js:48 ~ signupControllerData ~ error:",
@@ -202,7 +203,9 @@ const passwordResetController = async (req, res) => {
         .status(404)
         .send({ msg: "data is not inserted in database", status: false });
     }
-    res.status(200).send({ msg: "password updated successfully", status: true });
+    res
+      .status(200)
+      .send({ msg: "password updated successfully", status: true });
   } catch (error) {
     res.status(401).send({
       msg: "🚀 ~ file: userController.js:161 ~ passwordResetController ~ error:",
@@ -214,4 +217,3 @@ const passwordResetController = async (req, res) => {
 
 export default signupControllerData;
 export { loginControllerData, validEmailController, passwordResetController };
-

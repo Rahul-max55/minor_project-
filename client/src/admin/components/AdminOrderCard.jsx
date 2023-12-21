@@ -1,13 +1,9 @@
 import React from "react";
-import ProductOne from "../images/product/product-01.png";
-import ProductTwo from "../images/product/product-02.png";
-import ProductThree from "../images/product/product-03.png";
-import ProductFour from "../images/product/product-04.png";
-import FETCH_WRAPPER from "../../Api";
 import useFormattedDate from "../hooks/useFormattedDate";
 import { useFormik } from "formik";
+import FETCH_WRAPPER from "../../Api";
 
-const AdminOrderCard = ({ val, userId }) => {
+const AdminOrderCard = ({ val, userId , orderDataFetching }) => {
   const { image, name, date, price, status } = val;
   const orderStatusVal = status[0];
   const [formattedDate] = useFormattedDate(date);
@@ -22,14 +18,18 @@ const AdminOrderCard = ({ val, userId }) => {
   const { handleBlur, handleChange, handleSubmit, values } = useFormik({
     initialValues,
     onSubmit: async (values) => {
-    
-
       try {
         const data = await FETCH_WRAPPER.put("updateProduct", {
           values,
-        productId:val?._id,
+          productId: val?._id,
           userId,
         });
+
+        if (!data) {
+          alert("Order status is not updated");
+        }
+        orderDataFetching();
+        alert(data?.data?.msg);
       } catch (error) {
         console.log(
           "🚀 ~ file: AdminOrderCard.jsx:29 ~ onSubmit: ~ error:",

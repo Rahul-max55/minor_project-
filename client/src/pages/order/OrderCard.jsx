@@ -1,13 +1,12 @@
 import React from "react";
-import useFormattedDate from './../../admin/hooks/useFormattedDate';
+import useFormattedDate from "./../../admin/hooks/useFormattedDate";
 
-const OrderCard = ({val}) => {
-    const { image, name , date, price }  = val ;
-console.log("🚀 ~ file: OrderCard.jsx:4 ~ OrderCard ~ date:", date)
-console.log("🚀 ~ file: OrderCard.jsx:4 ~ OrderCard ~ name:", name)
+const OrderCard = ({ val }) => {
+  const { image, name, date, price } = val;
+  console.log("🚀 ~ file: OrderCard.jsx:4 ~ OrderCard ~ date:", date);
+  console.log("🚀 ~ file: OrderCard.jsx:4 ~ OrderCard ~ name:", name);
 
-const [formattedDate] = useFormattedDate(date)
-  
+  const [formattedDate] = useFormattedDate(date);
 
   return (
     <>

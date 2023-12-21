@@ -2,20 +2,20 @@ import Product from "../schema/productSchema.js";
 import CartItem from "../schema/CartSchema.js";
 import { ObjectId } from "mongodb";
 import order from "../schema/OrderSchema.js";
-import Users from "../schema/singupSchema.js";
+import Users from "../schema/signupSchema.js";
 
 export const postProductsController = async (req, res) => {
-  const porductData = req.body;
+  const productData = req.body;
   const user = req.user;
   try {
-    const data = await Product.create(porductData);
+    const data = await Product.create(productData);
     // console.log(data);
     if (!data) {
-      res.status(500).send("product data is not submited");
+      res.status(500).send("product data is not submitted");
     }
     res.status(200).send(data);
   } catch (error) {
-    res.status(500).send(`some error occured in product api ${error}`);
+    res.status(500).send(`some error occurred in product api ${error}`);
   }
 };
 
@@ -29,7 +29,7 @@ export const getAllProductsController = async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .send(`some error occured in getAllProductsController api ${error}`);
+      .send(`some error occurred in getAllProductsController api ${error}`);
   }
 };
 
@@ -57,15 +57,15 @@ export const addToCartProductController = async (req, res) => {
   const cartData = req.body;
   const userId = req.user?._id;
 
-  //  if we does not delete this id mongodb id is overlaped and products dublicate problem we can get so we remove the _id inside the cartData
+  //  if we does not delete this id mongodb id is overlapped and products duplicate problem we can get so we remove the _id inside the cartData
   delete cartData?._id;
   try {
-    // diff prodcuts colors qantity check
+    // diff products colors quantity check
     const Products = await CartItem.find({
       $and: [{ userId: userId }, { id: cartData?.id }],
     });
 
-    //Total Product Quantity means diff colors and same prodcuts quantity
+    //Total Product Quantity means diff colors and same products quantity
     const totalProductQuantity = Products.reduce((total, val, index) => {
       return (total = total + val?.customerStock);
     }, 0);
@@ -304,50 +304,7 @@ export const getOrderProductController = async (req, res) => {
   }
 };
 
-// // order status update controller
-// export const updateOrderProductController = async (req, res) => {
-//   const { values, productId, userId } = req.body;
-//   // console.log("🚀 ~ file: productController.js:310 ~ updateOrderProductController ~ values:", values)
-
-//   try {
-//     const userData = await order.find({ userId });
-//     // console.log(
-//     //   "🚀 ~ file: productController.js:313 ~ updateOrderProductController ~ userData:",
-//     //   userData?.[0]?.products
-//     // );
-
-//     const product = new ObjectId(productId);
-//     const productData = userData?.[0]?.products?.filter((val, index) => {
-//       const valId = new ObjectId(val._id);
-//       return valId.equals(product);
-//     });
-//     console.log(
-//       "🚀 ~ file: productController.js:325 ~ productData ~ productData:",
-//       productData?.[0]?.status
-//     );
-
-//     if (productData) {
-//     productData[0].status = [...values];
-//     const data  = await order.save();
-//     console.log("🚀 ~ file: productController.js:332 ~ updateOrderProductController ~ data:", data)
-//     }
-
-//     // console.log(
-//     //   "🚀 ~ file: productController.js:318 ~ updateOrderProductController ~ productData:",
-//     //   productData
-//     // );
-
-//     return res.status(200).json({ status: true, msg: "order data is present" });
-//   } catch (error) {
-//     return res
-//       .status(500)
-//       .send(
-//         "🚀 ~ file: productController.js:281 ~ getOrderProductController ~ error:",
-//         error
-//       );
-//   }
-// };
-
+// for status update
 export const updateOrderProductController = async (req, res) => {
   const { values, productId, userId } = req.body;
   console.log(
@@ -378,15 +335,14 @@ export const updateOrderProductController = async (req, res) => {
 
       return res
         .status(200)
-        .json({ status: true, msg: "Order data is updated and saved" });
+        .json({ status: true, msg: "Order status is updated and saved" });
     } else {
       return res
         .status(404)
         .json({ status: false, msg: "Product not found in order" });
     }
   } catch (error) {
-    console.error("Error updating order product:", error);
-    return res.status(500).send("Internal Server Error");
+    return res.status(500).send("Error updating order product:", error);
   }
 };
 
