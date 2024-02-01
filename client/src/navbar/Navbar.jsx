@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./Navbar.css";
 import {
   Link,
@@ -15,16 +15,27 @@ import { BsCartPlusFill, BsTypeH1 } from "react-icons/bs";
 import { Create_context } from "../Contexts/CreateContext";
 import { CartCreateContext } from "../Add_Cart/Cart_Context/Cart_Create_Context";
 import { PATHS } from "../routes/paths";
+import { useDispatch } from "react-redux";
+import { fetchAllProductsAsync } from "../redux/productSlice";
 // import { useEffect } from 'react';
 
 const Navbar = (props) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchAllProductsAsync());
+  }, [dispatch]);
+
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
   // Finding the login signUp value using CreateContext
   const context = useContext(Create_context);
   let { change_logSign, login_signup } = context;
-  console.log("🚀 ~ file: Navbar.jsx:27 ~ Navbar ~ login_signup:", login_signup)
+  console.log(
+    "🚀 ~ file: Navbar.jsx:27 ~ Navbar ~ login_signup:",
+    login_signup
+  );
   // End Finding the login signUp value using CreateContext
 
   // Finding the value of cart using create cart context

@@ -18,7 +18,7 @@ const Single_page = () => {
   const context = useContext(Create_context);
   const { singleProduct, singlePageData, colorCheck, setColorCheck } = context;
 
-  let { name, stars, company, price, description, stock, image  } = singlePageData;
+  let { name, stars, brand, price, description, stock, image  } = singlePageData;
 
   // console.log(colors);
   console.log(singlePageData);
@@ -74,7 +74,7 @@ const Single_page = () => {
           </div>
         </div>
         <p>Available: {stock < 1 ? "Out of Stock" : "In Stock"}</p>
-        <p>Brand: {company}</p>
+        <p>Brand: {brand}</p>
         <hr className='horizontal_line' />
         <div className="colors">
           <Single_page_colors singlePageData={singlePageData} colorCheck={colorCheck} setColorCheck={setColorCheck} />

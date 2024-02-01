@@ -95,7 +95,7 @@ const Filter_reducer = (state, action) => {
         case "FILTER_PRODUCT":
             let { all_products } = state;
             let tempFilterProduct = [...all_products];
-            const { text, category, company, color, rangePrice, } = state.filters;
+            const { text, category, brand, color, rangePrice, } = state.filters;
 
             // console.log(color);
 
@@ -115,10 +115,10 @@ const Filter_reducer = (state, action) => {
             }
 
 
-            if (company !== "All") {
+            if (brand !== "All") {
 
                 tempFilterProduct = tempFilterProduct.filter((curElem) => {
-                    return curElem.company.toLowerCase() === company.toLowerCase();
+                    return curElem.brand.toLowerCase() === brand.toLowerCase();
                 });
 
             }
@@ -150,7 +150,7 @@ const Filter_reducer = (state, action) => {
                     ...state.filters,
                     text: "",
                     category: "All",
-                    company: "All",
+                    brand: "All",
                     color: "All",
                     rangePrice: state.filters.max_range_price,
                     max_range_price: state.filters.max_range_price,

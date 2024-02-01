@@ -238,7 +238,7 @@ div.sort_section>* {
     margin: 7px 0px;
 }
 
-.company {
+.brand {
     width: 70%;
     min-height: 60px;
     /* background-color: rgb(17, 163, 173); */
@@ -251,7 +251,7 @@ div.sort_section>* {
     padding: 10px;
 }
 
-.company #brand {
+.brand #brand {
     width: 80%;
     /* border: 2px solid silver; */
     margin: 10px 0px;

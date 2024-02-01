@@ -16,7 +16,7 @@ const FilterNoteContext = (props) => {
         filters: {
             text: "",
             category: "All",
-            company: "All",
+            brand: "All",
             color: "All",
             rangePrice: "",
             max_range_price: "",
