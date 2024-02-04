@@ -1,15 +1,20 @@
+import Main_Products_page from "../pages/AllProduct/Main_Products_page";
+import Home from "../pages/home/Home";
 import { PATHS } from "./paths";
-import Home from "../home/Home";
-import LoginSignup from "../Login_Signup/Login_Signup";
-import About from "../about/About";
-import Main_Products_page from "../AllProduct/Main_Products_page";
-import contact from "../contact/Contact";
-import Single_page from "../Single_page/Single_page";
-import Add_to_cart from "../Add_Cart/Add_To_Cart";
+import Contact from "../pages/contact/Contact";
+import Single_page from "../pages/Single_page/Single_page";
+import Forgatepass from "../pages/Forgate_password/Forgatepass";
+import Password_reset from "../pages/Forgate_password/Password_reset";
+import Login_Signup from "../pages/Login_Signup/Login_Signup";
+import Add_To_Cart from "../pages/Add_Cart/Add_To_Cart";
+import Setting from "../pages/Setting/Setting";
+import AdminOrder from "../admin/components/AdminOrder";
+import AdminCard from "../admin/components/AdminCard";
+import Order from "../pages/order/Order";
 
-export const routeMap = [
+export const userRouteMap = [
   {
-    id: "root",
+    id: "Home",
     path: PATHS.root,
     isProtected: true,
     Element: Home,
@@ -18,25 +23,19 @@ export const routeMap = [
     id: "LoginSignup",
     path: PATHS.login_signup,
     isProtected: false,
-    Element: LoginSignup,
+    Element: Login_Signup,
   },
   {
-    id: "main_products_page",
+    id: "Main_Products_page",
     path: PATHS.main_products_page,
     isProtected: true,
     Element: Main_Products_page,
   },
   {
-    id: "contact",
+    id: "Contact",
     path: PATHS.contact,
     isProtected: true,
-    Element: contact,
-  },
-  {
-    id: "about",
-    path: PATHS.about,
-    isProtected: true,
-    Element: About,
+    Element: Contact,
   },
   {
     id: "Single_page",
@@ -48,6 +47,50 @@ export const routeMap = [
     id: "Add_to_cart",
     path: PATHS.add_to_cart,
     isProtected: true,
-    Element: Add_to_cart,
+    Element: Add_To_Cart,
+  },
+  {
+    id: "Forgatepass",
+    path: PATHS.forgatepass,
+    isProtected: false,
+    Element: Forgatepass,
+  },
+  {
+    id: "Password_reset",
+    path: PATHS.password_reset,
+    isProtected: false,
+    Element: Password_reset,
+  },
+  {
+    id: "setting",
+    path: PATHS.setting,
+    isProtected: true,
+    Element: Setting,
+  },{
+    id: "order",
+    path: PATHS.order,
+    isProtected: true,
+    Element: Order,
   }
+];
+
+export const adminRouteMap = [
+  {
+    id: "dashboard",
+    path: PATHS.dashboard,
+    isProtected: true,
+    Element: AdminCard,
+  },
+  {
+    id: "adminOrder",
+    path: PATHS.adminOrder,
+    isProtected: true,
+    Element: AdminOrder,
+  },
+  {
+    id: "LoginSignup",
+    path: PATHS.login_signup,
+    isProtected: false,
+    Element: Login_Signup,
+  },
 ];

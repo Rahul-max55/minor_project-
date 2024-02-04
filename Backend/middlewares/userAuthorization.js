@@ -1,18 +1,19 @@
 import jwt from "jsonwebtoken";
-import Users from "../schema/singupSchema.js";
+import Users from "../schema/signupSchema.js";
 
 export const Authorization = async (req, res, next) => {
   const token = req.headers.authorization;
+  // console.log("🚀 ~ file: userAuthorization.js:6 ~ Authorization ~ token:", token)
 
   if (!token) {
-    return res.json(401, { status: false, msg: "Token not found" });
+    return res.status(401).json({ status: false, msg: "Token not found" });
   }
   let user;
 
   try {
     user = jwt.verify(token, process.env.JWT_SECRET , 14);
      if(!user){
-      return res.json(404 , {msg:"Token is not verify"})
+      return res.status(401).json({msg:"Token is not verify"})
      }
   } catch (error) {
     console.log(error);
@@ -22,15 +23,14 @@ export const Authorization = async (req, res, next) => {
   try {
     user = await Users.find({ email: user.email });
     if (!user) {
-      return res.json(401, { status: false, msg: "user not found" });
+      return res.status(401).json({ status: false, msg: "user not found" });
     }
-    // console.log(user);
-    req.user = user;
+    req.user = user[0];
     next();
     return;
   } catch (error) {
     console.log(error);
-    return res.json(401, { status: false, msg: "Internal Server Error" });
+    return  res.status(401).json({ status: false, msg: "Internal Server Error" });
   }
   
 };

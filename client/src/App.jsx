@@ -1,30 +1,82 @@
 import "./App.css";
-import Navbar from "./navbar/Navbar";
-import Footer from "./footer/Footer";
 import { BrowserRouter } from "react-router-dom";
 import NoteContext from "./Contexts/NoteContext";
+import "./input.css";
+import FilterNoteContext from "./pages/AllProduct/Filter_Context/FilterNoteContext";
+import { Loading } from "./components/Loading/Loading";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import FETCH_WRAPPER from "./Api";
+import Cookies from "js-cookie";
+import { CartNoteContext } from "./pages/Add_Cart/context/CartNoteContext";
+import UserRoutes from "./routes/UserRoutes";
+import AdminRoutes from "./routes/AdminRoutes";
 import { Provider } from "react-redux";
-import FilterNoteContext from "./Filter_Context/FilterNoteContext";
-import Cart_Note_Context from "./Add_Cart/Cart_Context/Cart_Note_Context";
-import { AppRoutes } from "./routes/AppRoutes";
-import { store } from "./redux/store";
+import { store } from './redux/store';
 
 const App = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  // console.log("🚀 ~ file: App.jsx:16 ~ App ~ isLoading:", isLoading);
+
+  useEffect(() => {
+    const requestInterceptor = FETCH_WRAPPER.interceptors.request.use(
+      (config) => {
+        const token = Cookies.get("token");
+        // console.log("Request interceptor fired");
+        setIsLoading(true);
+        config.headers.authorization = token;
+        return config;
+      },
+      (error) => {
+        // console.error("Request interceptor error:", error);
+        // alert("🚀 ~ file: App.jsx:31 ~ useEffect ~ error:", error);
+        setIsLoading(false);
+        return Promise.reject(error);
+      }
+    );
+
+    const responseInterceptor = FETCH_WRAPPER.interceptors.response.use(
+      (response) => {
+        // console.log("Response interceptor fired");
+        setIsLoading(false);
+        return response;
+      },
+      (error) => {
+        setIsLoading(false);
+        // console.error("Response interceptor error:", error);
+        return Promise.reject(error);
+      }
+    );
+
+    return () => {
+      axios.interceptors.request.eject(requestInterceptor);
+      axios.interceptors.response.eject(responseInterceptor);
+    };
+  }, []);
+
+
   return (
     <>
+      {/* {accessType === "admin" ? (
+        <BrowserRouter>
+            <Loading isLoading={isLoading} />
+            <AdminRoutes />
+        </BrowserRouter>
+      ) : ( */}
       <Provider store={store}>
         <NoteContext>
           <FilterNoteContext>
-            <Cart_Note_Context>
+            <CartNoteContext>
               <BrowserRouter>
-                <Navbar />
-                <AppRoutes />
-                <Footer />
+                <Loading isLoading={isLoading} />
+                <UserRoutes />
               </BrowserRouter>
-            </Cart_Note_Context>
+            </CartNoteContext>
           </FilterNoteContext>
         </NoteContext>
       </Provider>
+
+      {/* )} */}
     </>
   );
 };
