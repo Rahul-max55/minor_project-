@@ -22,7 +22,7 @@ const Login_Signup = (props) => {
           </div>
         </div>
         <div className="box-2">
-          {login_signup === "true" ? <Signup /> : <Login />}
+          {login_signup === "false" ? <Signup /> : <Login />}
         </div>
       </div>
     </>

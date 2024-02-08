@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 // import { FilterCreateContext } from "../Filter_Context/FCreateContext";
 // import { BsCheckAll } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,15 +9,15 @@ import {
   fetchAllBrandsAsync,
   fetchAllCategoryAsync,
   fetchAllColorsAsync,
+  filterProductAsync,
 } from "../../redux/productSlice";
 
 const FilterSection = () => {
   const [searchVal, setSearchVal] = useState("");
+  const [filterVal, setFilterVal] = useState([]);
   const colors = useSelector(allColors);
   const brands = useSelector(allBrands);
   const category = useSelector(allCategory);
-  console.log("🚀 ~ FilterSection ~ category:", category);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -25,6 +25,27 @@ const FilterSection = () => {
     dispatch(fetchAllColorsAsync());
     dispatch(fetchAllCategoryAsync());
   }, [dispatch]);
+
+  const handleFilter = (name, value) => {
+    setFilterVal((prevState) => {
+      // Check if the value already exists in the array
+      if (prevState[name] && prevState[name].includes(value)) {
+        // If it does, filter it out from the array
+        const filteredArray = prevState[name].filter((item) => item !== value);
+        // Return the state with the filtered array
+        return {
+          ...prevState,
+          [name]: filteredArray,
+        };
+      }
+      return {
+        ...prevState,
+        [name]: [...(prevState[name] || []), value],
+      };
+    });
+    console.log("hello");
+    dispatch(filterProductAsync(filterVal));
+  };
 
   // const SerachContext = useContext(FilterCreateContext);
 
@@ -65,7 +86,7 @@ const FilterSection = () => {
   // const rangeOnlyData = getUniqueData(all_products, "range");
 
   return (
-    <>
+    <div className="space-y-4">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -82,9 +103,9 @@ const FilterSection = () => {
         />
       </form>
 
-      <div className="category">
-        <h4>Category</h4>
-        <div className="flex items-start">
+      <div className="p-2 rounded-lg shadow-md">
+        <h4 className="m-2">Category</h4>
+        <div>
           {category?.map((curElem, index) => {
             return (
               <div className="m-2 space-x-2">
@@ -92,6 +113,50 @@ const FilterSection = () => {
                   id={curElem.label}
                   type="checkbox"
                   name="category"
+                  value={curElem?.value}
+                  defaultChecked={curElem?.checked}
+                  key={index}
+                  onChange={(e) => handleFilter(e.target.name, e.target.value)}
+                />
+                <label htmlFor={curElem.label}>{curElem.label}</label>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="p-2 rounded-lg shadow-md">
+        <h4 className="m-2">Brands</h4>
+        <div>
+          {brands?.map((curElem, index) => {
+            return (
+              <div className="m-2 space-x-2">
+                <input
+                  id={curElem.label}
+                  type="checkbox"
+                  name="brands"
+                  value={curElem?.value}
+                  defaultChecked={curElem?.checked}
+                  key={index}
+                  onChange={(e) => handleFilter(e.target.name, e.target.value)}
+                />
+                <label htmlFor={curElem.label}>{curElem.label}</label>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="p-2 rounded-lg shadow-md">
+        <h4 className="m-2">Colors</h4>
+        <div>
+          {colors?.map((curElem, index) => {
+            return (
+              <div className="m-2 space-x-2">
+                <input
+                  id={curElem.label}
+                  type="checkbox"
+                  name="colors"
                   value={curElem?.value}
                   defaultChecked={curElem?.checked}
                   key={index}
@@ -106,7 +171,7 @@ const FilterSection = () => {
       <button type="button" className="clear_button">
         CLEAR FILTERS
       </button>
-    </>
+    </div>
   );
 };
 

@@ -45,7 +45,7 @@ const Main_Products_page = () => {
   return (
     <>
       <div className="product_container">
-        <div className="filter_section">
+        <div className="p-2 rounded-lg">
           <FilterSection />
         </div>
         <div className="sort_products">

@@ -22,6 +22,7 @@ export const fetchAllCategoryAsync = createAsyncThunk(
     return response.json();
   }
 );
+
 export const fetchAllBrandsAsync = createAsyncThunk(
   "products/fetchAllBrandsAsync",
   async () => {
@@ -29,6 +30,28 @@ export const fetchAllBrandsAsync = createAsyncThunk(
     return response.json();
   }
 );
+
+export const filterProductAsync = createAsyncThunk(
+  "products/filterProductAsync",
+  async (filterVal) => {
+    let queryPara = "";
+    for (let x in filterVal) {
+      let modifiedArray = filterVal[x].join("&");
+      // console.log("🚀 ~ modifiedArray:", modifiedArray);
+      // console.log("🚀 ~ x:", filterVal[x]);
+      queryPara += `${x}=${modifiedArray}`;
+    }
+    console.log("🚀 ~ queryPara:", queryPara);
+    console.log("http://localhost:3000/products?" + queryPara);
+    //TODO: We need to create api for filter "http:///localhost:3000/products?category=mobile,laptops&brands=hp,apple"
+    const response = await fetch(
+      "http:///localhost:3000/products?" + queryPara
+    );
+    return response.json();
+  }
+);
+
+
 
 const initialState = {
   products: [],
@@ -84,6 +107,17 @@ const productSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(fetchAllColorsAsync.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = action.error;
+    });
+    builder.addCase(filterProductAsync.fulfilled, (state, action) => {
+      state.products = action.payload;
+      state.isLoading = false;
+    });
+    builder.addCase(filterProductAsync.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(filterProductAsync.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = action.error;
     });
