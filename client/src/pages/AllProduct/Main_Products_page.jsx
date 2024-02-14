@@ -9,19 +9,32 @@ import { useSelector, useDispatch } from "react-redux";
 const Main_Products_page = () => {
   const dispatch = useDispatch();
   const products = useSelector(allProducts);
+  console.log("🚀 ~ products:", products);
   const [columnRow, setColumnRow] = useState("false");
   const [sorting, setSorting] = useState("false");
+  const [page, setPage] = useState(1);
+
   const changeRow = () => {
     setColumnRow("true");
   };
+
   const changeColumn = () => {
     setColumnRow("false");
   };
 
   useEffect(() => {
-    dispatch(fetchAllProductsAsync());
-  }, []);
+    dispatch(fetchAllProductsAsync(page));
+  }, [dispatch, page]);
 
+  const handleClick = (e) => {
+    console.log(e.target.value);
+  };
+
+  const totalPage = Math.floor(products?.items / 10);
+  // Create paginationArray only if totalPage is a valid number
+  const paginationArray = Number.isFinite(totalPage)
+    ? Array.from(new Array(totalPage))
+    : [];
   // const Fcontext = useContext(CreateContext);
   // const { getProducts } = Fcontext;
 
@@ -32,11 +45,6 @@ const Main_Products_page = () => {
   // console.log(products);
 
   // console.log(products);
-
-  // for product loading
-  useEffect(() => {
-    // getProducts();
-  }, []);
 
   // End product loading
 
@@ -64,14 +72,14 @@ const Main_Products_page = () => {
               onClick={(e) => setSorting(e.target.value)}
             >
               <option value="selected_Value">Select your preference</option>
-              <option value="a_z">Name: a-z</option>
-              <option value="z_a">Name: z-a</option>
+              <option value="a_z">Name: button-z</option>
+              <option value="z_a">Name: z-button</option>
               <option value="low_high">Price: low-high</option>
               <option value="high_low">Price: high-low</option>
             </select>
           </div>
           <div className="product_list">
-            {products?.map((value) => {
+            {products?.data?.map((value) => {
               return (
                 <ProductList
                   columnRow={columnRow}
@@ -87,6 +95,45 @@ const Main_Products_page = () => {
               );
             })}
           </div>
+
+          {/* pagination */}
+          <nav className="text-center mt-16">
+            <ul className="inline-flex -space-x-px text-base h-10">
+              <li>
+                <button
+                  onClick={() => (1 < page ? setPage(page - 1) : setPage(1))}
+                  className="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                >
+                  Previous
+                </button>
+              </li>
+              {paginationArray?.map((val, index) => (
+                <li>
+                  <button
+                    key={index}
+                    onClick={(e) => setPage(+e.target.value)}
+                    value={index + 1}
+                    className={`${
+                      page === index + 1 && "bg-blue-500 text-white"
+                    } flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}
+                  >
+                    {index + 1}
+                  </button>
+                </li>
+              ))}
+              <li>
+                <button
+                  onClick={() =>
+                    page ? setPage(page + 1) : setPage(totalPage)
+                  }
+                  className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                >
+                  Next
+                </button>
+              </li>
+            </ul>
+          </nav>
+          {/* pagination */}
         </div>
       </div>
     </>

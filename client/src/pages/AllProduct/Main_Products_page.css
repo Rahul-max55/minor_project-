@@ -34,25 +34,11 @@
     margin: 10px 0px;
 }
 
-div.sort_section>* {
-    height: 30px;
-}
-
-.icons_grid {
-    font-size: 23px;
-}
-
-.icons_grid svg {
-    margin: 0px 8px;
-    cursor: pointer;
-
-}
-
-.icons_grid svg:hover {
+svg:hover {
     color: gray;
 }
 
-.icons_grid .Active {
+.Active {
     color: rgb(17, 163, 173);
 }
 

@@ -2,8 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const fetchAllProductsAsync = createAsyncThunk(
   "products/fetchAllProductsAsync",
-  async () => {
-    const response = await fetch("http://localhost:3000/products");
+  async (page) => {
+    const response = await fetch(`http://localhost:3000/products?_page=${page}`);
     return response.json();
   }
 );
@@ -50,8 +50,6 @@ export const filterProductAsync = createAsyncThunk(
     return response.json();
   }
 );
-
-
 
 const initialState = {
   products: [],

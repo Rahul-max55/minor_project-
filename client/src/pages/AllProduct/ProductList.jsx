@@ -23,11 +23,13 @@ const ProductList = ({
         {columnRow === "false" ? (
           <div className="prod_card">
             <div className="main_img">
-              <p className="nameofprod">{category}</p>
+              <p className="float-left absolute bg-white p-1 rounded-lg">
+                {category}
+              </p>
               <img src={image[0]} alt={filename} />
             </div>
             <div className="main_img_bottum">
-              <p className="model_name">{name}</p>
+              <p className="model_name">{name.slice(0 , 18)+"..."}</p>
               <p className="model_price">{price}</p>
             </div>
           </div>
@@ -35,6 +37,9 @@ const ProductList = ({
           //  This is our List view
           <div className="prod_card Row">
             <div className="main_img">
+              <p className="float-left absolute bg-white p-1 rounded-lg">
+                {category}
+              </p>
               <img src={image[0]} alt={filename} />
             </div>
             <div className="main_img_bottum_row">
