@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 // import { FilterCreateContext } from "../Filter_Context/FCreateContext";
 // import { BsCheckAll } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
+import { FaPlus, FaMinus } from "react-icons/fa6";
 import {
   allBrands,
   allCategory,
@@ -9,12 +10,15 @@ import {
   fetchAllBrandsAsync,
   fetchAllCategoryAsync,
   fetchAllColorsAsync,
-  filterProductAsync,
+  fetchAllProductsAsync,
 } from "../../redux/productSlice";
+import { pageLimit } from "../../redux/Constant";
 
-const FilterSection = () => {
+const FilterSection = ({ page }) => {
   const [searchVal, setSearchVal] = useState("");
   const [filterVal, setFilterVal] = useState([]);
+  const [collapse, setCollapse] = useState({ cate: false, brands: false });
+
   const colors = useSelector(allColors);
   const brands = useSelector(allBrands);
   const category = useSelector(allCategory);
@@ -27,6 +31,7 @@ const FilterSection = () => {
   }, [dispatch]);
 
   const handleFilter = (name, value) => {
+    console.log("🚀 ~ handleFilter ~ name:", name);
     setFilterVal((prevState) => {
       // Check if the value already exists in the array
       if (prevState[name] && prevState[name].includes(value)) {
@@ -43,9 +48,12 @@ const FilterSection = () => {
         [name]: [...(prevState[name] || []), value],
       };
     });
-    console.log("hello");
-    dispatch(filterProductAsync(filterVal));
   };
+
+  useEffect(() => {
+    let pageObj = { _page: page, _per_page: pageLimit };
+    dispatch(fetchAllProductsAsync({ pageObj, filterVal }));
+  }, [dispatch, filterVal, page]);
 
   // const SerachContext = useContext(FilterCreateContext);
 
@@ -91,7 +99,7 @@ const FilterSection = () => {
         onSubmit={(e) => {
           e.preventDefault();
         }}
-        className="Form_search"
+        className="Form_search "
       >
         <input
           type="text"
@@ -100,51 +108,74 @@ const FilterSection = () => {
           value={searchVal}
           onChange={(e) => setSearchVal(e.target.value)}
           placeholder="Search..."
+          className="rounded-lg"
         />
       </form>
 
       <div className="p-2 rounded-lg shadow-md">
-        <h4 className="m-2">Category</h4>
-        <div>
-          {category?.map((curElem, index) => {
-            return (
-              <div className="m-2 space-x-2">
-                <input
-                  id={curElem.label}
-                  type="checkbox"
-                  name="category"
-                  value={curElem?.value}
-                  defaultChecked={curElem?.checked}
-                  key={index}
-                  onChange={(e) => handleFilter(e.target.name, e.target.value)}
-                />
-                <label htmlFor={curElem.label}>{curElem.label}</label>
-              </div>
-            );
-          })}
-        </div>
+        <span className="flex justify-between items-center">
+          <h4 className="m-2">Category</h4>
+          <span
+            onClick={() => setCollapse({ ...collapse, cate: !collapse.cate })}
+          >
+            {!collapse.cate ? <FaPlus /> : <FaMinus />}
+          </span>
+        </span>
+        {category?.map((curElem, index) => {
+          return (
+            <div
+              key={index}
+              className={`m-2 space-x-2 overflow-hidden transition-all ${
+                !collapse.cate ? "h-0 !m-0" : "h-fit"
+              }`}
+            >
+              <input
+                id={curElem.label}
+                type="checkbox"
+                name="category"
+                value={curElem?.value}
+                defaultChecked={curElem?.checked}
+                key={index}
+                onChange={(e) => handleFilter(e.target.name, e.target.value)}
+              />
+              <label htmlFor={curElem.label}>{curElem.label}</label>
+            </div>
+          );
+        })}
       </div>
 
       <div className="p-2 rounded-lg shadow-md">
-        <h4 className="m-2">Brands</h4>
-        <div>
-          {brands?.map((curElem, index) => {
-            return (
-              <div className="m-2 space-x-2">
-                <input
-                  id={curElem.label}
-                  type="checkbox"
-                  name="brands"
-                  value={curElem?.value}
-                  defaultChecked={curElem?.checked}
-                  key={index}
-                  onChange={(e) => handleFilter(e.target.name, e.target.value)}
-                />
-                <label htmlFor={curElem.label}>{curElem.label}</label>
-              </div>
-            );
-          })}
-        </div>
+        <span className="flex justify-between items-center">
+          <h4 className="m-2">Brands</h4>
+          <span
+            onClick={() =>
+              setCollapse({ ...collapse, brands: !collapse.brands })
+            }
+          >
+            {!collapse?.brands ? <FaPlus /> : <FaMinus />}
+          </span>
+        </span>
+        {brands?.map((curElem, index) => {
+          return (
+            <div
+              key={index}
+              className={`m-2 space-x-2 overflow-hidden transition-all ${
+                !collapse?.brands ? "h-0 !m-0" : "h-fit"
+              }`}
+            >
+              <input
+                id={curElem.label}
+                type="checkbox"
+                name="brands"
+                value={curElem?.value}
+                defaultChecked={curElem?.checked}
+                key={index}
+                onChange={(e) => handleFilter(e.target.name, e.target.value)}
+              />
+              <label htmlFor={curElem.label}>{curElem.label}</label>
+            </div>
+          );
+        })}
       </div>
 
       <div className="p-2 rounded-lg shadow-md">

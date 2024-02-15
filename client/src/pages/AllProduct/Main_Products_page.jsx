@@ -5,6 +5,7 @@ import ProductList from "./ProductList";
 import "./Main_Products_page.css";
 import { allProducts, fetchAllProductsAsync } from "../../redux/productSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { pageLimit } from "../../redux/Constant";
 
 const Main_Products_page = () => {
   const dispatch = useDispatch();
@@ -22,19 +23,16 @@ const Main_Products_page = () => {
     setColumnRow("false");
   };
 
-  useEffect(() => {
-    dispatch(fetchAllProductsAsync(page));
-  }, [dispatch, page]);
-
-  const handleClick = (e) => {
-    console.log(e.target.value);
-  };
-
-  const totalPage = Math.floor(products?.items / 10);
+  // for pagination
+  // TODO: totalPage is hardCoded we need to return the totalPage at the time of creating filter api
+  let totalItems = 30;
+  const totalPage = Math.floor(totalItems / 10);
   // Create paginationArray only if totalPage is a valid number
   const paginationArray = Number.isFinite(totalPage)
     ? Array.from(new Array(totalPage))
     : [];
+  // for pagination
+
   // const Fcontext = useContext(CreateContext);
   // const { getProducts } = Fcontext;
 
@@ -53,8 +51,8 @@ const Main_Products_page = () => {
   return (
     <>
       <div className="product_container">
-        <div className="p-2 rounded-lg">
-          <FilterSection />
+        <div className="p-2 rounded-lg w-3/12 mt-1">
+          <FilterSection page={page} />
         </div>
         <div className="sort_products">
           <div className="sort_section">
@@ -79,7 +77,7 @@ const Main_Products_page = () => {
             </select>
           </div>
           <div className="product_list">
-            {products?.data?.map((value) => {
+            {products?.data && products?.data?.map((value) => {
               return (
                 <ProductList
                   columnRow={columnRow}
@@ -114,7 +112,7 @@ const Main_Products_page = () => {
                     onClick={(e) => setPage(+e.target.value)}
                     value={index + 1}
                     className={`${
-                      page === index + 1 && "bg-blue-500 text-white"
+                      page === index + 1 && "!bg-blue-500 text-white"
                     } flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}
                   >
                     {index + 1}
@@ -124,7 +122,9 @@ const Main_Products_page = () => {
               <li>
                 <button
                   onClick={() =>
-                    page ? setPage(page + 1) : setPage(totalPage)
+                    page < totalPage
+                      ? setPage(page + 1)
+                      : setPage(totalPage)
                   }
                   className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 >

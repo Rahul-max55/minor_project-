@@ -2,8 +2,35 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const fetchAllProductsAsync = createAsyncThunk(
   "products/fetchAllProductsAsync",
-  async (page) => {
-    const response = await fetch(`http://localhost:3000/products?_page=${page}`);
+  async ({ pageObj, filterVal }) => {
+    console.log("🚀 ~ filterVal:", filterVal);
+    console.log("🚀 ~ page:", pageObj);
+    let queryPara = "";
+    // filter values using category and brands
+    //TODO: We need to create api for filter "http://localhost:3000/products?category=laptops&category=fragrances&category=skincare&brands=OPPO&brands=Huawei&" this api work only one value
+    for (let key in filterVal) {
+      for (let value of filterVal[key]) {
+        queryPara += `${key}=${value}&`;
+      }
+    }
+    // filter values using category and brands
+
+    // pagination query
+    for (let key in pageObj) {
+      queryPara += `${key}=${pageObj[key]}&`;
+    }
+    // pagination query
+
+    // // sorting query
+    // TODO: you create your own api for sorting {sort:"asc" , field:"name"}
+    // for (let key in sorting) {
+    //   queryPara += `${key}=${sorting[key]}`;
+    // }
+    // // sorting query
+
+    console.log(`http://localhost:3000/products?${queryPara}`);
+
+    const response = await fetch(`http://localhost:3000/products?${queryPara}`);
     return response.json();
   }
 );
@@ -27,26 +54,6 @@ export const fetchAllBrandsAsync = createAsyncThunk(
   "products/fetchAllBrandsAsync",
   async () => {
     const response = await fetch("http://localhost:3000/brand");
-    return response.json();
-  }
-);
-
-export const filterProductAsync = createAsyncThunk(
-  "products/filterProductAsync",
-  async (filterVal) => {
-    let queryPara = "";
-    for (let x in filterVal) {
-      let modifiedArray = filterVal[x].join("&");
-      // console.log("🚀 ~ modifiedArray:", modifiedArray);
-      // console.log("🚀 ~ x:", filterVal[x]);
-      queryPara += `${x}=${modifiedArray}`;
-    }
-    console.log("🚀 ~ queryPara:", queryPara);
-    console.log("http://localhost:3000/products?" + queryPara);
-    //TODO: We need to create api for filter "http:///localhost:3000/products?category=mobile,laptops&brands=hp,apple"
-    const response = await fetch(
-      "http:///localhost:3000/products?" + queryPara
-    );
     return response.json();
   }
 );
@@ -105,17 +112,6 @@ const productSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(fetchAllColorsAsync.rejected, (state, action) => {
-      state.isLoading = false;
-      state.isError = action.error;
-    });
-    builder.addCase(filterProductAsync.fulfilled, (state, action) => {
-      state.products = action.payload;
-      state.isLoading = false;
-    });
-    builder.addCase(filterProductAsync.pending, (state, action) => {
-      state.isLoading = true;
-    });
-    builder.addCase(filterProductAsync.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = action.error;
     });
