@@ -2,9 +2,9 @@ import React, { useState , useEffect } from 'react'
 import { BsCheckAll } from "react-icons/bs";
 
 
-const Single_page_colors = ({ singlePageData, colorCheck, setColorCheck }) => {
+const Single_page_colors = ({ Product, colorCheck, setColorCheck }) => {
 
-    const { id, colors } = singlePageData;
+    const { id, colors } = Product;
 
     // console.log(colors?.[0]);
     // const [colorProduct, setColorProduct] = useState();

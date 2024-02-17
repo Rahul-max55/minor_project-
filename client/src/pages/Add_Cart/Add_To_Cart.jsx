@@ -3,19 +3,21 @@ import { NavLink, useNavigate } from "react-router-dom";
 import "./Add_To_Cart.css";
 import { MdRemoveCircle } from "react-icons/md";
 import FETCH_WRAPPER from "../../Api";
-import { CartCreateContext } from "./context/CartCreateContext";
+// import { CartCreateContext } from "./context/CartCreateContext";
+import {useSelector } from "react-redux";
+import { cartData } from "../../redux/productSlice";
 
 const Add_To_Cart = () => {
-  const context = useContext(CartCreateContext);
-  const { cartData, cartApiData } = context;
+  // const context = useContext(CartCreateContext);
+  // const { cartData, cartApiData } = context;
   const navigate = useNavigate();
-  
+  const cartApiData = useSelector(cartData);
+  console.log("🚀 ~ cartApiData:", cartApiData)
+
   useEffect(() => {
-    cartData();
+    // cartData();
+
   }, []);
-  
-
-
 
   const grandTotal = cartApiData?.reduce((total, value, index) => {
     console.log(value?.stock);
@@ -34,7 +36,10 @@ const Add_To_Cart = () => {
   const handleOrder = async () => {
     try {
       const response = await FETCH_WRAPPER.post("orderProduct", cartApiData);
-      console.log("🚀 ~ file: Add_To_Cart.jsx:34 ~ handleOrder ~ response:", !response)
+      console.log(
+        "🚀 ~ file: Add_To_Cart.jsx:34 ~ handleOrder ~ response:",
+        !response
+      );
       if (!response) {
         return alert(response?.data?.msg);
       }
@@ -65,15 +70,15 @@ const Add_To_Cart = () => {
             return (
               <div className="cart_All_items " key={value.id}>
                 <div className="cart_items">
-                  <img src={value?.image?.[0]?.url} alt="hhh" />
+                  <img src={value?.images?.[0]} alt="images" />
                   <div className="cart_items_details">
                     <p>{value.name}</p>
                     <p className="colorSection">
-                      color:{" "}
+                      color:
                       <span
                         className="Single_color cart_color_pro"
                         style={{
-                          backgroundColor: value.colors?.[0],
+                          backgroundColor: value.colors,
                           opacity: "1",
                         }}
                       ></span>

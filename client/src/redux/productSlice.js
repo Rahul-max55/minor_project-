@@ -58,11 +58,41 @@ export const fetchAllBrandsAsync = createAsyncThunk(
   }
 );
 
+export const fetchSingleProductDataAsync = createAsyncThunk(
+  "products/fetchSingleProductDataAsync",
+  async (id) => {
+    const response = await fetch(`http://localhost:3000/products/${id}`);
+    return response.json();
+  }
+);
+
+
+export const addCartDataAsync = createAsyncThunk(
+  "products/addCartDataAsync",
+  async (data) => {
+    try {
+      const response = await fetch(`http://localhost:3000/cart/`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+      return response.json();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+
 const initialState = {
   products: [],
+  singleProduct: {},
   colors: [],
   brands: [],
   category: [],
+  cart:[],
   isLoading: false,
   isError: null,
 };
@@ -115,6 +145,28 @@ const productSlice = createSlice({
       state.isLoading = false;
       state.isError = action.error;
     });
+    builder.addCase(fetchSingleProductDataAsync.fulfilled, (state, action) => {
+      state.singleProduct = action.payload;
+      state.isLoading = false;
+    });
+    builder.addCase(fetchSingleProductDataAsync.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(fetchSingleProductDataAsync.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = action.error;
+    });
+    builder.addCase(addCartDataAsync.fulfilled, (state, action) => {
+      state.cart = [...state.cart , action.payload];
+      state.isLoading = false;
+    });
+    builder.addCase(addCartDataAsync.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(addCartDataAsync.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = action.error;
+    });
   },
 });
 
@@ -125,3 +177,5 @@ export const allProducts = (state) => state.product.products;
 export const allColors = (state) => state.product.colors;
 export const allBrands = (state) => state.product.brands;
 export const allCategory = (state) => state.product.category;
+export const singleProduct = (state) => state.product.singleProduct; 
+export const cartData = (state) => state.product.cart; 
