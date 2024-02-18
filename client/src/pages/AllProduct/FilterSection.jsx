@@ -135,7 +135,6 @@ const FilterSection = ({ page }) => {
                 name="category"
                 value={curElem?.value}
                 defaultChecked={curElem?.checked}
-                key={index}
                 onChange={(e) => handleFilter(e.target.name, e.target.value)}
               />
               <label htmlFor={curElem.label}>{curElem.label}</label>
@@ -183,7 +182,7 @@ const FilterSection = ({ page }) => {
         <div>
           {colors?.map((curElem, index) => {
             return (
-              <div className="m-2 space-x-2">
+              <div className="m-2 space-x-2" key={index}>
                 <input
                   id={curElem.label}
                   type="checkbox"
@@ -199,7 +198,7 @@ const FilterSection = ({ page }) => {
         </div>
       </div>
 
-      <button type="button" className="clear_button">
+      <button type="button" className="font-semibold p-2 rounded-lg shadow-md">
         CLEAR FILTERS
       </button>
     </div>

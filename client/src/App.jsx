@@ -11,12 +11,21 @@ import Cookies from "js-cookie";
 import { CartNoteContext } from "./pages/Add_Cart/context/CartNoteContext";
 import UserRoutes from "./routes/UserRoutes";
 import AdminRoutes from "./routes/AdminRoutes";
-import { Provider } from "react-redux";
-import { store } from './redux/store';
+
+import { fetchCartDataAsync } from "./redux/productSlice";
+import { useDispatch } from "react-redux";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
-  // console.log("🚀 ~ file: App.jsx:16 ~ App ~ isLoading:", isLoading);
+  const dispatch = useDispatch();
+  const userID = JSON.parse(localStorage.getItem('user'))._id;
+  console.log("🚀 ~ App ~ userID:", userID)
+  // fetch Cart Data
+  useEffect(() => {
+    dispatch(fetchCartDataAsync(userID));
+  }, [dispatch ,userID]);
+
+  // fetch Cart Data
 
   useEffect(() => {
     const requestInterceptor = FETCH_WRAPPER.interceptors.request.use(
@@ -54,7 +63,6 @@ const App = () => {
     };
   }, []);
 
-
   return (
     <>
       {/* {accessType === "admin" ? (
@@ -63,7 +71,6 @@ const App = () => {
             <AdminRoutes />
         </BrowserRouter>
       ) : ( */}
-      <Provider store={store}>
         <NoteContext>
           <FilterNoteContext>
             <CartNoteContext>
@@ -74,7 +81,6 @@ const App = () => {
             </CartNoteContext>
           </FilterNoteContext>
         </NoteContext>
-      </Provider>
 
       {/* )} */}
     </>

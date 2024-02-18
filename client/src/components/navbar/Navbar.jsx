@@ -14,10 +14,13 @@ import { BsCartPlusFill, BsTypeH1 } from "react-icons/bs";
 import { CreateContext } from "../../Contexts/CreateContext";
 import Cookies from "js-cookie";
 import { CartCreateContext } from "../../pages/Add_Cart/context/CartCreateContext";
+import { useSelector } from "react-redux";
+import { cartData } from "../../redux/productSlice";
 // import { useEffect } from 'react';
 
 const Navbar = () => {
   const [user, setUser] = useState({});
+  const cartProducts = useSelector(cartData);
 
   const change_logSign = () => {
     localStorage.getItem("login_signup")
@@ -148,7 +151,7 @@ const Navbar = () => {
                 </a>
                 <NavLink to="/add_to_cart" className="Cart_Icon">
                   <BsCartPlusFill />
-                  <div className="total_items">{cartApiDataLength}</div>
+                  <div className="total_items">{cartProducts.length}</div>
                 </NavLink>
               </>
             )}

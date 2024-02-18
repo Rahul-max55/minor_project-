@@ -4,33 +4,26 @@ import "./Add_To_Cart.css";
 import { MdRemoveCircle } from "react-icons/md";
 import FETCH_WRAPPER from "../../Api";
 // import { CartCreateContext } from "./context/CartCreateContext";
-import {useSelector } from "react-redux";
-import { cartData } from "../../redux/productSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  cartData,
+  deleteCartDataAsync,
+  fetchCartDataAsync,
+} from "../../redux/productSlice";
 
 const Add_To_Cart = () => {
   // const context = useContext(CartCreateContext);
   // const { cartData, cartApiData } = context;
   const navigate = useNavigate();
   const cartApiData = useSelector(cartData);
-  console.log("🚀 ~ cartApiData:", cartApiData)
-
-  useEffect(() => {
-    // cartData();
-
-  }, []);
+  const dispatch = useDispatch();
 
   const grandTotal = cartApiData?.reduce((total, value, index) => {
-    console.log(value?.stock);
     return (total = total + value?.customerStock * value.price);
   }, 0);
 
-  const removeItems = async (_id) => {
-    try {
-      await FETCH_WRAPPER.delete(`deleteProduct/${_id}`);
-      cartData();
-    } catch (error) {
-      console.log(error);
-    }
+  const removeItems = (id) => {
+    dispatch(deleteCartDataAsync(id));
   };
 
   const handleOrder = async () => {
@@ -99,7 +92,7 @@ const Add_To_Cart = () => {
                 <div className="cart_price">
                   <MdRemoveCircle
                     onClick={() => {
-                      removeItems(value?._id);
+                      removeItems(value?.id);
                     }}
                   />
                 </div>

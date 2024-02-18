@@ -3,8 +3,9 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 export const fetchAllProductsAsync = createAsyncThunk(
   "products/fetchAllProductsAsync",
   async ({ pageObj, filterVal }) => {
-    console.log("🚀 ~ filterVal:", filterVal);
-    console.log("🚀 ~ page:", pageObj);
+    console.log("🚀 ~ pageObj:", pageObj);
+    // console.log("🚀 ~ filterVal:", filterVal);
+    // console.log("🚀 ~ page:", pageObj);
     let queryPara = "";
     // filter values using category and brands
     //TODO: We need to create api for filter "http://localhost:3000/products?category=laptops&category=fragrances&category=skincare&brands=OPPO&brands=Huawei&" this api work only one value
@@ -28,7 +29,7 @@ export const fetchAllProductsAsync = createAsyncThunk(
     // }
     // // sorting query
 
-    console.log(`http://localhost:3000/products?${queryPara}`);
+    // console.log(`http://localhost:3000/products?${queryPara}`);
 
     const response = await fetch(`http://localhost:3000/products?${queryPara}`);
     return response.json();
@@ -66,7 +67,6 @@ export const fetchSingleProductDataAsync = createAsyncThunk(
   }
 );
 
-
 export const addCartDataAsync = createAsyncThunk(
   "products/addCartDataAsync",
   async (data) => {
@@ -85,6 +85,37 @@ export const addCartDataAsync = createAsyncThunk(
   }
 );
 
+export const fetchCartDataAsync = createAsyncThunk(
+  "products/fetchCartDataAsync",
+  async (userId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/cart?userId=${userId}`
+      );
+      return response.json();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+export const deleteCartDataAsync = createAsyncThunk(
+  "products/deleteCartDataAsync",
+  async (id) => {
+    console.log(id);
+    try {
+      const response = await fetch(`http://localhost:3000/cart/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+      return await response.json();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 
 const initialState = {
   products: [],
@@ -92,7 +123,7 @@ const initialState = {
   colors: [],
   brands: [],
   category: [],
-  cart:[],
+  cart: [],
   isLoading: false,
   isError: null,
 };
@@ -157,13 +188,39 @@ const productSlice = createSlice({
       state.isError = action.error;
     });
     builder.addCase(addCartDataAsync.fulfilled, (state, action) => {
-      state.cart = [...state.cart , action.payload];
+      state.cart = [...state.cart, action.payload];
       state.isLoading = false;
     });
     builder.addCase(addCartDataAsync.pending, (state, action) => {
       state.isLoading = true;
     });
     builder.addCase(addCartDataAsync.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = action.error;
+    });
+    builder.addCase(fetchCartDataAsync.fulfilled, (state, action) => {
+      state.cart = action.payload;
+      state.isLoading = false;
+    });
+    builder.addCase(fetchCartDataAsync.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(fetchCartDataAsync.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = action.error;
+    });
+    builder.addCase(deleteCartDataAsync.fulfilled, (state, action) => {
+      const {id} = action.payload;
+      console.log(action.payload , id);
+      const indexVal = state.cart.findIndex((val, index) => val.id===id);
+      console.log("🚀 ~ builder.addCase ~ indexVal:", indexVal);
+      state.cart.splice(indexVal, 1);
+      state.isLoading = false;
+    });
+    builder.addCase(deleteCartDataAsync.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(deleteCartDataAsync.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = action.error;
     });
@@ -177,5 +234,5 @@ export const allProducts = (state) => state.product.products;
 export const allColors = (state) => state.product.colors;
 export const allBrands = (state) => state.product.brands;
 export const allCategory = (state) => state.product.category;
-export const singleProduct = (state) => state.product.singleProduct; 
-export const cartData = (state) => state.product.cart; 
+export const singleProduct = (state) => state.product.singleProduct;
+export const cartData = (state) => state.product.cart;

@@ -17,12 +17,16 @@ const AddCartButton = ({ Product, colorCheck, counter }) => {
 
   const addCart = async (Product, colorCheck, counter) => {
     console.log("🚀 ~ addCart ~ Product:", Product, colorCheck, counter);
+    const newId = new Date().getTime().toString();
+    // const { id, ...cartDataWithoutId } = Product;
     const cartData = {
       ...Product,
+      id: newId,
       colors: colorCheck,
       customerStock: counter,
-      userId
+      userId,
     };
+    console.log("🚀 ~ addCart ~ cartData:", cartData);
     dispatch(addCartDataAsync(cartData));
   };
 
