@@ -5,12 +5,15 @@ import Contact from "../pages/contact/Contact";
 import Single_page from "../pages/Single_page/Single_page";
 import Forgatepass from "../pages/Forgate_password/Forgatepass";
 import Password_reset from "../pages/Forgate_password/Password_reset";
-import Login_Signup from "../pages/Login_Signup/Login_Signup";
+// import Login_Signup from "../pages/Login_Signup/Login_Signup";
 import Add_To_Cart from "../pages/Add_Cart/Add_To_Cart";
 import Setting from "../pages/Setting/Setting";
 import AdminOrder from "../admin/components/AdminOrder";
 import AdminCard from "../admin/components/AdminCard";
 import Order from "../pages/order/Order";
+import Checkout from "../pages/checkout/Checkout";
+import Login from "../pages/Login_Signup/Login";
+import Signup from "../pages/Login_Signup/Signup";
 
 export const userRouteMap = [
   {
@@ -18,12 +21,6 @@ export const userRouteMap = [
     path: PATHS.root,
     isProtected: true,
     Element: Home,
-  },
-  {
-    id: "LoginSignup",
-    path: PATHS.login_signup,
-    isProtected: false,
-    Element: Login_Signup,
   },
   {
     id: "Main_Products_page",
@@ -66,12 +63,31 @@ export const userRouteMap = [
     path: PATHS.setting,
     isProtected: true,
     Element: Setting,
-  },{
+  },
+  {
     id: "order",
     path: PATHS.order,
     isProtected: true,
     Element: Order,
-  }
+  },
+  {
+    id: "checkout",
+    path: PATHS.checkout,
+    isProtected: true,
+    Element: Checkout,
+  },
+  {
+    id: "login",
+    path: PATHS.login,
+    isProtected: false,
+    Element: Login,
+  },
+  {
+    id: "signup",
+    path: PATHS.signup,
+    isProtected: false,
+    Element: Signup,
+  },
 ];
 
 export const adminRouteMap = [
@@ -86,11 +102,5 @@ export const adminRouteMap = [
     path: PATHS.adminOrder,
     isProtected: true,
     Element: AdminOrder,
-  },
-  {
-    id: "LoginSignup",
-    path: PATHS.login_signup,
-    isProtected: false,
-    Element: Login_Signup,
   },
 ];

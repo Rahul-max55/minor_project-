@@ -11,7 +11,6 @@ import logo2 from "./img/logo2.jpg";
 import logo3 from "./img/logo3.png";
 import logo4 from "./img/logo4.jpg";
 import Products from "./Products";
-import { CreateContext } from "../../Contexts/CreateContext";
 import testimonial from "./img/testimonial-1.jpg";
 import blogone from "./img/blog-1.jpg";
 import blogtwo from "./img/blog-2.jpg";
@@ -19,7 +18,6 @@ import blogthree from "./img/blog-3.jpg";
 import blogfour from "./img/blog-4.jpg";
 import ctabanner from "./img/cta-banner.jpg";
 import quotes from "./img/quotes.svg";
-import { CartCreateContext } from "../../pages/Add_Cart/context/CartCreateContext";
 import { useDispatch, useSelector } from "react-redux";
 import { allProducts, fetchAllProductsAsync } from "../../redux/productSlice";
 
@@ -38,6 +36,7 @@ const Home = () => {
 
   const dispatch = useDispatch();
   const products = useSelector(allProducts);
+  console.log("🚀 ~ Home ~ products:", products)
 
   useEffect(() => {
     dispatch(fetchAllProductsAsync());
@@ -72,7 +71,7 @@ const Home = () => {
           </div>
           <div className="all_img">
             {/*We want to print the future product in home page so we use map method and ilitrate products and sending this data using props*/}
-            {products?.map((value) => {
+            {products && products?.data?.map((value) => {
               // console.log(value);
               return (
                 value?.featured && (

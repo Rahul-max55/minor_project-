@@ -24,7 +24,7 @@ const Setting = () => {
     initialValues,
     validationSchema: settingSchema,
     onSubmit: async (values) => {
-      const data = await FETCH_WRAPPER.put("account-setting", values);
+      const data = await FETCH_WRAPPER.put("change-user-details", values);
       console.log(
         "🚀 ~ file: setting.jsx:26 ~ onSubmit: ~ data:",
         data?.data?.data
@@ -328,7 +328,7 @@ const Setting = () => {
                   <div className="mb-4 flex items-center justify-center gap-3">
                     <div className="h-25 w-25  rounded-full">
                       <img
-                      className="h-full w-full"
+                        className="h-full w-full"
                         src={`http://localhost:3001/${user.profileImage}`}
                         alt="User"
                       />
@@ -385,7 +385,10 @@ const Setting = () => {
                   </div>
 
                   <div className="flex justify-end gap-4.5">
-                    <button type="reset" className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white">
+                    <button
+                      type="reset"
+                      className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
+                    >
                       Cancel
                     </button>
                     <button

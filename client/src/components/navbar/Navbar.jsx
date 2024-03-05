@@ -11,12 +11,12 @@ import logo from "./img/shopCenternew.jpg";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import { BsCartPlusFill, BsTypeH1 } from "react-icons/bs";
-import { CreateContext } from "../../Contexts/CreateContext";
 import Cookies from "js-cookie";
-import { CartCreateContext } from "../../pages/Add_Cart/context/CartCreateContext";
 import { useSelector } from "react-redux";
 import { cartData } from "../../redux/productSlice";
+import { PATHS } from "../../routes/paths";
 // import { useEffect } from 'react';
+import Signup from "./../../pages/Login_Signup/Signup";
 
 const Navbar = () => {
   const [user, setUser] = useState({});
@@ -32,13 +32,10 @@ const Navbar = () => {
   const token = Cookies.get("token");
 
   // console.log("🚀 ~ file: Navbar.jsx:26 ~ Navbar ~ user:", user);
-  const cartContext = useContext(CartCreateContext);
-  const { cartApiDataLength } = cartContext;
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
   }, []);
-
 
   // Finding the value of cart using create cart context
   // const cart_context = useContext(CartCreateContext);
@@ -62,7 +59,7 @@ const Navbar = () => {
 
   const logout = () => {
     Cookies.remove("token");
-    navigate("/login_signup");
+    navigate(PATHS.login);
   };
 
   const icon = token
@@ -124,20 +121,31 @@ const Navbar = () => {
           )}
           <div className="icons" ref={navRef4} style={icon}>
             {!token ? (
-              <NavLink
-                onClick={change_logSign}
-                to="/login_signup"
-                style={{ color: "white" }}
-              >
-                <button>{localStorage.getItem("login_signup") === "true" ? "Login" : "SignUp"}</button>
-              </NavLink>
-            ) : (
-              <button onClick={logout} style={{ color: "white" }}>
-                Logout
-              </button>
-            )}
-            {token && (
               <>
+                <NavLink
+                  onClick={change_logSign}
+                  to={PATHS.login}
+                  style={{ color: "white" }}
+                >
+                  <button>Login</button>
+                </NavLink>
+                <NavLink
+                  onClick={change_logSign}
+                  to={PATHS.signup}
+                  style={{ color: "white" }}
+                >
+                  <button>Signup</button>
+                </NavLink>
+              </>
+            ) : (
+              <>
+                <NavLink
+                  onClick={logout}
+                  to={PATHS.login}
+                  style={{ color: "white" }}
+                >
+                  <button>Logout</button>
+                </NavLink>
                 <a href="/setting">
                   <div className="user_icon">
                     <img

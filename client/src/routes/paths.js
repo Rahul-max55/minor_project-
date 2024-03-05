@@ -2,7 +2,8 @@ export const PATHS = {
   root: "/",
   contact: "/contact",
   about: "/about",
-  login_signup: "/login_signup",
+  login: "/login",
+  signup: "/signup",
   main_products_page: "/main_products_page",
   singleproduct: "/singleproduct/:id",
   add_to_cart: "/add_to_cart",
@@ -13,4 +14,5 @@ export const PATHS = {
   adminHome: "/adminHome",
   dashboard: "/",
   adminOrder: "/adminOrder",
+  checkout: "/checkout",
 };

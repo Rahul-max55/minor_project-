@@ -26,23 +26,6 @@ const Add_To_Cart = () => {
     dispatch(deleteCartDataAsync(id));
   };
 
-  const handleOrder = async () => {
-    try {
-      const response = await FETCH_WRAPPER.post("orderProduct", cartApiData);
-      console.log(
-        "🚀 ~ file: Add_To_Cart.jsx:34 ~ handleOrder ~ response:",
-        !response
-      );
-      if (!response) {
-        return alert(response?.data?.msg);
-      }
-      alert(response?.data?.msg);
-      navigate("/order");
-    } catch (error) {
-      console.error("Error during file upload:", error);
-      // Handle error
-    }
-  };
 
   // console.log(cartApiData);
 
@@ -107,9 +90,9 @@ const Add_To_Cart = () => {
         <NavLink to="/" className="common_css">
           CONTINUE SHOPPING
         </NavLink>
-        <button className="clear_cart common_css" onClick={handleOrder}>
-          Buy Now
-        </button>
+        <NavLink className="clear_cart common_css" to="/checkout">
+          Checkout
+        </NavLink>
       </div>
 
       <div className="cart_total">

@@ -44,3 +44,34 @@ export const settingSchema = Yup.object().shape({
   address: Yup.string().max(255, "Too Long!").required("Required"),
   number: Yup.number().required("Required"),
 });
+
+export const addressSchema = Yup.object().shape({
+  firstName: Yup.string()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Required"),
+  lastName: Yup.string()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Required"),
+  address: Yup.string()
+    .min(5, "Too Short!")
+    .max(200, "Too Long!")
+    .required("Required"),
+  city: Yup.string()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Required"),
+  state: Yup.string()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Required"),
+  code: Yup.string()
+    .min(2, "Too Short!")
+    .max(10, "Too Long!")
+    .required("Required"),
+  number: Yup.string()
+    .min(10, "Too Short!")
+    .max(10, "Too Long!")
+    .required("Required"),
+});

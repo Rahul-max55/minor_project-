@@ -8,22 +8,21 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import FETCH_WRAPPER from "./Api";
 import Cookies from "js-cookie";
-import { CartNoteContext } from "./pages/Add_Cart/context/CartNoteContext";
 import UserRoutes from "./routes/UserRoutes";
 import AdminRoutes from "./routes/AdminRoutes";
-
 import { fetchCartDataAsync } from "./redux/productSlice";
 import { useDispatch } from "react-redux";
+import { getUserAsync } from "./redux/userSlice";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
-  const userID = JSON.parse(localStorage.getItem('user'))._id;
-  console.log("🚀 ~ App ~ userID:", userID)
+  const userID = JSON.parse(localStorage.getItem("user"))._id;
+  console.log("🚀 ~ App ~ userID:", userID);
   // fetch Cart Data
   useEffect(() => {
     dispatch(fetchCartDataAsync(userID));
-  }, [dispatch ,userID]);
+  }, [dispatch, userID]);
 
   // fetch Cart Data
 
@@ -71,16 +70,14 @@ const App = () => {
             <AdminRoutes />
         </BrowserRouter>
       ) : ( */}
-        <NoteContext>
-          <FilterNoteContext>
-            <CartNoteContext>
-              <BrowserRouter>
-                <Loading isLoading={isLoading} />
-                <UserRoutes />
-              </BrowserRouter>
-            </CartNoteContext>
-          </FilterNoteContext>
-        </NoteContext>
+      <NoteContext>
+        <FilterNoteContext>
+          <BrowserRouter>
+            <Loading isLoading={isLoading} />
+            <UserRoutes />
+          </BrowserRouter>
+        </FilterNoteContext>
+      </NoteContext>
 
       {/* )} */}
     </>

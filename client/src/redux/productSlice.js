@@ -68,7 +68,7 @@ export const fetchSingleProductDataAsync = createAsyncThunk(
 );
 
 export const addCartDataAsync = createAsyncThunk(
-  "products/addCartDataAsync",
+  "cart/addCartDataAsync",
   async (data) => {
     try {
       const response = await fetch(`http://localhost:3000/cart/`, {
@@ -86,7 +86,7 @@ export const addCartDataAsync = createAsyncThunk(
 );
 
 export const fetchCartDataAsync = createAsyncThunk(
-  "products/fetchCartDataAsync",
+  "cart/fetchCartDataAsync",
   async (userId) => {
     try {
       const response = await fetch(
@@ -100,7 +100,7 @@ export const fetchCartDataAsync = createAsyncThunk(
 );
 
 export const deleteCartDataAsync = createAsyncThunk(
-  "products/deleteCartDataAsync",
+  "cart/deleteCartDataAsync",
   async (id) => {
     console.log(id);
     try {
@@ -210,10 +210,8 @@ const productSlice = createSlice({
       state.isError = action.error;
     });
     builder.addCase(deleteCartDataAsync.fulfilled, (state, action) => {
-      const {id} = action.payload;
-      console.log(action.payload , id);
-      const indexVal = state.cart.findIndex((val, index) => val.id===id);
-      console.log("🚀 ~ builder.addCase ~ indexVal:", indexVal);
+      const { id } = action.payload;
+      const indexVal = state.cart.findIndex((val, index) => val.id === id);
       state.cart.splice(indexVal, 1);
       state.isLoading = false;
     });

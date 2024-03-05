@@ -1,45 +1,170 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+.signup_container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  background-color: red;
+  background: linear-gradient(to bottom, rgb(6, 108, 100), rgb(14, 48, 122));
+  width: 800px;
+  height: 400px;
+  margin: 10% auto;
+  border-radius: 5px;
+}
+
+.content-holder {
+  text-align: center;
+  color: white;
+  font-size: 14px;
+  font-weight: lighter;
+  letter-spacing: 2px;
+  margin-top: 15%;
+  padding: 50px;
+}
+
+.content-holder h2 {
+  font-size: 34px;
+  margin: 20px auto;
+}
+
+.content-holder p {
+  margin: 30px auto;
+}
+
+.content-holder button {
+  border: none;
+  font-size: 15px;
+  padding: 10px;
+  border-radius: 6px;
+  background-color: white;
+  width: 150px;
+  margin: 20px auto;
+}
+
+.button-1 {
+  font-weight: 400;
+}
+
+.box-2 {
+  background-color: white;
+
+  margin: 5px;
+}
+
+.login-form-container {
+  height: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+}
+
+.login-form-container h1 {
+  color: black;
+  font-size: 24px;
+  padding: 20px;
+}
+
+.input-field {
+  box-sizing: border-box;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 7px;
+  border: 1px solid rgb(168, 168, 168);
+  width: 250px;
+  outline: none;
+}
+
+.login-button {
+  box-sizing: border-box;
+  color: white;
+  font-size: 14px;
+  padding: 13px;
+  border-radius: 7px;
+  border: none;
+  width: 250px;
+  outline: none;
+  background-color: rgb(56, 102, 189);
+  cursor: pointer;
+}
+
+.signup-form-container {
+  height: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+}
+
+.signup-form-container h1 {
+  color: black;
+  font-size: 24px;
+  padding: 20px;
+}
+
+.signup-button {
+  box-sizing: border-box;
+  color: white;
+  font-size: 14px;
+  padding: 13px;
+  border-radius: 7px;
+  border: none;
+  width: 250px;
+  outline: none;
+  cursor: pointer;
+  background-color: rgb(56, 189, 149);
+}
+
+.signup_error {
+  font-size: 12px;
+  color: red;
+  margin: 0px;
+}
+
 .input_Form {
-    height: 265px;
-    width: 500px;
-    position: relative;
-    /* background-color: rgb(0, 140, 255); */
+  height: 265px;
+  width: 500px;
+  position: relative;
+  /* background-color: rgb(0, 140, 255); */
 }
 
 .input_Form form {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .input_Form form input {
-    margin: 15px;
-    width: 40%;
-    height: 7%;
-    font-size: 17px;
-    padding-left: 5px;
-    outline: none;
-    border: none;
+  margin: 15px;
+  width: 40%;
+  height: 7%;
+  font-size: 17px;
+  padding-left: 5px;
+  outline: none;
+  border: none;
 }
 
 .input_Form form .input_field {
-    color: black;
-    background: none;
-    border-bottom: 1px solid;
-    color: white;
-    width: 50%;
+  color: black;
+  background: none;
+  border-bottom: 1px solid;
+  color: white;
+  width: 50%;
 }
 
 .lemail {
-    position: absolute;
-    left: 128px;
-    bottom: 169px;
+  position: absolute;
+  left: 128px;
+  bottom: 169px;
 }
 
 .lpassword {
-    position: absolute;
-    left: 128px;
-    bottom: 120px;
+  position: absolute;
+  left: 128px;
+  bottom: 120px;
 }
