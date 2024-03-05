@@ -37,7 +37,7 @@ const Checkout = () => {
     },
     validationSchema: addressSchema,
     onSubmit: async (formValues) => {
-      console.log("🚀 ~ onSubmit: ~ formValues:", formValues)
+      console.log("🚀 ~ onSubmit: ~ formValues:", formValues);
       console.log([...shippingAddress, formValues]);
       dispatch(updateShippingAddressAsync([...shippingAddress, formValues]));
     },

@@ -1,9 +1,12 @@
 import express from "express";
 import multer from "multer";
 import signupControllerData, {
-  changeDetailProductController,
+  addressUpdateChangeController,
+  changeUserDetailProductController,
+  getUserDataController,
   loginControllerData,
   passwordResetController,
+  shippingAddressController,
   uploadImageProductController,
   validEmailController,
 } from "../controllers/userController.js";
@@ -24,7 +27,6 @@ const router = express.Router();
 //   },
 // });
 
-
 // const upload = multer({
 //   storage: storage,
 // });
@@ -34,20 +36,25 @@ const router = express.Router();
 router.post("/signup", signupControllerData);
 router.post("/login", loginControllerData);
 
-router.put("/account-setting", Authorization, changeDetailProductController);
-
-
+router.put(
+  "/change-user-details",
+  Authorization,
+  changeUserDetailProductController
+);
+router.put("/addressUpdate", Authorization, addressUpdateChangeController);
+router.put("/shippingAddress", Authorization, shippingAddressController);
+router.get("/getUser", Authorization, getUserDataController);
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './upload');
+    cb(null, "./upload");
   },
   filename: function (req, file, cb) {
-    cb(null, `${Date.now()}-${file.originalname}`)
-  }
-})
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
 
-const upload = multer({ storage:storage })
+const upload = multer({ storage: storage });
 
 router.put(
   "/upload",

@@ -24,9 +24,12 @@ const loginControllerData = async (req, res) => {
         algorithm: "HS256",
       }
     );
-    return res
-      .status(200)
-      .json({ token, msg: "User is logged in successfully", data, status: true });
+    return res.status(200).json({
+      token,
+      msg: "User is logged in successfully",
+      data,
+      status: true,
+    });
   } catch (error) {
     return res.json(
       500,
@@ -111,7 +114,7 @@ const validEmailController = async (req, res) => {
   }
 };
 
-export const changeDetailProductController = async (req, res) => {
+export const changeUserDetailProductController = async (req, res) => {
   console.log("🚀 ~ file: user.js:39 ~ req:", req.file);
   let id = req.user?._id;
 
@@ -138,6 +141,66 @@ export const changeDetailProductController = async (req, res) => {
     });
   }
 };
+
+// address update
+const addressUpdateChangeController = async (req, res) => {
+  console.log("🚀 ~ file: user.js:39 ~ req:", req.file);
+  try {
+    // Validation - check if req.body contains necessary fields
+    if (!req.body.address) {
+      return res
+        .status(400)
+        .json({ msg: "Address field is required", status: false });
+    }
+
+    const id = req.user?._id;
+    // Update user's address
+    const updatedUser = await Users.findByIdAndUpdate(
+      id,
+      { address: req.body.address }, // Assuming req.body.address is the updated address
+      { new: true }
+    );
+
+    // Check if user exists
+    if (!updatedUser) {
+      return res.status(404).json({ msg: "User not found", status: false });
+    }
+
+    // Send success response
+    res.status(200).json({
+      msg: "User detail is updated successfully",
+      status: true,
+      data: updatedUser,
+    });
+  } catch (error) {
+    console.error("Error in addressUpdateChangeController:", error);
+    res.status(500).json({ msg: "Internal server error", status: false });
+  }
+};
+
+// address update
+
+// Shipping Address Controller
+
+export const shippingAddressController = async (req, res) => {
+  let id = req.user?.id;
+  console.log(req.body);
+  try {
+    const data = await Users.findByIdAndUpdate(
+      { _id: id },
+      { shippingAddress: req.body },
+      { new: true }
+    );
+    if (!data) {
+      return res.json({ msg: "address not added" });
+    }
+    return res.json({ msg: "address added successfully", data });
+  } catch (error) {
+    return res.json({ msg: "some error ocurred", error });
+  }
+};
+
+// End Shipping Address Controller
 
 // profile Image upload controller
 export const uploadImageProductController = async (req, res) => {
@@ -215,5 +278,24 @@ const passwordResetController = async (req, res) => {
   }
 };
 
+export const getUserDataController = (req, res) => {
+  const user = req.user;
+  console.log("🚀 ~ getUserDataController ~ user:", user);
+  try {
+    if (!user) {
+      return res.json({ msg: "user not found" });
+    }
+
+    return res.json({ msg: "user found in database", user });
+  } catch (error) {
+    return res.json({ msg: "some error ocurred for finding user", error });
+  }
+};
+
 export default signupControllerData;
-export { loginControllerData, validEmailController, passwordResetController };
+export {
+  loginControllerData,
+  validEmailController,
+  passwordResetController,
+  addressUpdateChangeController,
+};
