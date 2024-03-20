@@ -26,7 +26,7 @@ async function dataBaseConn() {
   try {
     const db = await mongoose.connect(
       "mongodb+srv://birlarahul340:A9907761728@cluster0.vmmqdgx.mongodb.net/"
-    );
+    );  
 
     if (!db) {
       console.log("db connection is failed");

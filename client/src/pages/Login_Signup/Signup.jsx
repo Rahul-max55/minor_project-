@@ -1,10 +1,7 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import { useFormik } from "formik";
 import { SignupSchema } from "../../validation";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { CreateContext } from "../../Contexts/CreateContext";
-import FETCH_WRAPPER from "../../Api";
 import { addUserAsync } from "../../redux/userSlice";
 import { useDispatch } from "react-redux";
 

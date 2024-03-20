@@ -1,13 +1,4 @@
 {
-  "users": [
-    {
-      "id": "02ff",
-      "username": "Rahul birla",
-      "email": "birlarahul340@gmail.com",
-      "password": "123456",
-      "cpassword": "123456"
-    }
-  ],
   "brand": [
     {
       "value": "Apple",
@@ -960,44 +951,268 @@
       "userId": "6561a5970fb79f6e9fa5e1f1"
     },
     {
-      "id": "1708346959288",
-      "name": "MacBook Pro",
-      "description": "MacBook Pro 2021 with mini-LED display may launch between September, November",
+      "id": "1710933055570",
+      "name": "iPhone X",
+      "description": "SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...",
       "colors": "#ff0000",
-      "price": 1749,
-      "discountPercentage": 11.02,
-      "rating": 4.57,
-      "stock": 83,
+      "featured": true,
+      "price": 899,
+      "discountPercentage": 17.94,
+      "rating": 4.44,
+      "stock": 34,
       "brand": "Apple",
-      "category": "laptops",
-      "thumbnail": "https://cdn.dummyjson.com/product-images/6/thumbnail.png",
+      "category": "smartphones",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg",
       "images": [
-        "https://cdn.dummyjson.com/product-images/6/1.png",
-        "https://cdn.dummyjson.com/product-images/6/2.jpg",
-        "https://cdn.dummyjson.com/product-images/6/3.png",
-        "https://cdn.dummyjson.com/product-images/6/4.jpg"
+        "https://cdn.dummyjson.com/product-images/2/1.jpg",
+        "https://cdn.dummyjson.com/product-images/2/2.jpg",
+        "https://cdn.dummyjson.com/product-images/2/3.jpg",
+        "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg"
       ],
-      "customerStock": 1,
+      "customerStock": "2",
       "userId": "658d0038071e01a312b26003"
+    }
+  ],
+  "orders": [
+    {
+      "id": "5959",
+      "_id": "658d0038071e01a312b26003",
+      "username": "user Rahul",
+      "email": "birlarahul340@gmail.com",
+      "password": "123456",
+      "accessType": [
+        "user"
+      ],
+      "createdAt": "2023-12-28T04:57:28.371Z",
+      "updatedAt": "2024-03-20T11:51:52.127Z",
+      "__v": 0,
+      "shippingAddress": [
+        {
+          "firstName": "Rahul",
+          "lastName": "Birla",
+          "address": "jay nagar",
+          "city": "pith",
+          "state": "madhay",
+          "code": "454757",
+          "number": "9907761728",
+          "isActive": true
+        },
+        {
+          "firstName": "jayu",
+          "lastName": "lonker",
+          "address": "bangarda",
+          "city": "sanawad",
+          "state": "madhay",
+          "code": "454757",
+          "number": "9907761728",
+          "isActive": false
+        }
+      ],
+      "orders": [
+        {
+          "id": "1710933055570",
+          "name": "iPhone X",
+          "description": "SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...",
+          "colors": "#ff0000",
+          "featured": true,
+          "price": 899,
+          "discountPercentage": 17.94,
+          "rating": 4.44,
+          "stock": 34,
+          "brand": "Apple",
+          "category": "smartphones",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg",
+          "images": [
+            "https://cdn.dummyjson.com/product-images/2/1.jpg",
+            "https://cdn.dummyjson.com/product-images/2/2.jpg",
+            "https://cdn.dummyjson.com/product-images/2/3.jpg",
+            "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg"
+          ],
+          "customerStock": "2",
+          "userId": "658d0038071e01a312b26003"
+        }
+      ],
+      "paymentType": "cashOnDelivery"
     },
     {
-      "id": "1709546740584",
-      "name": "Samsung Universe 9",
-      "description": "Samsung's new variant which goes beyond Galaxy to the Universe",
-      "colors": "#000000",
-      "featured": true,
-      "price": 1249,
-      "discountPercentage": 15.46,
-      "rating": 4.09,
-      "stock": 36,
-      "brand": "Samsung",
-      "category": "smartphones",
-      "thumbnail": "https://cdn.dummyjson.com/product-images/3/thumbnail.jpg",
-      "images": [
-        "https://cdn.dummyjson.com/product-images/3/1.jpg"
+      "id": "bdcc",
+      "_id": "658d0038071e01a312b26003",
+      "username": "user Rahul",
+      "email": "birlarahul340@gmail.com",
+      "password": "123456",
+      "accessType": [
+        "user"
       ],
-      "customerStock": 1,
-      "userId": "658d0038071e01a312b26003"
+      "createdAt": "2023-12-28T04:57:28.371Z",
+      "updatedAt": "2024-03-20T11:51:52.127Z",
+      "__v": 0,
+      "shippingAddress": [
+        {
+          "firstName": "Rahul",
+          "lastName": "Birla",
+          "address": "jay nagar",
+          "city": "pith",
+          "state": "madhay",
+          "code": "454757",
+          "number": "9907761728",
+          "isActive": true
+        },
+        {
+          "firstName": "jayu",
+          "lastName": "lonker",
+          "address": "bangarda",
+          "city": "sanawad",
+          "state": "madhay",
+          "code": "454757",
+          "number": "9907761728",
+          "isActive": false
+        }
+      ],
+      "orders": [
+        {
+          "id": "1710933055570",
+          "name": "iPhone X",
+          "description": "SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...",
+          "colors": "#ff0000",
+          "featured": true,
+          "price": 899,
+          "discountPercentage": 17.94,
+          "rating": 4.44,
+          "stock": 34,
+          "brand": "Apple",
+          "category": "smartphones",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg",
+          "images": [
+            "https://cdn.dummyjson.com/product-images/2/1.jpg",
+            "https://cdn.dummyjson.com/product-images/2/2.jpg",
+            "https://cdn.dummyjson.com/product-images/2/3.jpg",
+            "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg"
+          ],
+          "customerStock": "2",
+          "userId": "658d0038071e01a312b26003"
+        }
+      ],
+      "paymentType": "cashOnDelivery"
+    },
+    {
+      "id": "263d",
+      "_id": "658d0038071e01a312b26003",
+      "username": "user Rahul",
+      "email": "birlarahul340@gmail.com",
+      "password": "123456",
+      "accessType": [
+        "user"
+      ],
+      "createdAt": "2023-12-28T04:57:28.371Z",
+      "updatedAt": "2024-03-20T11:51:52.127Z",
+      "__v": 0,
+      "shippingAddress": [
+        {
+          "firstName": "Rahul",
+          "lastName": "Birla",
+          "address": "jay nagar",
+          "city": "pith",
+          "state": "madhay",
+          "code": "454757",
+          "number": "9907761728",
+          "isActive": true
+        },
+        {
+          "firstName": "jayu",
+          "lastName": "lonker",
+          "address": "bangarda",
+          "city": "sanawad",
+          "state": "madhay",
+          "code": "454757",
+          "number": "9907761728",
+          "isActive": false
+        }
+      ],
+      "orders": [
+        {
+          "id": "1710933055570",
+          "name": "iPhone X",
+          "description": "SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...",
+          "colors": "#ff0000",
+          "featured": true,
+          "price": 899,
+          "discountPercentage": 17.94,
+          "rating": 4.44,
+          "stock": 34,
+          "brand": "Apple",
+          "category": "smartphones",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg",
+          "images": [
+            "https://cdn.dummyjson.com/product-images/2/1.jpg",
+            "https://cdn.dummyjson.com/product-images/2/2.jpg",
+            "https://cdn.dummyjson.com/product-images/2/3.jpg",
+            "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg"
+          ],
+          "customerStock": "2",
+          "userId": "658d0038071e01a312b26003"
+        }
+      ],
+      "paymentType": "cashOnDelivery"
+    },
+    {
+      "id": "8c66",
+      "_id": "658d0038071e01a312b26003",
+      "username": "user Rahul",
+      "email": "birlarahul340@gmail.com",
+      "password": "123456",
+      "accessType": [
+        "user"
+      ],
+      "createdAt": "2023-12-28T04:57:28.371Z",
+      "updatedAt": "2024-03-20T11:51:52.127Z",
+      "__v": 0,
+      "shippingAddress": [
+        {
+          "firstName": "Rahul",
+          "lastName": "Birla",
+          "address": "jay nagar",
+          "city": "pith",
+          "state": "madhay",
+          "code": "454757",
+          "number": "9907761728",
+          "isActive": true
+        },
+        {
+          "firstName": "jayu",
+          "lastName": "lonker",
+          "address": "bangarda",
+          "city": "sanawad",
+          "state": "madhay",
+          "code": "454757",
+          "number": "9907761728",
+          "isActive": false
+        }
+      ],
+      "orders": [
+        {
+          "id": "1710933055570",
+          "name": "iPhone X",
+          "description": "SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...",
+          "colors": "#ff0000",
+          "featured": true,
+          "price": 899,
+          "discountPercentage": 17.94,
+          "rating": 4.44,
+          "stock": 34,
+          "brand": "Apple",
+          "category": "smartphones",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg",
+          "images": [
+            "https://cdn.dummyjson.com/product-images/2/1.jpg",
+            "https://cdn.dummyjson.com/product-images/2/2.jpg",
+            "https://cdn.dummyjson.com/product-images/2/3.jpg",
+            "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg"
+          ],
+          "customerStock": "2",
+          "userId": "658d0038071e01a312b26003"
+        }
+      ],
+      "paymentType": "cashOnDelivery"
     }
   ]
 }

@@ -3,7 +3,6 @@ import Users from "../schema/signupSchema.js";
 
 export const Authorization = async (req, res, next) => {
   const token = req.headers.authorization;
-  // console.log("🚀 ~ file: userAuthorization.js:6 ~ Authorization ~ token:", token)
 
   if (!token) {
     return res.status(401).json({ status: false, msg: "Token not found" });

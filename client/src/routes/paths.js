@@ -10,9 +10,9 @@ export const PATHS = {
   forgatepass: "/forgatepass",
   password_reset: "/resetpassword/:token",
   setting: "/setting",
-  order: "/order",
   adminHome: "/adminHome",
   dashboard: "/",
   adminOrder: "/adminOrder",
   checkout: "/checkout",
+  order: "/order",
 };

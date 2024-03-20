@@ -6,28 +6,29 @@ const loginControllerData = async (req, res) => {
   // console.log("🚀 ~ file: userController.js:6 ~ loginControllerData ~ email:", email)
 
   try {
-    const data = await Users.find({ email });
+    const userData = await Users.findOne({ email });
     // console.log("🚀 ~ file: userController.js:10 ~ loginControllerData ~ data:", data?.[0]?.email)
 
-    if (!data) {
+    if (!userData) {
       return res
         .status(200)
         .send({ msg: "User not exists please register", status: false });
     }
-    if (data[0]?.password !== password) {
+    if (userData.password !== password) {
       return res.status(200).send({ msg: "password is wrong", status: false });
     }
     const token = jwt.sign(
-      { email: data?.[0]?.email },
+      { email: userData?.email },
       process.env.JWT_SECRET,
       {
         algorithm: "HS256",
       }
     );
+  
     return res.status(200).json({
       token,
       msg: "User is logged in successfully",
-      data,
+      userData,
       status: true,
     });
   } catch (error) {
@@ -192,11 +193,11 @@ export const shippingAddressController = async (req, res) => {
       { new: true }
     );
     if (!data) {
-      return res.json({ msg: "address not added" });
+      return res.status(404).json({ msg: "address not added" });
     }
-    return res.json({ msg: "address added successfully", data });
+    return res.status(200).json({ msg: "address added successfully", data });
   } catch (error) {
-    return res.json({ msg: "some error ocurred", error });
+    return res.status(501).json({ msg: "some error ocurred", error });
   }
 };
 
@@ -283,12 +284,11 @@ export const getUserDataController = (req, res) => {
   console.log("🚀 ~ getUserDataController ~ user:", user);
   try {
     if (!user) {
-      return res.json({ msg: "user not found" });
+      return res.status(404).json({ msg: "user not found" });
     }
-
-    return res.json({ msg: "user found in database", user });
+    return res.status(200).json({ msg: "user found in database", user });
   } catch (error) {
-    return res.json({ msg: "some error ocurred for finding user", error });
+    return res.status(501).json({ msg: "some error ocurred for finding user", error });
   }
 };
 

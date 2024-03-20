@@ -12,15 +12,17 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import { BsCartPlusFill, BsTypeH1 } from "react-icons/bs";
 import Cookies from "js-cookie";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { cartData } from "../../redux/productSlice";
 import { PATHS } from "../../routes/paths";
 // import { useEffect } from 'react';
 import Signup from "./../../pages/Login_Signup/Signup";
+import { resetState } from "../../redux/userSlice";
 
 const Navbar = () => {
   const [user, setUser] = useState({});
   const cartProducts = useSelector(cartData);
+  const dispatch = useDispatch();
 
   const change_logSign = () => {
     localStorage.getItem("login_signup")
@@ -30,9 +32,6 @@ const Navbar = () => {
 
   const navigate = useNavigate();
   const token = Cookies.get("token");
-
-  // console.log("🚀 ~ file: Navbar.jsx:26 ~ Navbar ~ user:", user);
-
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
   }, []);
@@ -59,6 +58,8 @@ const Navbar = () => {
 
   const logout = () => {
     Cookies.remove("token");
+    Cookies.remove("user");
+    dispatch(resetState());
     navigate(PATHS.login);
   };
 
@@ -149,7 +150,7 @@ const Navbar = () => {
                 <a href="/setting">
                   <div className="user_icon">
                     <img
-                      src={`http://localhost:3001/${user.profileImage}`}
+                      src={`http://localhost:3001/${user?.profileImage}`}
                       alt="prof"
                     />
                   </div>

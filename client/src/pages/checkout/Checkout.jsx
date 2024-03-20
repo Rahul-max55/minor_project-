@@ -9,17 +9,21 @@ import {
   updateShippingAddressAsync,
   user,
 } from "../../redux/userSlice";
-import { cartData, deleteCartDataAsync } from "../../redux/productSlice";
+import {
+  cartData,
+  confirmOrderDataAsync,
+  deleteCartDataAsync,
+  updateCartDataAsync,
+} from "../../redux/productSlice";
 import { MdDelete } from "react-icons/md";
+import { PATHS } from "../../routes/paths";
 
 const Checkout = () => {
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
-
+  const navigate = useNavigate();
   const cartApiData = useSelector(cartData);
-  const shippingAddress = useSelector(shippingAdd);
-  // console.log("🚀 ~ Checkout ~ shippingAddress:", shippingAddress);
-  // console.log("🚀 ~ Checkout ~ cartApiData:", userData);
+  const userData = useSelector(user);
+  const shippingAddress = useSelector(shippingAdd) || [];
 
   useEffect(() => {
     dispatch(getUserAsync());
@@ -34,11 +38,11 @@ const Checkout = () => {
       state: "",
       code: "",
       number: "",
+      isActive: false,
     },
     validationSchema: addressSchema,
     onSubmit: async (formValues) => {
-      console.log("🚀 ~ onSubmit: ~ formValues:", formValues);
-      console.log([...shippingAddress, formValues]);
+      // console.log("🚀 ~ onSubmit: ~ formValues:", formValues);
       dispatch(updateShippingAddressAsync([...shippingAddress, formValues]));
     },
   });
@@ -64,15 +68,36 @@ const Checkout = () => {
   // handleOrder for making a order
 
   const removeItems = (id) => {
-    console.log(id);
+    console.log("🚀 ~ removeItems ~ id:", id);
     dispatch(deleteCartDataAsync(id));
   };
 
   const handleDelete = (index) => {
     const newShippingAddress = [...shippingAddress];
     newShippingAddress.splice(index, 1);
-    console.log("🚀 ~ handleDelete ~ newShippingAddress:", newShippingAddress);
     dispatch(updateShippingAddressAsync(newShippingAddress));
+  };
+
+  const handleSelect = (val) => {
+    const newShippingAddress = shippingAddress.map((value) => ({
+      ...value,
+      isActive: value.address === val.address,
+    }));
+
+    dispatch(updateShippingAddressAsync([...newShippingAddress]));
+  };
+
+  const handleQuantity = (value, id, cartApiData) => {
+    const selectedProduct = cartApiData.filter((val) => val.id === id);
+    const newObj = { ...selectedProduct?.[0], customerStock: value };
+    console.log("🚀 ~ handleQuantity ~ newObj:", newObj);
+    dispatch(updateCartDataAsync(newObj));
+  };
+
+  const handleOrder = (orderData) => {
+    // console.log("🚀 ~ handleOrder ~ orderData:", orderData);
+    dispatch(confirmOrderDataAsync(orderData));
+    navigate(PATHS.order);
   };
 
   return (
@@ -289,55 +314,67 @@ const Checkout = () => {
                   </legend>
 
                   <div className="mt-4  grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
-                    {shippingAddress?.map((val, index) => (
-                      <div className="relative bg-white border rounded-lg shadow-sm p-4 flex cursor-pointer focus:outline-none">
-                        <div className="flex-1 flex">
-                          <div key={index} className="flex flex-col">
-                            <span
-                              id="delivery-method-0-label"
-                              className="block text-sm font-medium text-gray-900"
-                            >
-                              {val?.name}
-                            </span>
-                            <span
-                              id="delivery-method-0-description-0"
-                              className="mt-1 flex items-center text-sm text-gray-500"
-                            >
-                              {val?.address}
-                            </span>
-                            <span
-                              id="delivery-method-0-description-1"
-                              className="mt-6 text-sm font-medium text-gray-900"
-                            >
-                              {val?.code}
-                            </span>
-                          </div>
-                        </div>
-                        <svg
-                          className="h-5 w-5 text-indigo-600"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          aria-hidden="true"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                        <button
-                          className="h-5 w-5"
-                          onClick={() => handleDelete(index)}
-                        >
-                          <MdDelete className="h-5 w-5 text-indigo-600 ml-2" />
-                        </button>
+                    {shippingAddress?.map((val, index) => {
+                      return (
                         <div
-                          className="absolute -inset-px rounded-lg border-2 pointer-events-none"
-                          aria-hidden="true"
-                        ></div>
-                      </div>
-                    ))}
+                          key={index}
+                          className="relative bg-white border rounded-lg shadow-sm p-4 flex cursor-pointer focus:outline-none"
+                        >
+                          <div className="flex-1 flex">
+                            <div key={index} className="flex flex-col">
+                              <span
+                                id="delivery-method-0-label"
+                                className="block text-sm font-medium text-gray-900"
+                              >
+                                {val?.name}
+                              </span>
+                              <span
+                                id="delivery-method-0-description-0"
+                                className="mt-1 flex items-center text-sm text-gray-500"
+                              >
+                                {val?.address}
+                              </span>
+                              <span
+                                id="delivery-method-0-description-1"
+                                className="mt-6 text-sm font-medium text-gray-900"
+                              >
+                                {val?.code}
+                              </span>
+                            </div>
+                          </div>
+                          <button
+                            className="h-5 w-5"
+                            onClick={() => handleSelect(val)}
+                          >
+                            <svg
+                              className={`${
+                                val?.isActive && "text-indigo-600"
+                              }`}
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                              aria-hidden="true"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                          <button
+                            className="h-5 w-5"
+                            onClick={() => handleDelete(index)}
+                          >
+                            <MdDelete className="h-5 w-5 text-indigo-600 ml-2" />
+                          </button>
+                          <div
+                            className="absolute -inset-px rounded-lg border-2 pointer-events-none"
+                            aria-hidden="true"
+                          ></div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </fieldset>
               </div>
@@ -444,6 +481,14 @@ const Checkout = () => {
                               id="quantity"
                               name="quantity"
                               className="rounded-md border border-gray-300 text-base font-medium text-gray-700 text-left shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                              onChange={(e) =>
+                                handleQuantity(
+                                  e.target.value,
+                                  val?.id,
+                                  cartApiData
+                                )
+                              }
+                              defaultValue={val?.customerStock}
                             >
                               {Array.from(new Array(8)).map((val, index) => (
                                 <option value={index + 1}>{index + 1}</option>
@@ -484,6 +529,13 @@ const Checkout = () => {
                   <button
                     type="submit"
                     className="w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
+                    onClick={() =>
+                      handleOrder({
+                        ...userData,
+                        orders: [...cartApiData],
+                        paymentType: "cashOnDelivery",
+                      })
+                    }
                   >
                     Confirm order
                   </button>

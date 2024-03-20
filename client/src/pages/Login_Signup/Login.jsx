@@ -1,15 +1,18 @@
-import React, { useContext } from "react";
+import React, { useEffect } from "react";
 import "./Login.css";
-import { NavLink, useNavigate, useDispatch } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { LoginSchema } from "../../validation";
 import { PATHS } from "../../routes/paths";
 import Cookies from "js-cookie";
-import FETCH_WRAPPER from "../../Api";
-import { CreateContext } from "../../Contexts/CreateContext";
+import { loginUserAsync, user } from "../../redux/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 
-const Login = (props) => {
+const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userData = useSelector(user);
+  console.log("🚀 ~ Login ~ userData:", userData);
 
   const { handleChange, handleBlur, handleSubmit, errors, values } = useFormik({
     initialValues: {
@@ -18,31 +21,15 @@ const Login = (props) => {
     },
     validationSchema: LoginSchema,
     onSubmit: async (values) => {
-      try {
-        const apiData = await FETCH_WRAPPER.post("login", values);
-
-        if (!apiData?.data?.token) {
-          console.log(
-            "🚀 ~ file: Login.jsx:23 ~ onSubmit: ~ !apiData?.data?.token: token is not created",
-            !apiData?.data?.token
-          );
-        }
-        alert(apiData?.data?.msg);
-        if (apiData?.data?.status) {
-          Cookies.set("token", apiData?.data?.token);
-          const userJsonData = JSON.stringify(apiData?.data?.data?.[0]);
-          console.log(
-            "🚀 ~ file: Login.jsx:34 ~ onSubmit: ~ userJsonData:",
-            userJsonData
-          );
-          localStorage.setItem("user", userJsonData);
-          navigate(PATHS.root);
-        }
-      } catch (error) {
-        console.log("🚀 ~ file: Login.jsx:22 ~ onSubmit: ~ error:", error);
-      }
+      dispatch(loginUserAsync(values));
     },
   });
+
+  useEffect(() => {
+    if (Cookies.get("token")) {
+      navigate(PATHS.dashboard);
+    }
+  }, [userData]);
 
   return (
     <>
@@ -88,7 +75,7 @@ const Login = (props) => {
             <button className="login-button" type="submit">
               Login
             </button>
-            <NavLink to={PATHS.forgatepass}>Forgate Password</NavLink>
+            <NavLink to={PATHS.forgatepass}>Forgat Password</NavLink>
           </form>
         </div>
       </div>

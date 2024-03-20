@@ -117,6 +117,63 @@ export const deleteCartDataAsync = createAsyncThunk(
   }
 );
 
+// update quantity of the product
+export const updateCartDataAsync = createAsyncThunk(
+  "cart/updateCartDataAsync",
+  async (newData) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/cart/${newData?.id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify(newData),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        }
+      );
+      return await response.json();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+// after checkout we can confirm our order
+export const confirmOrderDataAsync = createAsyncThunk(
+  "cart/confirmOrderDataAsync",
+  async (data) => {
+    try {
+      const response = await fetch(`http://localhost:3000/orders`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+      return await response.json();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+export const getConfirmOrderDataAsync = createAsyncThunk(
+  "cart/getConfirmOrderDataAsync",
+  async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/orders`, {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+      return await response.json();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 const initialState = {
   products: [],
   singleProduct: {},
@@ -124,6 +181,7 @@ const initialState = {
   brands: [],
   category: [],
   cart: [],
+  orders: [],
   isLoading: false,
   isError: null,
 };
@@ -206,8 +264,8 @@ const productSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(fetchCartDataAsync.rejected, (state, action) => {
-      state.isLoading = false;
       state.isError = action.error;
+      state.isLoading = false;
     });
     builder.addCase(deleteCartDataAsync.fulfilled, (state, action) => {
       const { id } = action.payload;
@@ -219,6 +277,43 @@ const productSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(deleteCartDataAsync.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = action.error;
+    });
+    builder.addCase(updateCartDataAsync.fulfilled, (state, action) => {
+      const { id } = action.payload;
+      state.cart = state.cart?.map((val) =>
+        val.id === id ? action.payload : val
+      );
+      state.isLoading = false;
+    });
+    builder.addCase(updateCartDataAsync.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(updateCartDataAsync.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = action.error;
+    });
+    builder.addCase(confirmOrderDataAsync.fulfilled, (state, action) => {
+      state.orders = action.payload;
+      alert("Order Confirmed")
+      state.isLoading = false;
+    });
+    builder.addCase(confirmOrderDataAsync.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(confirmOrderDataAsync.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = action.error;
+    });
+    builder.addCase(getConfirmOrderDataAsync.fulfilled, (state, action) => {
+      state.orders = action.payload;
+      state.isLoading = false;
+    });
+    builder.addCase(getConfirmOrderDataAsync.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(getConfirmOrderDataAsync.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = action.error;
     });
@@ -234,3 +329,4 @@ export const allBrands = (state) => state.product.brands;
 export const allCategory = (state) => state.product.category;
 export const singleProduct = (state) => state.product.singleProduct;
 export const cartData = (state) => state.product.cart;
+export const orders = (state) => state.product.orders;

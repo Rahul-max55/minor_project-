@@ -2,11 +2,14 @@ import React from "react";
 import useFormattedDate from "./../../admin/hooks/useFormattedDate";
 
 const OrderCard = ({ val }) => {
-  const { image, name, date, price } = val;
-  console.log("🚀 ~ file: OrderCard.jsx:4 ~ OrderCard ~ date:", date);
-  console.log("🚀 ~ file: OrderCard.jsx:4 ~ OrderCard ~ name:", name);
+  const { email, shippingAddress, updatedAt, orders, paymentType } = val;
+  const newShippingAddress = shippingAddress.filter((val) => val.isActive);
 
-  const [formattedDate] = useFormattedDate(date);
+  const { address, number } = newShippingAddress[0];
+
+  const { name, description, rating, brand, price, images } = orders[0];
+
+  const [formattedDate] = useFormattedDate(updatedAt);
 
   return (
     <>
@@ -14,24 +17,21 @@ const OrderCard = ({ val }) => {
         {/* details */}
         <div className="h-3/5 flex p-5 items-center space-x-10 justify-center">
           <div>
-            <img className="w-80" src={image?.[0]?.url} alt="random" />
+            <img className="w-80" src={images?.[0]} alt="random" />
           </div>
           <div>
             <h2 className="text-xl font-medium"> {name}</h2>
             <p> {price}</p>
-            <p>
-              This durable and portable insulated tumbler will keep your
-              beverage at the perfect temperature during your next adventure.
-            </p>
+            <p>{description}</p>
           </div>
           <div>
             <h2 className="text-lg font-medium pb-1"> Delivery address</h2>
-            <p> {JSON.parse(localStorage.getItem("user")).address}</p>
+            <p> {address}</p>
           </div>
           <div>
             <h2 className="text-lg font-medium pb-1"> Shipping updates</h2>
-            <p> {JSON.parse(localStorage.getItem("user")).email}</p>
-            <p> {JSON.parse(localStorage.getItem("user")).number}</p>
+            <p> {email}</p>
+            <p> {number}</p>
           </div>
         </div>
         {/* details Ends */}

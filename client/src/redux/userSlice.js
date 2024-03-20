@@ -1,11 +1,48 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
+
 
 const initialState = {
-  user: [],
-  shippingAddress: [],
+  userData: [],
   isLoading: false,
   error: null,
 };
+
+export const loginUserAsync = createAsyncThunk(
+  "user/loginUserAsync",
+  async (data) => {
+    try {
+      const apiData = await fetch("http://localhost:3001/user/login", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+
+      const response = await apiData.json();
+
+      if (!response?.token) {
+        console.log(
+          "🚀 ~ file: Login.jsx:23 ~ onSubmit: ~ response.token: token is not created",
+          !response?.token
+        );
+        alert("Token is not created");
+        return;
+      }
+
+      if (response?.status) {
+        Cookies.set("token", response?.token);
+        const userJsonData = JSON.stringify(response?.userData);
+        Cookies.set("user", userJsonData);
+        alert(response?.msg);
+        return response?.userData;
+      }
+    } catch (error) {
+      console.log("🚀 ~ file: Login.jsx:22 ~ onSubmit: ~ error:", error);
+    }
+  }
+);
 
 // ACCOUNT CREATION CODE
 export const addUserAsync = createAsyncThunk(
@@ -43,10 +80,9 @@ export const getUserAsync = createAsyncThunk("user/getUserAsync", async () => {
       method: "GET",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
-        Authorization: localStorage.getItem("token"),
+        Authorization: Cookies.get("token"),
       },
     });
-    console.log("🚀 ~ user:", user);
     if (!user) {
       console.log("user not exists");
     }
@@ -60,7 +96,6 @@ export const getUserAsync = createAsyncThunk("user/getUserAsync", async () => {
 export const updateShippingAddressAsync = createAsyncThunk(
   "user/updateShippingAddressAsync",
   async (address) => {
-    console.log("🚀 ~ address:", address)
     try {
       const response = await fetch(
         `http://localhost:3001/user/shippingAddress`,
@@ -69,7 +104,7 @@ export const updateShippingAddressAsync = createAsyncThunk(
           body: JSON.stringify(address),
           headers: {
             "Content-type": "application/json; charset=UTF-8",
-            Authorization: localStorage.getItem("token"),
+            Authorization: Cookies.get("token"),
           },
         }
       );
@@ -83,10 +118,25 @@ export const updateShippingAddressAsync = createAsyncThunk(
 const userSlice = createSlice({
   name: "user",
   initialState,
+  reducer: {
+    resetState: (state) => {
+      return initialState;
+    },
+  },
   extraReducers: (builder) => {
+    builder.addCase(addUserAsync.fulfilled, (state, action) => {
+      state.userData.shippingAddress = [...action.payload.data.shippingAddress];
+      state.isLoading = false;
+    });
+    builder.addCase(addUserAsync.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(addUserAsync.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload.error;
+    });
     builder.addCase(updateShippingAddressAsync.fulfilled, (state, action) => {
-      console.log(action.payload);
-      state.shippingAddress = [...action.payload.data.shippingAddress];
+      state.userData.shippingAddress = [...action.payload.data.shippingAddress];
       state.isLoading = false;
     });
     builder.addCase(updateShippingAddressAsync.pending, (state, action) => {
@@ -97,7 +147,9 @@ const userSlice = createSlice({
       state.error = action.payload.error;
     });
     builder.addCase(getUserAsync.fulfilled, (state, action) => {
-      state.user = action.payload;
+      console.log(action.payload);
+      state.userData = action.payload.user;
+      state.userData.shippingAddress = [...action.payload.user.shippingAddress];
       state.isLoading = false;
     });
     builder.addCase(getUserAsync.pending, (state, action) => {
@@ -107,12 +159,25 @@ const userSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload.error;
     });
+    builder.addCase(loginUserAsync.fulfilled, (state, action) => {
+      state.userData = action.payload;
+      state.isLoading = false;
+    });
+    builder.addCase(loginUserAsync.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(loginUserAsync.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload.error;
+    });
   },
 });
 
 export default userSlice.reducer;
 
 // create a selector
-export const user = (state) => state.user.user;
-export const getUser = (state) => state.user.user;
-export const shippingAdd = (state) => state.user.shippingAddress;
+export const user = (state) => state.user.userData;
+export const getUser = (state) => state.user.userData;
+export const shippingAdd = (state) => state.user.userData.shippingAddress;
+
+export const { resetState } = userSlice.actions;
