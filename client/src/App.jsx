@@ -1,8 +1,8 @@
 import "./App.css";
 import { BrowserRouter } from "react-router-dom";
-import NoteContext from "./Contexts/NoteContext";
+// import NoteContext from "./Contexts/NoteContext";
 import "./input.css";
-import FilterNoteContext from "./pages/AllProduct/Filter_Context/FilterNoteContext";
+// import FilterNoteContext from "./pages/AllProduct/Filter_Context/FilterNoteContext";
 import { Loading } from "./components/Loading/Loading";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -71,14 +71,14 @@ const App = () => {
             <AdminRoutes />
         </BrowserRouter>
       ) : ( */}
-      <NoteContext>
-        <FilterNoteContext>
+      {/* <NoteContext> */}
+        {/* <FilterNoteContext> */}
           <BrowserRouter>
             <Loading isLoading={isLoading} />
             <UserRoutes />
           </BrowserRouter>
-        </FilterNoteContext>
-      </NoteContext>
+        {/* </FilterNoteContext> */}
+      {/* </NoteContext> */}
 
       {/* )} */}
     </>

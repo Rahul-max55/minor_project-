@@ -14,7 +14,7 @@ import {
 } from "../../redux/productSlice";
 import { pageLimit } from "../../redux/Constant";
 
-const FilterSection = ({ page }) => {
+const FilterSection = ({ page, sorting, setPage }) => {
   const [searchVal, setSearchVal] = useState("");
   const [filterVal, setFilterVal] = useState([]);
   const [collapse, setCollapse] = useState({ cate: false, brands: false });
@@ -43,6 +43,8 @@ const FilterSection = ({ page }) => {
           [name]: filteredArray,
         };
       }
+
+      setPage(1);
       return {
         ...prevState,
         [name]: [...(prevState[name] || []), value],
@@ -52,8 +54,8 @@ const FilterSection = ({ page }) => {
 
   useEffect(() => {
     let pageObj = { _page: page, _per_page: pageLimit };
-    dispatch(fetchAllProductsAsync({ pageObj, filterVal }));
-  }, [dispatch, filterVal, page]);
+    dispatch(fetchAllProductsAsync({ pageObj, filterVal, sorting }));
+  }, [dispatch, filterVal, page, sorting]);
 
   // const SerachContext = useContext(FilterCreateContext);
 

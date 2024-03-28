@@ -21,13 +21,59 @@ export const postProductsController = async (req, res) => {
 
 export const getAllProductsController = async (req, res) => {
   try {
-    const data = await Product.find();
-    if (!data) {
-      res.status(500).send("product data is not present");
+    let pipeline = [];
+    let totalProducts;
+
+    console.log(req.query);
+    // we can get the "string" value in first click and after that it creates a array so we need to fixed it
+    if (req.query.category || req.query.brands) {
+      if (req.query.category) {
+        pipeline.push({
+          $match: { category: { $in: [...req.query.category] } },
+        });
+      }
+      if (req.query.brands) {
+        // console.log("🚀 ~ getAllProductsController ~ req.query.brands:", [...req.query.brands])
+        pipeline.push({
+          $match: { brand: { $in: [...req.query.brands] } },
+        });
+      }
+
+      const total = await Product.aggregate(pipeline);
+      totalProducts = total.length;
+    } else {
+      const total = await Product.find();
+      totalProducts = total.length;
     }
-    res.status(200).send(data);
+
+    // console.log(
+    //   "🚀 ~ getAllProductsController ~ totalProducts:",
+    //   totalProducts
+    // );
+
+    if (req.query._page >= 1 && req.query._per_page) {
+      let limit_per_page = parseInt(req.query._per_page);
+      let page = parseInt(req.query._page);
+      let skip = (page - 1) * limit_per_page;
+      pipeline.push({ $skip: skip });
+      pipeline.push({ $limit: limit_per_page });
+    }
+
+    // string sorting is not working because name is upper and lower case
+    if ((req.query.field, req.query.sort)) {
+      pipeline.push({ $sort: { [req.query.field]: Number(req.query.sort) } });
+    }
+
+    let data = await Product.aggregate(pipeline);
+    // console.log("🚀 ~ getAllProductsController ~ data:", data);
+
+    if (!data) {
+      return res.status(500).send("product data is not present");
+    }
+
+    return res.status(200).json({ msg: "success", data, totalProducts });
   } catch (error) {
-    res
+    return res
       .status(500)
       .send(`some error occurred in getAllProductsController api ${error}`);
   }

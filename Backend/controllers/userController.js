@@ -17,14 +17,10 @@ const loginControllerData = async (req, res) => {
     if (userData.password !== password) {
       return res.status(200).send({ msg: "password is wrong", status: false });
     }
-    const token = jwt.sign(
-      { email: userData?.email },
-      process.env.JWT_SECRET,
-      {
-        algorithm: "HS256",
-      }
-    );
-  
+    const token = jwt.sign({ email: userData?.email }, process.env.JWT_SECRET, {
+      algorithm: "HS256",
+    });
+
     return res.status(200).json({
       token,
       msg: "User is logged in successfully",
@@ -77,6 +73,7 @@ const signupControllerData = async (req, res) => {
   }
 };
 
+// check the user is valid or not and after the find valid user we can forget the password
 const validEmailController = async (req, res) => {
   let userDetail = req.body;
 
@@ -114,125 +111,6 @@ const validEmailController = async (req, res) => {
     });
   }
 };
-
-export const changeUserDetailProductController = async (req, res) => {
-  console.log("🚀 ~ file: user.js:39 ~ req:", req.file);
-  let id = req.user?._id;
-
-  try {
-    const data = await Users.findByIdAndUpdate(
-      { _id: id },
-      { ...req.body },
-      { new: true }
-    );
-    if (!data) {
-      res
-        .status(404)
-        .send({ msg: "data is not inserted in database", status: false });
-    }
-    res.status(200).json({
-      msg: "User detail is updated successfully",
-      status: true,
-      data,
-    });
-  } catch (error) {
-    res.status(401).json({
-      msg: "some error is occured in accountSetting section" + error,
-      status: false,
-    });
-  }
-};
-
-// address update
-const addressUpdateChangeController = async (req, res) => {
-  console.log("🚀 ~ file: user.js:39 ~ req:", req.file);
-  try {
-    // Validation - check if req.body contains necessary fields
-    if (!req.body.address) {
-      return res
-        .status(400)
-        .json({ msg: "Address field is required", status: false });
-    }
-
-    const id = req.user?._id;
-    // Update user's address
-    const updatedUser = await Users.findByIdAndUpdate(
-      id,
-      { address: req.body.address }, // Assuming req.body.address is the updated address
-      { new: true }
-    );
-
-    // Check if user exists
-    if (!updatedUser) {
-      return res.status(404).json({ msg: "User not found", status: false });
-    }
-
-    // Send success response
-    res.status(200).json({
-      msg: "User detail is updated successfully",
-      status: true,
-      data: updatedUser,
-    });
-  } catch (error) {
-    console.error("Error in addressUpdateChangeController:", error);
-    res.status(500).json({ msg: "Internal server error", status: false });
-  }
-};
-
-// address update
-
-// Shipping Address Controller
-
-export const shippingAddressController = async (req, res) => {
-  let id = req.user?.id;
-  console.log(req.body);
-  try {
-    const data = await Users.findByIdAndUpdate(
-      { _id: id },
-      { shippingAddress: req.body },
-      { new: true }
-    );
-    if (!data) {
-      return res.status(404).json({ msg: "address not added" });
-    }
-    return res.status(200).json({ msg: "address added successfully", data });
-  } catch (error) {
-    return res.status(501).json({ msg: "some error ocurred", error });
-  }
-};
-
-// End Shipping Address Controller
-
-// profile Image upload controller
-export const uploadImageProductController = async (req, res) => {
-  console.log(req.body);
-  console.log(req.file?.filename);
-  console.log("🚀 ~ file: user.js:39 ~ req:", req.file);
-  let id = req.user?._id;
-  try {
-    const data = await Users.findByIdAndUpdate(
-      { _id: id },
-      { profileImage: req?.file?.filename },
-      { new: true }
-    );
-    if (!data) {
-      res.status(404).send({ msg: "Image is not uploaded", status: false });
-    }
-    res.status(200).json({
-      msg: "image is uploaded successfully",
-      status: true,
-      data,
-    });
-  } catch (error) {
-    res.status(401).json({
-      msg:
-        "some error is occured in upload Image Product Controller section" +
-        error,
-      status: false,
-    });
-  }
-};
-//End profile Image upload controller
 
 const passwordResetController = async (req, res) => {
   const { token } = req.params;
@@ -279,23 +157,101 @@ const passwordResetController = async (req, res) => {
   }
 };
 
+// profile Image upload controller
+export const uploadImageProductController = async (req, res) => {
+  console.log(req.body);
+  console.log(req.file?.filename);
+  console.log("🚀 ~ file: user.js:39 ~ req:", req.file);
+  let id = req.user?._id;
+  try {
+    const data = await Users.findByIdAndUpdate(
+      { _id: id },
+      { profileImage: req?.file?.filename },
+      { new: true }
+    );
+    if (!data) {
+      res.status(404).send({ msg: "Image is not uploaded", status: false });
+    }
+    res.status(200).json({
+      msg: "image is uploaded successfully",
+      status: true,
+      data,
+    });
+  } catch (error) {
+    res.status(401).json({
+      msg:
+        "some error is occured in upload Image Product Controller section" +
+        error,
+      status: false,
+    });
+  }
+};
+
+// User Routes GET, PATCH, DELETE, UPDATE
 export const getUserDataController = (req, res) => {
   const user = req.user;
-  console.log("🚀 ~ getUserDataController ~ user:", user);
   try {
     if (!user) {
       return res.status(404).json({ msg: "user not found" });
     }
     return res.status(200).json({ msg: "user found in database", user });
   } catch (error) {
-    return res.status(501).json({ msg: "some error ocurred for finding user", error });
+    return res
+      .status(501)
+      .json({ msg: "some error ocurred for finding user", error });
   }
 };
 
-export default signupControllerData;
-export {
-  loginControllerData,
-  validEmailController,
-  passwordResetController,
-  addressUpdateChangeController,
+export const changeUserDetailProductController = async (req, res) => {
+  let id = req.user?._id;
+  try {
+    const data = await Users.findByIdAndUpdate(
+      { _id: id },
+      { ...req.body },
+      { new: true }
+    );
+    if (!data) {
+      res
+        .status(404)
+        .send({ msg: "data is not inserted in database", status: false });
+    }
+    res.status(200).json({
+      msg: "User detail is updated successfully",
+      status: true,
+      data,
+    });
+  } catch (error) {
+    res.status(401).json({
+      msg: "some error is occured in accountSetting section" + error,
+      status: false,
+    });
+  }
 };
+
+//End User Routes GET, PATCH, DELETE, UPDATE
+
+// // Shipping Address Controller
+// export const shippingAddressController = async (req, res) => {
+//   let id = req.user?.id;
+//   console.log(req.body);
+//   try {
+//     const data = await Users.findByIdAndUpdate(
+//       { _id: id },
+//       { shippingAddress: req.body },
+//       { new: true }
+//     );
+//     if (!data) {
+//       return res.status(404).json({ msg: "address not added" });
+//     }
+//     return res.status(200).json({ msg: "address added successfully", data });
+//   } catch (error) {
+//     return res.status(501).json({ msg: "some error ocurred", error });
+//   }
+// };
+
+// // End Shipping Address Controller
+
+//End profile Image upload controller
+
+export default signupControllerData;
+export { loginControllerData, validEmailController, passwordResetController };

@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
 
 export const fetchAllProductsAsync = createAsyncThunk(
   "products/fetchAllProductsAsync",
-  async ({ pageObj, filterVal }) => {
-    console.log("🚀 ~ pageObj:", pageObj);
-    // console.log("🚀 ~ filterVal:", filterVal);
-    // console.log("🚀 ~ page:", pageObj);
+  async ({ pageObj, filterVal, sorting }) => {
+    // console.log("🚀 ~ sorting:", sorting);
     let queryPara = "";
+
     // filter values using category and brands
     //TODO: We need to create api for filter "http://localhost:3000/products?category=laptops&category=fragrances&category=skincare&brands=OPPO&brands=Huawei&" this api work only one value
     for (let key in filterVal) {
@@ -22,16 +22,28 @@ export const fetchAllProductsAsync = createAsyncThunk(
     }
     // pagination query
 
-    // // sorting query
+    // sorting query
     // TODO: you create your own api for sorting {sort:"asc" , field:"name"}
-    // for (let key in sorting) {
-    //   queryPara += `${key}=${sorting[key]}`;
-    // }
+
+    for (let key in sorting) {
+      console.log("🚀 ~ key:", key);
+      queryPara += `${[key]}=${sorting[key]}&`;
+    }
+
     // // sorting query
 
     // console.log(`http://localhost:3000/products?${queryPara}`);
 
-    const response = await fetch(`http://localhost:3000/products?${queryPara}`);
+    const response = await fetch(
+      `http://localhost:3001/user/products?${queryPara}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: Cookies.get("token"),
+        },
+      }
+    );
     return response.json();
   }
 );
@@ -157,12 +169,30 @@ export const confirmOrderDataAsync = createAsyncThunk(
     }
   }
 );
+
 export const getConfirmOrderDataAsync = createAsyncThunk(
   "cart/getConfirmOrderDataAsync",
   async () => {
     try {
       const response = await fetch(`http://localhost:3000/orders`, {
         method: "GET",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+      return await response.json();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+export const deleteConfirmOrderDataAsync = createAsyncThunk(
+  "cart/deleteConfirmOrderDataAsync",
+  async (id) => {
+    try {
+      const response = await fetch(`http://localhost:3000/orders/${id}`, {
+        method: "DELETE",
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
@@ -191,6 +221,7 @@ const productSlice = createSlice({
   initialState,
   extraReducers: (builder) => {
     builder.addCase(fetchAllProductsAsync.fulfilled, (state, action) => {
+      console.log("🚀 ~ builder.addCase ~ action.payload:", action.payload);
       state.products = action.payload;
       state.isLoading = false;
     });
@@ -296,7 +327,7 @@ const productSlice = createSlice({
     });
     builder.addCase(confirmOrderDataAsync.fulfilled, (state, action) => {
       state.orders = action.payload;
-      alert("Order Confirmed")
+      alert("Order Confirmed");
       state.isLoading = false;
     });
     builder.addCase(confirmOrderDataAsync.pending, (state, action) => {
@@ -314,6 +345,23 @@ const productSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(getConfirmOrderDataAsync.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = action.error;
+    });
+    builder.addCase(deleteConfirmOrderDataAsync.fulfilled, (state, action) => {
+      const { orders } = action.payload;
+      console.log("🚀 ~ builder.addCase ~ orders:", orders);
+      const index = state.orders.findIndex(
+        (val) => val?.id === orders?.[0]?.id
+      );
+      console.log("🚀 ~ builder.addCase ~ index:", index);
+      state.orders.slice(index, 1);
+      state.isLoading = false;
+    });
+    builder.addCase(deleteConfirmOrderDataAsync.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(deleteConfirmOrderDataAsync.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = action.error;
     });

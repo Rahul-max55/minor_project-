@@ -1,12 +1,10 @@
 import express from "express";
 import multer from "multer";
 import signupControllerData, {
-  addressUpdateChangeController,
   changeUserDetailProductController,
   getUserDataController,
   loginControllerData,
   passwordResetController,
-  shippingAddressController,
   uploadImageProductController,
   validEmailController,
 } from "../controllers/userController.js";
@@ -41,8 +39,8 @@ router.put(
   Authorization,
   changeUserDetailProductController
 );
-router.put("/addressUpdate", Authorization, addressUpdateChangeController);
-router.put("/shippingAddress", Authorization, shippingAddressController);
+// router.put("/addressUpdate", Authorization, addressUpdateChangeController);
+// router.put("/shippingAddress", Authorization, shippingAddressController);
 router.get("/getUser", Authorization, getUserDataController);
 
 const storage = multer.diskStorage({

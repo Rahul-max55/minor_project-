@@ -7,7 +7,7 @@ const ProductList = ({
   category,
   description,
   filename,
-  image,
+  images,
   name,
   columnRow,
 }) => {
@@ -26,10 +26,10 @@ const ProductList = ({
               <p className="float-left absolute bg-white p-1 rounded-lg">
                 {category}
               </p>
-              <img src={image[0]} alt={filename} />
+              <img src={images?.[0]} alt={filename} />
             </div>
             <div className="main_img_bottum">
-              <p className="model_name">{name.slice(0 , 18)+"..."}</p>
+              <p className="model_name">{name.slice(0, 18) + "..."}</p>
               <p className="model_price">{price}</p>
             </div>
           </div>
@@ -40,7 +40,7 @@ const ProductList = ({
               <p className="float-left absolute bg-white p-1 rounded-lg">
                 {category}
               </p>
-              <img src={image[0]} alt={filename} />
+              <img src={images?.[0]} alt={filename} />
             </div>
             <div className="main_img_bottum_row">
               <p className="model_name">{name}</p>
